@@ -1,0 +1,245 @@
+"""Test Wallbox Switch component."""
+
+from unittest.mock import patch
+
+import pytest
+from pytest_universalassistant.common import MockConfigEntry
+
+from universalassistant.components.number import (
+    DOMAIN as NUMBER_DOMAIN,
+    NumberService,
+    NumberServiceArgument,
+)
+from universalassistant.components.wallbox.coordinator import InsufficientRights
+from universalassistant.const import CommonServiceArgument
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
+
+from .conftest import http_403_error, http_404_error, http_429_error, setup_integration
+from .const import (
+    MOCK_NUMBER_ENTITY_ENERGY_PRICE_ID,
+    MOCK_NUMBER_ENTITY_ICP_CURRENT_ID,
+    MOCK_NUMBER_ENTITY_ID,
+    WALLBOX_STATUS_RESPONSE_BIDIR,
+)
+
+
+async def test_wallbox_number_power_class(
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+) -> None:
+    """Test wallbox sensor class."""
+    await setup_integration(hass, entry)
+
+    state = hass.states.get(MOCK_NUMBER_ENTITY_ID)
+    assert state.attributes["min"] == 6
+    assert state.attributes["max"] == 25
+
+    await hass.services.async_call(
+        "number",
+        NumberService.SET_VALUE,
+        {
+            CommonServiceArgument.ENTITY_ID: MOCK_NUMBER_ENTITY_ID,
+            NumberServiceArgument.VALUE: 20,
+        },
+        blocking=True,
+    )
+
+
+async def test_wallbox_number_power_class_bidir(
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+) -> None:
+    """Test wallbox sensor class."""
+    with patch.object(
+        mock_wallbox, "getChargerStatus", return_value=WALLBOX_STATUS_RESPONSE_BIDIR
+    ):
+        await setup_integration(hass, entry)
+
+        state = hass.states.get(MOCK_NUMBER_ENTITY_ID)
+        assert state.attributes["min"] == -25
+        assert state.attributes["max"] == 25
+
+
+async def test_wallbox_number_energy_class(
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+) -> None:
+    """Test wallbox sensor class."""
+
+    await setup_integration(hass, entry)
+
+    await hass.services.async_call(
+        "number",
+        NumberService.SET_VALUE,
+        {
+            CommonServiceArgument.ENTITY_ID: MOCK_NUMBER_ENTITY_ENERGY_PRICE_ID,
+            NumberServiceArgument.VALUE: 1.1,
+        },
+        blocking=True,
+    )
+
+
+async def test_wallbox_number_icp_power_class(
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+) -> None:
+    """Test wallbox sensor class."""
+
+    await setup_integration(hass, entry)
+
+    await hass.services.async_call(
+        NUMBER_DOMAIN,
+        NumberService.SET_VALUE,
+        {
+            CommonServiceArgument.ENTITY_ID: MOCK_NUMBER_ENTITY_ICP_CURRENT_ID,
+            NumberServiceArgument.VALUE: 10,
+        },
+        blocking=True,
+    )
+
+
+async def test_wallbox_number_power_class_error_handling(
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+) -> None:
+    """Test wallbox sensor class."""
+
+    await setup_integration(hass, entry)
+
+    with (
+        patch.object(mock_wallbox, "setMaxChargingCurrent", side_effect=http_404_error),
+        pytest.raises(UniversalAssistantError),
+    ):
+        await hass.services.async_call(
+            "number",
+            NumberService.SET_VALUE,
+            {
+                CommonServiceArgument.ENTITY_ID: MOCK_NUMBER_ENTITY_ID,
+                NumberServiceArgument.VALUE: 20,
+            },
+            blocking=True,
+        )
+
+    with (
+        patch.object(mock_wallbox, "setMaxChargingCurrent", side_effect=http_429_error),
+        pytest.raises(UniversalAssistantError),
+    ):
+        await hass.services.async_call(
+            "number",
+            NumberService.SET_VALUE,
+            {
+                CommonServiceArgument.ENTITY_ID: MOCK_NUMBER_ENTITY_ID,
+                NumberServiceArgument.VALUE: 20,
+            },
+            blocking=True,
+        )
+
+    with (
+        patch.object(mock_wallbox, "setMaxChargingCurrent", side_effect=http_403_error),
+        pytest.raises(InsufficientRights),
+    ):
+        await hass.services.async_call(
+            NUMBER_DOMAIN,
+            NumberService.SET_VALUE,
+            {
+                CommonServiceArgument.ENTITY_ID: MOCK_NUMBER_ENTITY_ID,
+                NumberServiceArgument.VALUE: 10,
+            },
+            blocking=True,
+        )
+
+
+async def test_wallbox_number_energy_class_error_handling(
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+) -> None:
+    """Test wallbox sensor class."""
+
+    await setup_integration(hass, entry)
+
+    with (
+        patch.object(mock_wallbox, "setEnergyCost", side_effect=http_429_error),
+        pytest.raises(UniversalAssistantError),
+    ):
+        await hass.services.async_call(
+            "number",
+            NumberService.SET_VALUE,
+            {
+                CommonServiceArgument.ENTITY_ID: MOCK_NUMBER_ENTITY_ENERGY_PRICE_ID,
+                NumberServiceArgument.VALUE: 1.1,
+            },
+            blocking=True,
+        )
+
+    with (
+        patch.object(mock_wallbox, "setEnergyCost", side_effect=http_404_error),
+        pytest.raises(UniversalAssistantError),
+    ):
+        await hass.services.async_call(
+            "number",
+            NumberService.SET_VALUE,
+            {
+                CommonServiceArgument.ENTITY_ID: MOCK_NUMBER_ENTITY_ENERGY_PRICE_ID,
+                NumberServiceArgument.VALUE: 1.1,
+            },
+            blocking=True,
+        )
+
+    with (
+        patch.object(mock_wallbox, "setEnergyCost", side_effect=http_429_error),
+        pytest.raises(UniversalAssistantError),
+    ):
+        await hass.services.async_call(
+            "number",
+            NumberService.SET_VALUE,
+            {
+                CommonServiceArgument.ENTITY_ID: MOCK_NUMBER_ENTITY_ENERGY_PRICE_ID,
+                NumberServiceArgument.VALUE: 1.1,
+            },
+            blocking=True,
+        )
+
+
+async def test_wallbox_number_icp_power_class_error_handling(
+    hass: UniversalAssistant, entry: MockConfigEntry, mock_wallbox
+) -> None:
+    """Test wallbox sensor class."""
+
+    await setup_integration(hass, entry)
+
+    with (
+        patch.object(mock_wallbox, "setIcpMaxCurrent", side_effect=http_403_error),
+        pytest.raises(InsufficientRights),
+    ):
+        await hass.services.async_call(
+            NUMBER_DOMAIN,
+            NumberService.SET_VALUE,
+            {
+                CommonServiceArgument.ENTITY_ID: MOCK_NUMBER_ENTITY_ICP_CURRENT_ID,
+                NumberServiceArgument.VALUE: 10,
+            },
+            blocking=True,
+        )
+
+    with (
+        patch.object(mock_wallbox, "setIcpMaxCurrent", side_effect=http_404_error),
+        pytest.raises(UniversalAssistantError),
+    ):
+        await hass.services.async_call(
+            NUMBER_DOMAIN,
+            NumberService.SET_VALUE,
+            {
+                CommonServiceArgument.ENTITY_ID: MOCK_NUMBER_ENTITY_ICP_CURRENT_ID,
+                NumberServiceArgument.VALUE: 10,
+            },
+            blocking=True,
+        )
+
+    with (
+        patch.object(mock_wallbox, "setIcpMaxCurrent", side_effect=http_429_error),
+        pytest.raises(UniversalAssistantError),
+    ):
+        await hass.services.async_call(
+            NUMBER_DOMAIN,
+            NumberService.SET_VALUE,
+            {
+                CommonServiceArgument.ENTITY_ID: MOCK_NUMBER_ENTITY_ICP_CURRENT_ID,
+                NumberServiceArgument.VALUE: 10,
+            },
+            blocking=True,
+        )

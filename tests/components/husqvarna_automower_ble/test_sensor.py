@@ -1,0 +1,31 @@
+"""Test the Husqvarna Automower Bluetooth setup."""
+
+from unittest.mock import patch
+
+import pytest
+from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.const import Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+pytestmark = pytest.mark.usefixtures("mock_automower_client")
+
+
+async def test_setup(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    mock_config_entry: MockConfigEntry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test setup creates expected entities."""
+
+    with patch(
+        "universalassistant.components.husqvarna_automower_ble.PLATFORMS", [Platform.SENSOR]
+    ):
+        mock_config_entry.add_to_hass(hass)
+        await hass.config_entries.async_setup(mock_config_entry.entry_id)
+        await hass.async_block_till_done()
+
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)

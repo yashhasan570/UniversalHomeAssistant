@@ -1,0 +1,141 @@
+"""Tests for the importlib helper."""
+
+import asyncio
+import threading
+import time
+from typing import Any
+from unittest.mock import patch
+
+import pytest
+from pytest_universalassistant.common import MockModule
+
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import importlib
+
+
+async def test_async_import_module(hass: UniversalAssistant) -> None:
+    """Test importing a module."""
+    mock_module = MockModule()
+    with patch(
+        "universalassistant.helpers.importlib.importlib.import_module",
+        return_value=mock_module,
+    ):
+        module = await importlib.async_import_module(hass, "test.module")
+
+    assert module is mock_module
+
+
+async def test_async_import_module_on_helper(hass: UniversalAssistant) -> None:
+    """Test importing the importlib helper."""
+    module = await importlib.async_import_module(
+        hass, "universalassistant.helpers.importlib"
+    )
+    assert module is importlib
+    module = await importlib.async_import_module(
+        hass, "universalassistant.helpers.importlib"
+    )
+    assert module is importlib
+
+
+async def test_async_import_module_failures(hass: UniversalAssistant) -> None:
+    """Test importing a module fails."""
+    with (
+        patch(
+            "universalassistant.helpers.importlib.importlib.import_module",
+            side_effect=ValueError,
+        ),
+        pytest.raises(ValueError),
+    ):
+        await importlib.async_import_module(hass, "test.module")
+
+    mock_module = MockModule()
+    # The failure should be not be cached
+    with (
+        patch(
+            "universalassistant.helpers.importlib.importlib.import_module",
+            return_value=mock_module,
+        ),
+    ):
+        assert await importlib.async_import_module(hass, "test.module") is mock_module
+
+
+async def test_async_import_module_failure_caches_module_not_found(
+    hass: UniversalAssistant,
+) -> None:
+    """Test importing a module caches ModuleNotFound."""
+    with (
+        patch(
+            "universalassistant.helpers.importlib.importlib.import_module",
+            side_effect=ModuleNotFoundError,
+        ),
+        pytest.raises(ModuleNotFoundError),
+    ):
+        await importlib.async_import_module(hass, "test.module")
+
+    mock_module = MockModule()
+    # The failure should be cached
+    with (
+        pytest.raises(ModuleNotFoundError),
+        patch(
+            "universalassistant.helpers.importlib.importlib.import_module",
+            return_value=mock_module,
+        ),
+    ):
+        await importlib.async_import_module(hass, "test.module")
+
+
+@pytest.mark.parametrize("eager_start", [True, False])
+async def test_async_import_module_concurrency(
+    hass: UniversalAssistant, eager_start: bool
+) -> None:
+    """Test importing a module with concurrency."""
+    mock_module = MockModule()
+
+    def _mock_import(name: str, *args: Any) -> MockModule:
+        time.sleep(0.1)
+        return mock_module
+
+    with patch(
+        "universalassistant.helpers.importlib.importlib.import_module",
+        _mock_import,
+    ):
+        task1 = hass.async_create_task(
+            importlib.async_import_module(hass, "test.module"), eager_start=eager_start
+        )
+        task2 = hass.async_create_task(
+            importlib.async_import_module(hass, "test.module"), eager_start=eager_start
+        )
+        module1 = await task1
+        module2 = await task2
+
+    assert module1 is mock_module
+    assert module2 is mock_module
+
+
+async def test_async_import_module_concurrent_import_cancelled(
+    hass: UniversalAssistant,
+) -> None:
+    """Verify cancelling a waiting caller does not break the in-progress import."""
+    mock_module = MockModule()
+    start_event = threading.Event()
+    import_event = asyncio.Event()
+
+    def _mock_import(name: str, *args: Any) -> MockModule:
+        hass.loop.call_soon_threadsafe(import_event.set)
+        start_event.wait()
+        return mock_module
+
+    with patch(
+        "universalassistant.helpers.importlib.importlib.import_module",
+        _mock_import,
+    ):
+        task1 = asyncio.create_task(importlib.async_import_module(hass, "test.module"))
+        task2 = asyncio.create_task(importlib.async_import_module(hass, "test.module"))
+        await import_event.wait()
+        task2.cancel()
+        with pytest.raises(asyncio.CancelledError):
+            await task2
+        start_event.set()
+        assert await task1 is mock_module
+
+    assert await importlib.async_import_module(hass, "test.module") is mock_module

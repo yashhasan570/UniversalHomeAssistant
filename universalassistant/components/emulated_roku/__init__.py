@@ -1,0 +1,106 @@
+"""Support for Roku API emulation."""
+
+import probatio
+
+from universalassistant import config_entries
+from universalassistant.components.network import async_get_source_ip
+from universalassistant.config_entries import ConfigEntry
+from universalassistant.const import CONF_NAME
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryError
+from universalassistant.helpers import config_validation as cv
+from universalassistant.helpers.typing import ConfigType
+
+from .binding import EmulatedRoku
+from .config_flow import configured_servers
+from .const import (
+    CONF_ADVERTISE_IP,
+    CONF_ADVERTISE_PORT,
+    CONF_HOST_IP,
+    CONF_LISTEN_PORT,
+    CONF_SERVERS,
+    CONF_UPNP_BIND_MULTICAST,
+    DOMAIN,
+)
+
+SERVER_CONFIG_SCHEMA = probatio.Schema(
+    {
+        probatio.Required(CONF_NAME): cv.string,
+        probatio.Required(CONF_LISTEN_PORT): probatio.Port(),
+        probatio.Optional(CONF_HOST_IP): cv.string,
+        probatio.Optional(CONF_ADVERTISE_IP): cv.string,
+        probatio.Optional(CONF_ADVERTISE_PORT): probatio.Port(),
+        probatio.Optional(CONF_UPNP_BIND_MULTICAST): cv.boolean,
+    }
+)
+
+CONFIG_SCHEMA = probatio.Schema(
+    {
+        DOMAIN: probatio.Schema(
+            {
+                probatio.Required(CONF_SERVERS): probatio.All(
+                    probatio.EnsureList(), [SERVER_CONFIG_SCHEMA]
+                )
+            }
+        )
+    },
+    extra=probatio.ALLOW_EXTRA,
+)
+
+type EmulatedRokuConfigEntry = ConfigEntry[EmulatedRoku]
+
+
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    """Set up the emulated roku component."""
+    if (conf := config.get(DOMAIN)) is None:
+        return True
+
+    existing_servers = configured_servers(hass)
+
+    for entry in conf[CONF_SERVERS]:
+        if entry[CONF_NAME] not in existing_servers:
+            hass.async_create_task(
+                hass.config_entries.flow.async_init(
+                    DOMAIN, context={"source": config_entries.SOURCE_IMPORT}, data=entry
+                )
+            )
+
+    return True
+
+
+async def async_setup_entry(
+    hass: UniversalAssistant, entry: EmulatedRokuConfigEntry
+) -> None:
+    """Set up an emulated roku server from a config entry."""
+    config = entry.data
+    name: str = config[CONF_NAME]
+    listen_port: int = config[CONF_LISTEN_PORT]
+    host_ip: str = config.get(CONF_HOST_IP) or await async_get_source_ip(hass)
+    advertise_ip: str | None = config.get(CONF_ADVERTISE_IP)
+    advertise_port: int | None = config.get(CONF_ADVERTISE_PORT)
+    upnp_bind_multicast: bool | None = config.get(CONF_UPNP_BIND_MULTICAST)
+
+    server = EmulatedRoku(
+        hass,
+        entry.entry_id,
+        name,
+        host_ip,
+        listen_port,
+        advertise_ip,
+        advertise_port,
+        upnp_bind_multicast,
+    )
+    entry.runtime_data = server
+    if not await server.setup():
+        raise ConfigEntryError(
+            translation_domain=DOMAIN,
+            translation_key="setup_failed",
+            translation_placeholders={"name": name},
+        )
+
+
+async def async_unload_entry(
+    hass: UniversalAssistant, entry: EmulatedRokuConfigEntry
+) -> None:
+    """Unload a config entry."""
+    await entry.runtime_data.unload()

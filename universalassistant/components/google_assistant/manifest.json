@@ -1,0 +1,10 @@
+{
+  "domain": "google_assistant",
+  "name": "Google Home",
+  "after_dependencies": ["camera", "matter"],
+  "codeowners": ["@universal-assistant/cloud"],
+  "dependencies": ["http"],
+  "documentation": "https://www.universalassistant.io/integrations/google_assistant",
+  "integration_type": "system",
+  "iot_class": "cloud_push"
+}

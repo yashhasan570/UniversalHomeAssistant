@@ -1,0 +1,264 @@
+"""Tests for Renault sensors."""
+
+from collections.abc import Generator
+from unittest.mock import patch
+
+import pytest
+from pytest_universalassistant.common import async_load_fixture, snapshot_platform
+from renault_api.exceptions import NotAuthenticatedException
+from renault_api.kamereon import schemas
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
+from universalassistant.components.renault.const import DOMAIN
+from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntry
+from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.helpers import entity_registry as er
+
+pytestmark = pytest.mark.usefixtures("patch_renault_account", "patch_get_vehicles")
+
+
+@pytest.fixture(autouse=True)
+def override_platforms() -> Generator[None]:
+    """Override PLATFORMS."""
+    with patch("universalassistant.components.renault.PLATFORMS", [Platform.BUTTON]):
+        yield
+
+
+@pytest.mark.usefixtures("fixtures_with_data")
+async def test_buttons(
+    hass: UniversalAssistant,
+    config_entry: ConfigEntry,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test for Renault device trackers."""
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
+
+
+@pytest.mark.usefixtures("fixtures_with_no_data")
+@pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
+async def test_button_empty(
+    hass: UniversalAssistant,
+    config_entry: ConfigEntry,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test for Renault device trackers with empty data from Renault."""
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
+
+
+@pytest.mark.usefixtures("fixtures_with_invalid_upstream_exception")
+@pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
+async def test_button_errors(
+    hass: UniversalAssistant,
+    config_entry: ConfigEntry,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test for Renault device trackers with temporary failure."""
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
+
+
+@pytest.mark.usefixtures("fixtures_with_access_denied_exception")
+@pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
+async def test_button_access_denied(
+    hass: UniversalAssistant,
+    config_entry: ConfigEntry,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test for Renault device trackers with access denied failure."""
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
+
+
+@pytest.mark.usefixtures("fixtures_with_not_supported_exception")
+@pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
+async def test_button_not_supported(
+    hass: UniversalAssistant,
+    config_entry: ConfigEntry,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test for Renault device trackers with not supported failure."""
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
+
+
+@pytest.mark.usefixtures("fixtures_with_data")
+@pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
+async def test_button_start_charge(
+    hass: UniversalAssistant, config_entry: ConfigEntry
+) -> None:
+    """Test that button invokes renault_api with correct data."""
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    data = {
+        ATTR_ENTITY_ID: "button.reg_zoe_40_start_charge",
+    }
+
+    with patch(
+        "renault_api.renault_vehicle.RenaultVehicle.set_charge_start",
+        return_value=(
+            schemas.KamereonVehicleChargingStartActionDataSchema.loads(
+                await async_load_fixture(hass, "action.set_charge_start.json", DOMAIN)
+            )
+        ),
+    ) as mock_action:
+        await hass.services.async_call(
+            BUTTON_DOMAIN, ButtonService.PRESS, service_data=data, blocking=True
+        )
+    assert len(mock_action.mock_calls) == 1
+    assert mock_action.mock_calls[0][1] == (None,)
+
+
+@pytest.mark.usefixtures("fixtures_with_data")
+@pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
+async def test_button_authentication_expired(
+    hass: UniversalAssistant, config_entry: ConfigEntry
+) -> None:
+    """Test a button press with an expired login triggers reauth."""
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    with (
+        patch(
+            "renault_api.renault_vehicle.RenaultVehicle.set_charge_start",
+            side_effect=NotAuthenticatedException("Authentication expired."),
+        ),
+        pytest.raises(UniversalAssistantError) as err,
+    ):
+        await hass.services.async_call(
+            BUTTON_DOMAIN,
+            ButtonService.PRESS,
+            service_data={
+                CommonServiceArgument.ENTITY_ID: "button.reg_zoe_40_start_charge"
+            },
+            blocking=True,
+        )
+
+    assert err.value.translation_key == "authentication_expired"
+    await hass.async_block_till_done()
+    flows = hass.config_entries.flow.async_progress()
+    assert len(flows) == 1
+    assert flows[0]["context"]["source"] == SOURCE_REAUTH
+    assert flows[0]["context"]["entry_id"] == config_entry.entry_id
+
+
+@pytest.mark.usefixtures("fixtures_with_data")
+@pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
+async def test_button_stop_charge(
+    hass: UniversalAssistant, config_entry: ConfigEntry
+) -> None:
+    """Test that button invokes renault_api with correct data."""
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    data = {
+        ATTR_ENTITY_ID: "button.reg_zoe_40_stop_charge",
+    }
+
+    with patch(
+        "renault_api.renault_vehicle.RenaultVehicle.set_charge_stop",
+        return_value=(
+            schemas.KamereonVehicleChargingStartActionDataSchema.loads(
+                await async_load_fixture(hass, "action.set_charge_stop.json", DOMAIN)
+            )
+        ),
+    ) as mock_action:
+        await hass.services.async_call(
+            BUTTON_DOMAIN, ButtonService.PRESS, service_data=data, blocking=True
+        )
+    assert len(mock_action.mock_calls) == 1
+    assert mock_action.mock_calls[0][1] == ()
+
+
+@pytest.mark.usefixtures("fixtures_with_data")
+@pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
+async def test_button_start_air_conditioner(
+    hass: UniversalAssistant, config_entry: ConfigEntry
+) -> None:
+    """Test that button invokes renault_api with correct data."""
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    data = {
+        ATTR_ENTITY_ID: "button.reg_zoe_40_start_air_conditioner",
+    }
+
+    with patch(
+        "renault_api.renault_vehicle.RenaultVehicle.set_ac_start",
+        return_value=(
+            schemas.KamereonVehicleHvacStartActionDataSchema.loads(
+                await async_load_fixture(hass, "action.set_ac_start.json", DOMAIN)
+            )
+        ),
+    ) as mock_action:
+        await hass.services.async_call(
+            BUTTON_DOMAIN, ButtonService.PRESS, service_data=data, blocking=True
+        )
+    assert len(mock_action.mock_calls) == 1
+    assert mock_action.mock_calls[0][1] == (21, None)
+
+
+@pytest.mark.usefixtures("fixtures_with_data")
+@pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
+async def test_button_sound_horn(
+    hass: UniversalAssistant, config_entry: ConfigEntry
+) -> None:
+    """Test that button invokes renault_api with correct data."""
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    data = {
+        ATTR_ENTITY_ID: "button.reg_zoe_40_sound_horn",
+    }
+
+    with patch(
+        "renault_api.renault_vehicle.RenaultVehicle.start_horn",
+    ) as mock_action:
+        await hass.services.async_call(
+            BUTTON_DOMAIN, ButtonService.PRESS, service_data=data, blocking=True
+        )
+    assert len(mock_action.mock_calls) == 1
+    assert mock_action.mock_calls[0][1] == ()
+
+
+@pytest.mark.usefixtures("fixtures_with_data")
+@pytest.mark.parametrize("vehicle_type", ["zoe_40"], indirect=True)
+async def test_button_flash_lights(
+    hass: UniversalAssistant, config_entry: ConfigEntry
+) -> None:
+    """Test that button invokes renault_api with correct data."""
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    data = {
+        ATTR_ENTITY_ID: "button.reg_zoe_40_flash_lights",
+    }
+
+    with patch(
+        "renault_api.renault_vehicle.RenaultVehicle.start_lights",
+    ) as mock_action:
+        await hass.services.async_call(
+            BUTTON_DOMAIN, ButtonService.PRESS, service_data=data, blocking=True
+        )
+    assert len(mock_action.mock_calls) == 1
+    assert mock_action.mock_calls[0][1] == ()

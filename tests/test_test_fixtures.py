@@ -1,0 +1,202 @@
+"""Test test fixture configuration."""
+
+from collections.abc import Callable, Generator
+from http import HTTPStatus
+import pathlib
+import socket
+
+from _pytest.compat import get_real_func
+from aiohttp import web
+import pytest
+from pytest_universalassistant import _paths
+from pytest_universalassistant.common import MockModule, get_fixture_path, mock_integration
+from pytest_universalassistant.plugins import HASocketBlockedError, evict_faked_translations
+from pytest_universalassistant.typing import ClientSessionGenerator
+import pytest_socket
+
+from universalassistant import loader
+from universalassistant.core import UniversalAssistant, async_get_hass
+from universalassistant.helpers import translation
+from universalassistant.helpers.http import UniversalAssistantView
+from universalassistant.setup import async_setup_component
+
+
+@pytest.mark.parametrize(
+    ("filename", "integration", "expected"),
+    [
+        ("responses/device.json", None, "nested"),
+        ("responses/device.json", "custom", "nested"),
+        ("device.json", "custom", "flat"),
+        ("core/device.json", None, "core"),
+        ("test_domain/device.json", None, "domain"),
+        ("device.json", "test_domain", "domain"),
+    ],
+)
+def test_fixture_path_fallback(
+    tmp_path: pathlib.Path,
+    monkeypatch: pytest.MonkeyPatch,
+    filename: str,
+    integration: str | None,
+    expected: str,
+) -> None:
+    """Preserve nested fixture paths when no integration directory exists."""
+    monkeypatch.setattr(_paths, "TESTS_DIR", tmp_path)
+    for name, content in {
+        "fixtures/responses/device.json": "nested",
+        "fixtures/device.json": "flat",
+        "fixtures/core/device.json": "core",
+        "components/test_domain/fixtures/device.json": "domain",
+    }.items():
+        fixture = tmp_path / name
+        fixture.parent.mkdir(parents=True, exist_ok=True)
+        fixture.write_text(content)
+
+    assert get_fixture_path(filename, integration).read_text() == expected
+
+
+def test_sockets_disabled() -> None:
+    """Test we can't open sockets."""
+    assert not HASocketBlockedError.instances
+    with pytest.raises(pytest_socket.SocketBlockedError):
+        socket.socket()
+    assert len(HASocketBlockedError.instances) == 1
+
+    # Clear the instances to not fail the test when exiting the
+    # verify_cleanup fixture.
+    HASocketBlockedError.instances.clear()
+
+
+@pytest.mark.usefixtures("socket_enabled")
+def test_sockets_enabled() -> None:
+    """Test we can't connect to an address different from 127.0.0.1."""
+    with (
+        socket.socket() as mysocket,
+        pytest.raises(pytest_socket.SocketConnectBlockedError),
+    ):
+        mysocket.connect(("127.0.0.2", 1234))
+
+
+async def test_hass_cv(hass: UniversalAssistant) -> None:
+    """Test hass context variable.
+
+    When tests are using the `hass`, this tests that the hass context variable was set
+    in the fixture and that async_get_hass() works correctly.
+    """
+    assert async_get_hass() is hass
+
+
+async def test_custom_integrations_disabled(hass: UniversalAssistant) -> None:
+    """Test the default custom integration policy."""
+    with pytest.raises(loader.IntegrationNotFound):
+        await loader.async_get_integration(hass, "test_package")
+
+
+@pytest.mark.parametrize("custom_integrations_enabled", [True])
+async def test_custom_integrations_enabled(hass: UniversalAssistant) -> None:
+    """Load a custom integration using the enabling policy."""
+    integration = await loader.async_get_integration(hass, "test_package")
+    assert not integration.is_built_in
+    assert await async_setup_component(hass, "test_package", {})
+
+
+def register_view(hass: UniversalAssistant) -> None:
+    """Register a view."""
+
+    class TestView(UniversalAssistantView):
+        """Test view to serve the test."""
+
+        requires_auth = False
+        url = "/api/test"
+        name = "api:test"
+
+        async def get(self, request: web.Request) -> web.Response:
+            """Return a test result."""
+            return self.json({"test": True})
+
+    hass.http.register_view(TestView())
+
+
+async def test_aiohttp_client_frozen_router_view(
+    hass: UniversalAssistant,
+    hass_client: ClientSessionGenerator,
+) -> None:
+    """Test aiohttp_client fixture patches frozen router for views."""
+    assert await async_setup_component(hass, "http", {})
+    await hass.async_block_till_done()
+
+    # Registering the view after starting the server should still work.
+    client = await hass_client()
+    register_view(hass)
+
+    response = await client.get("/api/test")
+    assert response.status == HTTPStatus.OK
+    result = await response.json()
+    assert result["test"] is True
+
+
+async def test_evict_faked_translations_assumptions(hass: UniversalAssistant) -> None:
+    """Test assumptions made when detecting translations for mocked integrations.
+
+    If this test fails, the evict_faked_translations may need to be updated.
+    """
+    integration = mock_integration(hass, MockModule("test"), built_in=True)
+    assert integration.file_path == pathlib.Path("universalassistant/components/test")
+
+    integration = mock_integration(hass, MockModule("test"), built_in=False)
+    assert integration.file_path == pathlib.Path("custom_components/test")
+
+
+@pytest.mark.parametrize(
+    "prepare_integration",
+    [
+        # Fake integration backed by a module
+        lambda hass: mock_integration(hass, MockModule("test"), built_in=True),
+        # fake integration not backed by a module
+        lambda hass: None,
+    ],
+)
+async def test_evict_faked_translations(
+    hass: UniversalAssistant,
+    translations_once,
+    prepare_integration: Callable[[UniversalAssistant], None],
+) -> None:
+    """Test the evict_faked_translations fixture.
+
+    In this test, we load translations for a fake integration, then ensure that
+    after the fixture is torn down, only the real integration remains in the
+    translations cache.
+    """
+    cache: translation._TranslationsCacheData = translations_once.kwargs["return_value"]
+    fake_domain = "test"
+    real_domain = "universalassistant"
+
+    # pylint: disable-next=universal-assistant-test-non-deterministic
+    if "en" in cache.loaded:
+        # Evict the real domain from the cache in case it's been loaded before
+        cache.loaded["en"].discard(real_domain)
+
+        assert fake_domain not in cache.loaded["en"]
+        assert real_domain not in cache.loaded["en"]
+
+    # The evict_faked_translations fixture has module scope, so we set it up and
+    # tear it down manually
+    real_func = get_real_func(evict_faked_translations)
+    gen: Generator = real_func(translations_once)
+
+    # Set up the evict_faked_translations fixture
+    next(gen)
+
+    # Try loading translations for mock integration
+    prepare_integration(hass)
+    await translation.async_load_integrations(hass, {fake_domain, real_domain})
+    assert fake_domain in cache.loaded["en"]
+    assert real_domain in cache.loaded["en"]
+
+    # Tear down the evict_faked_translations fixture
+    with pytest.raises(StopIteration):
+        next(gen)
+
+    # The mock integration should be removed from the cache,
+    # the real domain should still be there
+    assert fake_domain not in cache.loaded["en"]
+    assert real_domain in cache.loaded["en"]

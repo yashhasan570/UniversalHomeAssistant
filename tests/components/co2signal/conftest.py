@@ -1,0 +1,55 @@
+"""Fixtures for Electricity maps integration tests."""
+
+from collections.abc import Generator
+from unittest.mock import AsyncMock, MagicMock, patch
+
+import pytest
+from pytest_universalassistant.common import MockConfigEntry
+
+from universalassistant.components.co2signal.const import DOMAIN
+from universalassistant.const import CONF_API_KEY
+from universalassistant.core import UniversalAssistant
+from universalassistant.setup import async_setup_component
+
+from . import VALID_RESPONSE
+
+
+@pytest.fixture(name="electricity_maps")
+def mock_electricity_maps() -> Generator[MagicMock]:
+    """Mock the ElectricityMaps client."""
+
+    with (
+        patch(
+            "universalassistant.components.co2signal.ElectricityMaps",
+            autospec=True,
+        ) as electricity_maps,
+        patch(
+            "universalassistant.components.co2signal.config_flow.ElectricityMaps",
+            new=electricity_maps,
+        ),
+    ):
+        client = electricity_maps.return_value
+        client.carbon_intensity_for_universal_assistant.return_value = VALID_RESPONSE
+
+        yield client
+
+
+@pytest.fixture(name="config_entry")
+async def mock_config_entry(hass: UniversalAssistant) -> MockConfigEntry:
+    """Return a MockConfigEntry for testing."""
+    return MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_API_KEY: "api_key", "location": ""},
+        entry_id="904a74160aa6f335526706bee85dfb83",
+    )
+
+
+@pytest.fixture(name="setup_integration")
+async def mock_setup_integration(
+    hass: UniversalAssistant, config_entry: MockConfigEntry, electricity_maps: AsyncMock
+) -> None:
+    """Fixture for setting up the component."""
+    config_entry.add_to_hass(hass)
+
+    assert await async_setup_component(hass, DOMAIN, {})
+    await hass.async_block_till_done()

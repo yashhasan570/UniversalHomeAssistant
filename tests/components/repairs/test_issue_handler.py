@@ -1,0 +1,103 @@
+"""Tests for repairs issue_handler.py."""
+
+import pytest
+from pytest_universalassistant.common import (
+    AsyncMock,
+    Mock,
+    async_setup_component,
+    mock_platform,
+)
+
+from universalassistant.components.repairs import (
+    DOMAIN,
+    RepairsFlow,
+    RepairsFlowResult,
+    repairs_flow_manager,
+)
+from universalassistant.core import UniversalAssistant
+import universalassistant.helpers.issue_registry as ir
+
+
+@pytest.fixture(autouse=True)
+async def mock_repairs_integration(hass: UniversalAssistant) -> None:
+    """Mock a repairs integration."""
+    hass.config.components.add("fake_integration")
+
+    async def async_create_fix_flow(
+        hass: UniversalAssistant,
+        issue_id: str,
+        data: dict[str, str | int | float | None] | None,
+    ) -> RepairsFlow:
+        return MockFixFlowContext()
+
+    mock_platform(
+        hass,
+        "fake_integration.repairs",
+        Mock(async_create_fix_flow=AsyncMock(wraps=async_create_fix_flow)),
+    )
+
+
+class MockFixFlowContext(RepairsFlow):
+    """Mock for context tests."""
+
+    async def async_step_init(self, user_input: dict | None) -> RepairsFlowResult:
+        """Initial step of a repairs flow."""
+        # check that legacy behavior intact
+        assert user_input and user_input.get("issue_id") == self.issue_id
+        return self.async_show_form(step_id="init")
+
+
+@pytest.mark.parametrize(
+    ("ignore_translations_for_mock_domains"),
+    [
+        ["fake_integration"],
+    ],
+)
+async def test_flow_fix_via_data_deprecation(
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+) -> None:
+    """Test that a repairs flow's issue_id can be set via data but logs a deprecation."""
+
+    assert await async_setup_component(hass, DOMAIN, {})
+
+    ir.async_create_issue(
+        hass,
+        issue_id="context_issue",
+        domain="fake_integration",
+        is_fixable=True,
+        severity="error",
+        translation_key="fake_key",
+    )
+
+    repairs = repairs_flow_manager(hass)
+
+    result = await repairs.async_init(
+        "fake_integration", data={"issue_id": "context_issue"}
+    )
+    assert any(
+        "initiates a repair flow by passing `issue_id` via `data` rather than `context`"
+        in msg
+        for msg in caplog.messages
+    )
+    assert result["type"] == "form"
+    result = repairs.async_get(result["flow_id"])
+    assert result["context"] == {"issue_id": "context_issue"}
+
+
+@pytest.mark.parametrize(
+    ("ignore_translations_for_mock_domains"),
+    [
+        ["fake_integration"],
+    ],
+)
+async def test_flow_fix_missing_context(hass: UniversalAssistant) -> None:
+    """Test that KeyError is thrown when context and data is missing."""
+
+    assert await async_setup_component(hass, DOMAIN, {})
+
+    repairs = repairs_flow_manager(hass)
+
+    with pytest.raises(KeyError) as exc:
+        await repairs.async_init("fake_integration")
+
+    assert "issue_id was not set in context" in str(exc.value)

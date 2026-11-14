@@ -1,0 +1,59 @@
+"""Test switch platform."""
+
+from unittest.mock import AsyncMock, patch
+
+from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
+from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+from . import setup_integration
+
+
+async def test_switch(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_nintendo_client: AsyncMock,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test switch platform."""
+    with patch(
+        "universalassistant.components.nintendo_parental_controls._PLATFORMS",
+        [Platform.SWITCH],
+    ):
+        await setup_integration(hass, mock_config_entry)
+
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
+
+
+async def test_suspend_software(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_nintendo_client: AsyncMock,
+    mock_nintendo_device: AsyncMock,
+) -> None:
+    """Test switch platform."""
+    with patch(
+        "universalassistant.components.nintendo_parental_controls._PLATFORMS",
+        [Platform.SWITCH],
+    ):
+        await setup_integration(hass, mock_config_entry)
+
+    await hass.services.async_call(
+        SWITCH_DOMAIN,
+        SwitchService.TURN_ON,
+        target={ATTR_ENTITY_ID: "switch.universal_assistant_test_suspend_software"},
+        blocking=True,
+    )
+    assert len(mock_nintendo_device.set_restriction_mode.mock_calls) == 1
+    await hass.services.async_call(
+        SWITCH_DOMAIN,
+        SwitchService.TURN_OFF,
+        target={ATTR_ENTITY_ID: "switch.universal_assistant_test_suspend_software"},
+        blocking=True,
+    )
+    assert len(mock_nintendo_device.set_restriction_mode.mock_calls) == 2

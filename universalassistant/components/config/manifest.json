@@ -1,0 +1,9 @@
+{
+  "domain": "config",
+  "name": "Configuration",
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["http"],
+  "documentation": "https://www.universalassistant.io/integrations/config",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

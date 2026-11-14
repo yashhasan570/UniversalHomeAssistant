@@ -1,0 +1,134 @@
+"""The weather tests for the AEMET OpenData platform."""
+
+from collections.abc import Generator
+import datetime as dt
+from unittest.mock import patch
+
+from freezegun.api import FrozenDateTimeFactory
+import pytest
+from pytest_universalassistant.common import snapshot_platform
+from pytest_universalassistant.typing import WebSocketGenerator
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.aemet.coordinator import WEATHER_UPDATE_INTERVAL
+from universalassistant.components.weather import DOMAIN as WEATHER_DOMAIN, WeatherService
+from universalassistant.const import Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+from .util import async_init_integration, mock_api_call
+
+
+@pytest.fixture(autouse=True)
+def override_platforms() -> Generator[None]:
+    """Override PLATFORMS."""
+    with patch("universalassistant.components.aemet.PLATFORMS", [Platform.WEATHER]):
+        yield
+
+
+async def test_all_entities(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    freezer: FrozenDateTimeFactory,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test all entities."""
+
+    await hass.config.async_set_time_zone("UTC")
+    freezer.move_to("2021-01-09 12:00:00+00:00")
+    config_entry = await async_init_integration(hass)
+
+    await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
+
+    # The hourly forecast is served by the single weather entity, not a separate one
+    assert hass.states.get("weather.aemet_hourly") is None
+
+
+@pytest.mark.parametrize(
+    ("service"),
+    [WeatherService.GET_FORECASTS],
+)
+async def test_forecast_service(
+    hass: UniversalAssistant,
+    freezer: FrozenDateTimeFactory,
+    snapshot: SnapshotAssertion,
+    service: str,
+) -> None:
+    """Test multiple forecast."""
+
+    await hass.config.async_set_time_zone("UTC")
+    freezer.move_to("2021-01-09 12:00:00+00:00")
+    await async_init_integration(hass)
+
+    response = await hass.services.async_call(
+        WEATHER_DOMAIN,
+        service,
+        {
+            "entity_id": "weather.aemet",
+            "type": "daily",
+        },
+        blocking=True,
+        return_response=True,
+    )
+    assert response == snapshot
+
+    response = await hass.services.async_call(
+        WEATHER_DOMAIN,
+        service,
+        {
+            "entity_id": "weather.aemet",
+            "type": "hourly",
+        },
+        blocking=True,
+        return_response=True,
+    )
+    assert response == snapshot
+
+
+@pytest.mark.parametrize("forecast_type", ["daily", "hourly"])
+async def test_forecast_subscription(
+    hass: UniversalAssistant,
+    hass_ws_client: WebSocketGenerator,
+    freezer: FrozenDateTimeFactory,
+    snapshot: SnapshotAssertion,
+    forecast_type: str,
+) -> None:
+    """Test multiple forecast."""
+    client = await hass_ws_client(hass)
+
+    await hass.config.async_set_time_zone("UTC")
+    freezer.move_to("2021-01-09 12:00:00+00:00")
+    await async_init_integration(hass)
+
+    await client.send_json_auto_id(
+        {
+            "type": "weather/subscribe_forecast",
+            "forecast_type": forecast_type,
+            "entity_id": "weather.aemet",
+        }
+    )
+    msg = await client.receive_json()
+    assert msg["success"]
+    assert msg["result"] is None
+    subscription_id = msg["id"]
+
+    msg = await client.receive_json()
+    assert msg["id"] == subscription_id
+    assert msg["type"] == "event"
+    forecast1 = msg["event"]["forecast"]
+
+    assert forecast1 == snapshot
+
+    with patch(
+        "universalassistant.components.aemet.AEMET.api_call",
+        side_effect=mock_api_call,
+    ):
+        freezer.tick(WEATHER_UPDATE_INTERVAL + dt.timedelta(seconds=1))
+        await hass.async_block_till_done()
+        msg = await client.receive_json()
+
+    assert msg["id"] == subscription_id
+    assert msg["type"] == "event"
+    forecast2 = msg["event"]["forecast"]
+
+    assert forecast2 == snapshot

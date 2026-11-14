@@ -1,0 +1,157 @@
+"""Tests for the Freedompro lock."""
+
+from datetime import timedelta
+from unittest.mock import ANY, patch
+
+from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
+
+from universalassistant.components.lock import DOMAIN as LOCK_DOMAIN, LockService, LockState
+from universalassistant.const import CommonServiceArgument
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import device_registry as dr, entity_registry as er
+from universalassistant.helpers.entity_component import async_update_entity
+from universalassistant.util.dt import utcnow
+
+from .conftest import get_states_response_for_uid
+
+uid = (
+    "2WRRJR6RCZQZSND8VP0YTO3YXCSOFPKBMW8T51TU"
+    "-LQ*2VAS3HTWINNZ5N6HVEIPDJ6NX85P2-AM-GSYWUCNPU0"
+)
+
+
+async def test_lock_get_state(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    device_registry: dr.DeviceRegistry,
+    init_integration: MockConfigEntry,
+) -> None:
+    """Test states of the lock."""
+
+    device = device_registry.async_get_device_by_identifier(
+        ("freedompro", uid), init_integration.entry_id
+    )
+    assert device is not None
+    assert device.identifiers == {("freedompro", uid)}
+    assert device.manufacturer == "Freedompro"
+    assert device.name == "lock"
+    assert device.model == "lock"
+
+    entity_id = "lock.lock"
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == LockState.UNLOCKED
+    assert state.attributes.get("friendly_name") == "lock"
+
+    entry = entity_registry.async_get(entity_id)
+    assert entry
+    assert entry.unique_id == uid
+
+    states_response = get_states_response_for_uid(uid)
+    states_response[0]["state"]["lock"] = 1
+    with patch(
+        "universalassistant.components.freedompro.coordinator.get_states",
+        return_value=states_response,
+    ):
+        async_fire_time_changed(hass, utcnow() + timedelta(hours=2))
+        await hass.async_block_till_done()
+
+        state = hass.states.get(entity_id)
+        assert state
+        assert state.attributes.get("friendly_name") == "lock"
+
+        entry = entity_registry.async_get(entity_id)
+        assert entry
+        assert entry.unique_id == uid
+
+        assert state.state == LockState.LOCKED
+
+
+async def test_lock_set_unlock(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    init_integration: MockConfigEntry,
+) -> None:
+    """Test set on of the lock."""
+
+    entity_id = "lock.lock"
+
+    states_response = get_states_response_for_uid(uid)
+    states_response[0]["state"]["lock"] = 1
+    with patch(
+        "universalassistant.components.freedompro.coordinator.get_states",
+        return_value=states_response,
+    ):
+        await async_update_entity(hass, entity_id)
+        async_fire_time_changed(hass, utcnow() + timedelta(hours=2))
+        await hass.async_block_till_done()
+
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == LockState.LOCKED
+    assert state.attributes.get("friendly_name") == "lock"
+
+    entry = entity_registry.async_get(entity_id)
+    assert entry
+    assert entry.unique_id == uid
+
+    with patch("universalassistant.components.freedompro.lock.put_state") as mock_put_state:
+        await hass.services.async_call(
+            LOCK_DOMAIN,
+            LockService.UNLOCK,
+            {CommonServiceArgument.ENTITY_ID: [entity_id]},
+            blocking=True,
+        )
+    mock_put_state.assert_called_once_with(ANY, ANY, ANY, '{"lock": 0}')
+
+    states_response = get_states_response_for_uid(uid)
+    states_response[0]["state"]["lock"] = 0
+    with patch(
+        "universalassistant.components.freedompro.coordinator.get_states",
+        return_value=states_response,
+    ):
+        async_fire_time_changed(hass, utcnow() + timedelta(hours=2))
+        await hass.async_block_till_done()
+
+    state = hass.states.get(entity_id)
+    assert state.state == LockState.UNLOCKED
+
+
+async def test_lock_set_lock(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    init_integration: MockConfigEntry,
+) -> None:
+    """Test set on of the lock."""
+
+    entity_id = "lock.lock"
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == LockState.UNLOCKED
+    assert state.attributes.get("friendly_name") == "lock"
+
+    entry = entity_registry.async_get(entity_id)
+    assert entry
+    assert entry.unique_id == uid
+
+    with patch("universalassistant.components.freedompro.lock.put_state") as mock_put_state:
+        await hass.services.async_call(
+            LOCK_DOMAIN,
+            LockService.LOCK,
+            {CommonServiceArgument.ENTITY_ID: [entity_id]},
+            blocking=True,
+        )
+    mock_put_state.assert_called_once_with(ANY, ANY, ANY, '{"lock": 1}')
+
+    states_response = get_states_response_for_uid(uid)
+    states_response[0]["state"]["lock"] = 1
+    with patch(
+        "universalassistant.components.freedompro.coordinator.get_states",
+        return_value=states_response,
+    ):
+        async_fire_time_changed(hass, utcnow() + timedelta(hours=2))
+        await hass.async_block_till_done()
+
+    await hass.async_block_till_done()
+    state = hass.states.get(entity_id)
+    assert state.state == LockState.LOCKED

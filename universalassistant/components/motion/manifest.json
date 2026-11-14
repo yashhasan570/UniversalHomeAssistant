@@ -1,0 +1,8 @@
+{
+  "domain": "motion",
+  "name": "Motion",
+  "codeowners": ["@universal-assistant/core"],
+  "documentation": "https://www.universalassistant.io/integrations/motion",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

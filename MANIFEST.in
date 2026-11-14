@@ -1,0 +1,3 @@
+include README.rst
+graft universalassistant
+recursive-exclude * *.py[co]

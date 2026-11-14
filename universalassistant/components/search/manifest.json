@@ -1,0 +1,9 @@
+{
+  "domain": "search",
+  "name": "Search",
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["websocket_api"],
+  "documentation": "https://www.universalassistant.io/integrations/search",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

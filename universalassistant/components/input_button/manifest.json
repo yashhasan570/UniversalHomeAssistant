@@ -1,0 +1,9 @@
+{
+  "domain": "input_button",
+  "name": "Input button",
+  "categories": ["helpers"],
+  "codeowners": ["@universal-assistant/core"],
+  "documentation": "https://www.universalassistant.io/integrations/input_button",
+  "integration_type": "helper",
+  "quality_scale": "internal"
+}

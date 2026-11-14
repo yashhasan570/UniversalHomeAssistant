@@ -1,0 +1,185 @@
+"""Tests for the ntfy notify platform."""
+
+from collections.abc import AsyncGenerator
+from unittest.mock import patch
+
+from aiontfy import Message
+from aiontfy.exceptions import (
+    NtfyException,
+    NtfyHTTPError,
+    NtfyUnauthorizedAuthenticationError,
+)
+import pytest
+from pytest_universalassistant.common import AsyncMock, MockConfigEntry, snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.notify import (
+    ATTR_MESSAGE,
+    ATTR_TITLE,
+    DOMAIN as NOTIFY_DOMAIN,
+    SERVICE_SEND_MESSAGE,
+)
+from universalassistant.components.ntfy.const import DOMAIN
+from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
+from universalassistant.const import ATTR_ENTITY_ID, STATE_UNKNOWN, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.helpers import entity_registry as er
+
+
+@pytest.fixture(autouse=True)
+async def notify_only() -> AsyncGenerator[None]:
+    """Enable only the notify platform."""
+    with patch(
+        "universalassistant.components.ntfy.PLATFORMS",
+        [Platform.NOTIFY],
+    ):
+        yield
+
+
+@pytest.mark.usefixtures("mock_aiontfy")
+async def test_notify_platform(
+    hass: UniversalAssistant,
+    config_entry: MockConfigEntry,
+    snapshot: SnapshotAssertion,
+    entity_registry: er.EntityRegistry,
+) -> None:
+    """Test setup of the ntfy notify platform."""
+
+    config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert config_entry.state is ConfigEntryState.LOADED
+
+    await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
+
+
+@pytest.mark.freeze_time("2025-01-09T12:00:00+00:00")
+async def test_send_message(
+    hass: UniversalAssistant,
+    config_entry: MockConfigEntry,
+    mock_aiontfy: AsyncMock,
+) -> None:
+    """Test publishing ntfy message."""
+
+    config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert config_entry.state is ConfigEntryState.LOADED
+
+    state = hass.states.get("notify.mytopic")
+    assert state
+    assert state.state == STATE_UNKNOWN
+
+    await hass.services.async_call(
+        NOTIFY_DOMAIN,
+        SERVICE_SEND_MESSAGE,
+        {
+            ATTR_ENTITY_ID: "notify.mytopic",
+            ATTR_MESSAGE: "triggered",
+            ATTR_TITLE: "test",
+        },
+        blocking=True,
+    )
+
+    state = hass.states.get("notify.mytopic")
+    assert state
+    assert state.state == "2025-01-09T12:00:00+00:00"
+
+    mock_aiontfy.publish.assert_called_once_with(
+        Message(topic="mytopic", message="triggered", title="test"), None
+    )
+
+
+@pytest.mark.parametrize(
+    ("exception", "error_msg"),
+    [
+        (
+            NtfyHTTPError(41801, 418, "I'm a teapot", ""),
+            "Failed to publish notification: I'm a teapot",
+        ),
+        (
+            NtfyException,
+            "Failed to publish notification due to a connection error",
+        ),
+        (
+            NtfyUnauthorizedAuthenticationError(40101, 401, "unauthorized"),
+            "Failed to authenticate with ntfy service. Please verify your credentials",
+        ),
+    ],
+)
+async def test_send_message_exception(
+    hass: UniversalAssistant,
+    config_entry: MockConfigEntry,
+    mock_aiontfy: AsyncMock,
+    exception: Exception,
+    error_msg: str,
+) -> None:
+    """Test publish message exceptions."""
+
+    config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert config_entry.state is ConfigEntryState.LOADED
+
+    mock_aiontfy.publish.side_effect = exception
+
+    with pytest.raises(UniversalAssistantError, match=error_msg):
+        await hass.services.async_call(
+            NOTIFY_DOMAIN,
+            SERVICE_SEND_MESSAGE,
+            {
+                ATTR_ENTITY_ID: "notify.mytopic",
+                ATTR_MESSAGE: "triggered",
+                ATTR_TITLE: "test",
+            },
+            blocking=True,
+        )
+
+    mock_aiontfy.publish.assert_called_once_with(
+        Message(topic="mytopic", message="triggered", title="test"), None
+    )
+
+
+async def test_send_message_reauth_flow(
+    hass: UniversalAssistant,
+    config_entry: MockConfigEntry,
+    mock_aiontfy: AsyncMock,
+) -> None:
+    """Test unauthorized exception initiates reauth flow."""
+
+    config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert config_entry.state is ConfigEntryState.LOADED
+
+    mock_aiontfy.publish.side_effect = (
+        NtfyUnauthorizedAuthenticationError(40101, 401, "unauthorized"),
+    )
+
+    with pytest.raises(UniversalAssistantError):
+        await hass.services.async_call(
+            NOTIFY_DOMAIN,
+            SERVICE_SEND_MESSAGE,
+            {
+                ATTR_ENTITY_ID: "notify.mytopic",
+                ATTR_MESSAGE: "triggered",
+                ATTR_TITLE: "test",
+            },
+            blocking=True,
+        )
+
+    flows = hass.config_entries.flow.async_progress()
+    assert len(flows) == 1
+
+    flow = flows[0]
+    assert flow.get("step_id") == "reauth_confirm"
+    assert flow.get("handler") == DOMAIN
+
+    assert "context" in flow
+    assert flow["context"].get("source") == SOURCE_REAUTH
+    assert flow["context"].get("entry_id") == config_entry.entry_id

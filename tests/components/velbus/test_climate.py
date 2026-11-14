@@ -1,0 +1,133 @@
+"""Velbus climate platform tests."""
+
+from unittest.mock import AsyncMock, patch
+
+import pytest
+from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.climate import (
+    DOMAIN as CLIMATE_DOMAIN,
+    PRESET_AWAY,
+    PRESET_COMFORT,
+    PRESET_ECO,
+    PRESET_HOME,
+    ClimateService,
+    ClimateServiceArgument,
+)
+from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ServiceValidationError
+from universalassistant.helpers import entity_registry as er
+
+from . import init_integration
+
+
+async def test_entities(
+    hass: UniversalAssistant,
+    snapshot: SnapshotAssertion,
+    config_entry: MockConfigEntry,
+    entity_registry: er.EntityRegistry,
+) -> None:
+    """Test all entities."""
+    with patch("universalassistant.components.velbus.PLATFORMS", [Platform.CLIMATE]):
+        await init_integration(hass, config_entry)
+
+    await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
+
+
+async def test_set_target_temperature(
+    hass: UniversalAssistant,
+    mock_temperature: AsyncMock,
+    config_entry: MockConfigEntry,
+) -> None:
+    """Test the target temperature climate action."""
+    await init_integration(hass, config_entry)
+
+    await hass.services.async_call(
+        CLIMATE_DOMAIN,
+        ClimateService.SET_TEMPERATURE,
+        {
+            CommonServiceArgument.ENTITY_ID: "climate.living_room_temperature",
+            ClimateServiceArgument.TEMPERATURE: 29,
+        },
+        blocking=True,
+    )
+    mock_temperature.set_temp.assert_called_once_with(29)
+
+
+@pytest.mark.parametrize(
+    ("set_mode", "expected_mode"),
+    [
+        (PRESET_AWAY, "night"),
+        (PRESET_COMFORT, "comfort"),
+        (PRESET_ECO, "safe"),
+        (PRESET_HOME, "day"),
+    ],
+)
+async def test_set_preset_mode(
+    hass: UniversalAssistant,
+    mock_temperature: AsyncMock,
+    config_entry: MockConfigEntry,
+    set_mode: str,
+    expected_mode: str,
+) -> None:
+    """Test the preset mode climate action."""
+    await init_integration(hass, config_entry)
+    await hass.services.async_call(
+        CLIMATE_DOMAIN,
+        ClimateService.SET_PRESET_MODE,
+        {
+            CommonServiceArgument.ENTITY_ID: "climate.living_room_temperature",
+            ClimateServiceArgument.PRESET_MODE: set_mode,
+        },
+        blocking=True,
+    )
+    mock_temperature.set_preset.assert_called_once_with(expected_mode)
+
+
+@pytest.mark.parametrize(
+    ("set_mode"),
+    [
+        ("heat"),
+        ("cool"),
+    ],
+)
+async def test_set_hvac_mode(
+    hass: UniversalAssistant,
+    mock_temperature: AsyncMock,
+    config_entry: MockConfigEntry,
+    set_mode: str,
+) -> None:
+    """Test the hvac mode climate action."""
+    await init_integration(hass, config_entry)
+    await hass.services.async_call(
+        CLIMATE_DOMAIN,
+        ClimateService.SET_HVAC_MODE,
+        {
+            CommonServiceArgument.ENTITY_ID: "climate.living_room_temperature",
+            ClimateServiceArgument.HVAC_MODE: set_mode,
+        },
+        blocking=True,
+    )
+    mock_temperature.set_mode.assert_called_once_with(set_mode)
+
+
+async def test_set_hvac_mode_invalid(
+    hass: UniversalAssistant,
+    mock_temperature: AsyncMock,
+    config_entry: MockConfigEntry,
+) -> None:
+    """Test the hvac mode climate action with an invalid mode."""
+    await init_integration(hass, config_entry)
+    with pytest.raises(ServiceValidationError):
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            ClimateService.SET_HVAC_MODE,
+            {
+                CommonServiceArgument.ENTITY_ID: "climate.living_room_temperature",
+                ClimateServiceArgument.HVAC_MODE: "auto",
+            },
+            blocking=True,
+        )
+    mock_temperature.set_mode.assert_not_called()

@@ -1,0 +1,63 @@
+"""The Nintendo Switch parental controls integration."""
+
+from pynintendoauth.exceptions import (
+    InvalidOAuthConfigurationException,
+    InvalidSessionTokenException,
+)
+from pynintendoparental import Authenticator
+
+from universalassistant.const import Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed
+from universalassistant.helpers import config_validation as cv
+from universalassistant.helpers.aiohttp_client import async_get_clientsession
+from universalassistant.helpers.typing import ConfigType
+
+from .const import CONF_SESSION_TOKEN, DOMAIN
+from .coordinator import NintendoParentalControlsConfigEntry, NintendoUpdateCoordinator
+from .services import async_setup_services
+
+_PLATFORMS: list[Platform] = [
+    Platform.NUMBER,
+    Platform.SELECT,
+    Platform.SENSOR,
+    Platform.SWITCH,
+    Platform.TIME,
+]
+
+PLATFORM_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    """Set up the Nintendo Switch Parental Controls integration."""
+    async_setup_services(hass)
+    return True
+
+
+async def async_setup_entry(
+    hass: UniversalAssistant, entry: NintendoParentalControlsConfigEntry
+) -> None:
+    """Set up Nintendo Switch parental controls from a config entry."""
+    nintendo_auth = Authenticator(
+        session_token=entry.data[CONF_SESSION_TOKEN],
+        client_session=async_get_clientsession(hass),
+    )
+    try:
+        await nintendo_auth.async_complete_login(use_session_token=True)
+    except (InvalidSessionTokenException, InvalidOAuthConfigurationException) as err:
+        raise ConfigEntryAuthFailed(
+            translation_domain=DOMAIN,
+            translation_key="auth_expired",
+        ) from err
+    entry.runtime_data = coordinator = NintendoUpdateCoordinator(
+        hass, nintendo_auth, entry
+    )
+    await coordinator.async_config_entry_first_refresh()
+    await hass.config_entries.async_forward_entry_setups(entry, _PLATFORMS)
+
+
+async def async_unload_entry(
+    hass: UniversalAssistant, entry: NintendoParentalControlsConfigEntry
+) -> None:
+    """Unload a config entry."""
+    await hass.config_entries.async_unload_platforms_or_raise(entry, _PLATFORMS)

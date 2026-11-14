@@ -1,0 +1,37 @@
+"""Diagnostics for MELCloud Home integration."""
+
+from dataclasses import asdict
+from typing import Any
+
+from universalassistant.components.diagnostics import async_redact_data
+from universalassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_UNIQUE_ID
+from universalassistant.core import UniversalAssistant
+
+from .coordinator import MelCloudHomeConfigEntry
+
+TO_REDACT = [
+    CONF_EMAIL,
+    CONF_PASSWORD,
+    "first_name",
+    "last_name",
+    "title",
+    CONF_UNIQUE_ID,
+    "id",
+]
+
+
+async def async_get_config_entry_diagnostics(
+    hass: UniversalAssistant, config_entry: MelCloudHomeConfigEntry
+) -> dict[str, Any]:
+    """Return diagnostics for a MELCloud Home config entry."""
+
+    return {
+        "config_entry": async_redact_data(config_entry.as_dict(), TO_REDACT),
+        "coordinator": async_redact_data(
+            config_entry.runtime_data.coordinator.data.model_dump(mode="json"),
+            TO_REDACT,
+        ),
+        "telemetry_coordinator": async_redact_data(
+            asdict(config_entry.runtime_data.telemetry_coordinator.data), TO_REDACT
+        ),
+    }

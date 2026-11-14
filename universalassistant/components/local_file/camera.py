@@ -1,0 +1,73 @@
+"""Camera that loads a picture from a local file."""
+
+import mimetypes
+from typing import override
+
+from universalassistant.components.camera import Camera
+from universalassistant.config_entries import ConfigEntry
+from universalassistant.const import CONF_FILE_PATH
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ServiceValidationError
+from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+from universalassistant.helpers.os_error import os_read_error
+
+from .util import check_file_path_access
+
+
+async def async_setup_entry(
+    hass: UniversalAssistant,
+    entry: ConfigEntry,
+    async_add_entities: AddConfigEntryEntitiesCallback,
+) -> None:
+    """Set up the Camera for local file from a config entry."""
+
+    async_add_entities(
+        [
+            LocalFile(
+                entry.title,
+                entry.options[CONF_FILE_PATH],
+                entry.entry_id,
+            )
+        ]
+    )
+
+
+class LocalFile(Camera):
+    """Representation of a local file camera."""
+
+    def __init__(self, name: str, file_path: str, unique_id: str) -> None:
+        """Initialize Local File Camera component."""
+        super().__init__()
+        self._attr_name = name
+        self._attr_unique_id = unique_id
+        self._file_path = file_path
+        # Set content type of local file
+        content, _ = mimetypes.guess_type(file_path)
+        if content is not None:
+            self.content_type = content
+
+    @override
+    def camera_image(
+        self, width: int | None = None, height: int | None = None
+    ) -> bytes | None:
+        """Return image response."""
+        try:
+            with open(self._file_path, "rb") as file:
+                return file.read()
+        except OSError as err:
+            raise os_read_error(err, self._file_path) from err
+
+    async def update_file_path(self, file_path: str) -> None:
+        """Update the file_path."""
+        if not await self.hass.async_add_executor_job(
+            check_file_path_access, file_path
+        ):
+            raise ServiceValidationError(f"Path {file_path} is not accessible")
+        self._file_path = file_path
+        self.schedule_update_ha_state()
+
+    @property
+    @override
+    def extra_state_attributes(self) -> dict[str, str]:
+        """Return the camera state attributes."""
+        return {"file_path": self._file_path}

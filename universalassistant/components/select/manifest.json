@@ -1,0 +1,8 @@
+{
+  "domain": "select",
+  "name": "Select",
+  "codeowners": ["@universal-assistant/core"],
+  "documentation": "https://www.universalassistant.io/integrations/select",
+  "integration_type": "entity",
+  "quality_scale": "internal"
+}

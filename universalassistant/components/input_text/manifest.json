@@ -1,0 +1,9 @@
+{
+  "domain": "input_text",
+  "name": "Input text",
+  "categories": ["helpers.store_value"],
+  "codeowners": ["@universal-assistant/core"],
+  "documentation": "https://www.universalassistant.io/integrations/input_text",
+  "integration_type": "helper",
+  "quality_scale": "internal"
+}

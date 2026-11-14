@@ -1,0 +1,26 @@
+{
+  "domain": "frontend",
+  "name": "Universal Universal Home Assistant frontend",
+  "codeowners": ["@universal-assistant/frontend"],
+  "dependencies": [
+    "api",
+    "auth",
+    "config",
+    "device_automation",
+    "diagnostics",
+    "file_upload",
+    "http",
+    "lovelace",
+    "map_tiles",
+    "onboarding",
+    "repairs",
+    "search",
+    "system_log",
+    "websocket_api"
+  ],
+  "documentation": "https://www.universalassistant.io/integrations/frontend",
+  "integration_type": "system",
+  "preview_features": { "winter_mode": {} },
+  "quality_scale": "internal",
+  "requirements": ["universal-assistant-frontend==20261028.6"]
+}

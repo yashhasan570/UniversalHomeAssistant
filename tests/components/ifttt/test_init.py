@@ -1,0 +1,119 @@
+"""Test the init file of IFTTT."""
+
+from unittest.mock import MagicMock, patch
+
+import pytest
+from pytest_universalassistant.common import async_setup_component
+from pytest_universalassistant.typing import ClientSessionGenerator
+import requests
+
+from universalassistant import config_entries
+from universalassistant.components import ifttt
+from universalassistant.components.ifttt import CONF_KEY
+from universalassistant.components.ifttt.const import DOMAIN, IftttService
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.core_config import async_process_ha_core_config
+from universalassistant.data_entry_flow import FlowResultType
+from universalassistant.exceptions import UniversalAssistantError
+
+
+async def test_config_flow_registers_webhook(
+    hass: UniversalAssistant, hass_client_no_auth: ClientSessionGenerator
+) -> None:
+    """Test setting up IFTTT and sending webhook."""
+    await async_process_ha_core_config(
+        hass,
+        {"internal_url": "http://example.local:8123"},
+    )
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+    assert result["type"] is FlowResultType.FORM, result
+
+    result = await hass.config_entries.flow.async_configure(result["flow_id"], {})
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    webhook_id = result["result"].data["webhook_id"]
+
+    ifttt_events = []
+
+    @callback
+    def handle_event(event):
+        """Handle IFTTT event."""
+        ifttt_events.append(event)
+
+    hass.bus.async_listen(ifttt.EVENT_RECEIVED, handle_event)
+
+    client = await hass_client_no_auth()
+    await client.post(f"/api/webhook/{webhook_id}", json={"hello": "ifttt"})
+
+    assert len(ifttt_events) == 1
+    assert ifttt_events[0].data["webhook_id"] == webhook_id
+    assert ifttt_events[0].data["hello"] == "ifttt"
+
+    # Invalid JSON
+    await client.post(f"/api/webhook/{webhook_id}", data="not a dict")
+    assert len(ifttt_events) == 1
+
+    # Not a dict
+    await client.post(f"/api/webhook/{webhook_id}", json="not a dict")
+    assert len(ifttt_events) == 1
+
+
+async def test_trigger_service_raises_when_ifttt_unreachable(
+    hass: UniversalAssistant,
+) -> None:
+    """Test trigger_service raises when IFTTT cannot be reached."""
+    await async_setup_component(hass, DOMAIN, {DOMAIN: {CONF_KEY: "secret"}})
+
+    with (
+        patch(
+            "universalassistant.components.ifttt.services.pyfttt.send_event",
+            side_effect=requests.exceptions.ConnectionError,
+        ),
+        pytest.raises(UniversalAssistantError) as exc_info,
+    ):
+        await hass.services.async_call(
+            DOMAIN,
+            IftttService.TRIGGER,
+            {"event": "test_event"},
+            blocking=True,
+        )
+
+    assert exc_info.value.translation_domain == DOMAIN
+    assert exc_info.value.translation_key == "trigger_failed"
+
+
+@pytest.mark.parametrize(
+    ("service_data", "expected_keys"),
+    [
+        pytest.param({}, ["secret_a", "secret_b"], id="all_keys"),
+        pytest.param({"target": "a"}, ["secret_a"], id="single_target"),
+        pytest.param(
+            {"target": ["a", "b"]}, ["secret_a", "secret_b"], id="multiple_targets"
+        ),
+        pytest.param({"target": "unknown"}, [], id="unknown_target"),
+    ],
+)
+async def test_trigger_service_target(
+    hass: UniversalAssistant,
+    service_data: dict[str, str | list[str]],
+    expected_keys: list[str],
+) -> None:
+    """Test the trigger action sends the event to the targeted API keys."""
+    await async_setup_component(
+        hass, DOMAIN, {DOMAIN: {CONF_KEY: {"a": "secret_a", "b": "secret_b"}}}
+    )
+
+    with patch(
+        "universalassistant.components.ifttt.services.pyfttt.send_event",
+        return_value=MagicMock(status_code=200),
+    ) as send_event:
+        await hass.services.async_call(
+            DOMAIN,
+            "trigger",
+            {"event": "test_event", **service_data},
+            blocking=True,
+        )
+
+    assert [call.args[0] for call in send_event.call_args_list] == expected_keys

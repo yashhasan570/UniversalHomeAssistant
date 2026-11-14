@@ -1,0 +1,10 @@
+{
+  "domain": "alexa",
+  "name": "Amazon Alexa",
+  "after_dependencies": ["camera"],
+  "codeowners": ["@universal-assistant/cloud", "@ochlocracy", "@jbouwh"],
+  "dependencies": ["http"],
+  "documentation": "https://www.universalassistant.io/integrations/alexa",
+  "integration_type": "system",
+  "iot_class": "cloud_push"
+}

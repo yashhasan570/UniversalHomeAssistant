@@ -1,0 +1,10 @@
+{
+  "domain": "python_script",
+  "name": "Python Scripts",
+  "categories": ["diy_makers"],
+  "codeowners": [],
+  "documentation": "https://www.universalassistant.io/integrations/python_script",
+  "loggers": ["RestrictedPython"],
+  "quality_scale": "internal",
+  "requirements": ["RestrictedPython==8.5"]
+}

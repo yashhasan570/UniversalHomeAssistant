@@ -1,0 +1,66 @@
+"""Tests for the Fumis button entities."""
+
+from unittest.mock import MagicMock
+
+from fumis import FumisConnectionError
+import pytest
+from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
+from universalassistant.components.fumis.const import DOMAIN
+from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.helpers import entity_registry as er
+
+pytestmark = pytest.mark.parametrize(
+    "init_integration", [Platform.BUTTON], indirect=True
+)
+
+
+@pytest.mark.usefixtures("entity_registry_enabled_by_default", "init_integration")
+async def test_buttons(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    mock_config_entry: MockConfigEntry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test the Fumis button entities."""
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
+
+
+@pytest.mark.usefixtures("init_integration")
+async def test_sync_clock(
+    hass: UniversalAssistant,
+    mock_fumis: MagicMock,
+) -> None:
+    """Test pressing the sync clock button."""
+    await hass.services.async_call(
+        BUTTON_DOMAIN,
+        ButtonService.PRESS,
+        {CommonServiceArgument.ENTITY_ID: "button.clou_duo_sync_clock"},
+        blocking=True,
+    )
+
+    mock_fumis.set_clock.assert_called_once()
+
+
+@pytest.mark.usefixtures("init_integration")
+async def test_sync_clock_error_handling(
+    hass: UniversalAssistant,
+    mock_fumis: MagicMock,
+) -> None:
+    """Test error handling for button press."""
+    mock_fumis.set_clock.side_effect = FumisConnectionError
+
+    with pytest.raises(UniversalAssistantError) as exc_info:
+        await hass.services.async_call(
+            BUTTON_DOMAIN,
+            ButtonService.PRESS,
+            {CommonServiceArgument.ENTITY_ID: "button.clou_duo_sync_clock"},
+            blocking=True,
+        )
+
+    assert exc_info.value.translation_domain == DOMAIN
+    assert exc_info.value.translation_key == "communication_error"

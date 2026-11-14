@@ -1,0 +1,174 @@
+"""Test the Antifurto365 iAlarm config flow."""
+
+from unittest.mock import patch
+
+import pytest
+from pytest_universalassistant.common import MockConfigEntry
+
+from universalassistant import config_entries
+from universalassistant.components.ialarm.const import DOMAIN
+from universalassistant.const import CONF_HOST, CONF_PORT
+from universalassistant.core import UniversalAssistant
+from universalassistant.data_entry_flow import FlowResultType
+
+TEST_DATA = {CONF_HOST: "1.1.1.1", CONF_PORT: 18034}
+
+TEST_MAC = "00:00:54:12:34:56"
+
+
+async def test_form(hass: UniversalAssistant) -> None:
+    """Test we get the form."""
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] is None
+
+    with (
+        patch(
+            "universalassistant.components.ialarm.config_flow.IAlarm.get_status",
+            return_value=1,
+        ),
+        patch(
+            "universalassistant.components.ialarm.config_flow.IAlarm.get_mac",
+            return_value=TEST_MAC,
+        ),
+        patch(
+            "universalassistant.components.ialarm.config_flow.IAlarm.shutdown"
+        ) as mock_shutdown,
+        patch(
+            "universalassistant.components.ialarm.async_setup_entry",
+            return_value=None,
+        ) as mock_setup_entry,
+    ):
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_DATA
+        )
+        await hass.async_block_till_done()
+
+    assert result2["type"] is FlowResultType.CREATE_ENTRY
+    assert result2["title"] == TEST_DATA["host"]
+    assert result2["data"] == TEST_DATA
+    assert result2["result"].unique_id == TEST_MAC
+    assert len(mock_setup_entry.mock_calls) == 1
+    mock_shutdown.assert_awaited_once()
+
+
+@pytest.mark.parametrize("side_effect", [ConnectionError, TimeoutError])
+async def test_form_cannot_connect(
+    hass: UniversalAssistant, side_effect: type[Exception]
+) -> None:
+    """Test we handle cannot connect error."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    with (
+        patch(
+            "universalassistant.components.ialarm.config_flow.IAlarm.get_mac",
+            side_effect=side_effect,
+        ),
+        patch(
+            "universalassistant.components.ialarm.config_flow.IAlarm.shutdown"
+        ) as mock_shutdown,
+    ):
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_DATA
+        )
+
+    assert result2["type"] is FlowResultType.FORM
+    assert result2["errors"] == {"base": "cannot_connect"}
+    mock_shutdown.assert_awaited_once()
+
+    with (
+        patch(
+            "universalassistant.components.ialarm.config_flow.IAlarm.get_status",
+            return_value=1,
+        ),
+        patch(
+            "universalassistant.components.ialarm.config_flow.IAlarm.get_mac",
+            return_value=TEST_MAC,
+        ),
+        patch(
+            "universalassistant.components.ialarm.async_setup_entry",
+            return_value=None,
+        ),
+    ):
+        result3 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_DATA
+        )
+        await hass.async_block_till_done()
+
+    assert result3["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_form_exception(hass: UniversalAssistant) -> None:
+    """Test we handle unknown exception."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    with (
+        patch(
+            "universalassistant.components.ialarm.config_flow.IAlarm.get_mac",
+            side_effect=Exception,
+        ),
+        patch(
+            "universalassistant.components.ialarm.config_flow.IAlarm.shutdown"
+        ) as mock_shutdown,
+    ):
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_DATA
+        )
+
+    assert result2["type"] is FlowResultType.FORM
+    assert result2["errors"] == {"base": "unknown"}
+    mock_shutdown.assert_awaited_once()
+
+    with (
+        patch(
+            "universalassistant.components.ialarm.config_flow.IAlarm.get_status",
+            return_value=1,
+        ),
+        patch(
+            "universalassistant.components.ialarm.config_flow.IAlarm.get_mac",
+            return_value=TEST_MAC,
+        ),
+        patch(
+            "universalassistant.components.ialarm.async_setup_entry",
+            return_value=None,
+        ),
+    ):
+        result3 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_DATA
+        )
+        await hass.async_block_till_done()
+
+    assert result3["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_form_already_exists(hass: UniversalAssistant) -> None:
+    """Test that a flow with an existing host aborts."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=TEST_MAC,
+        data=TEST_DATA,
+    )
+
+    entry.add_to_hass(hass)
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    with patch(
+        "universalassistant.components.ialarm.config_flow.IAlarm.get_mac",
+        return_value=TEST_MAC,
+    ):
+        result2 = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_DATA
+        )
+
+    assert result2["type"] is FlowResultType.ABORT
+    assert result2["reason"] == "already_configured"

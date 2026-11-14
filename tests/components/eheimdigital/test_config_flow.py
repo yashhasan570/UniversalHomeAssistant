@@ -1,0 +1,325 @@
+"""Tests the config flow of EHEIM Digital."""
+
+from ipaddress import ip_address
+from unittest.mock import AsyncMock, MagicMock, patch
+
+from aiohttp import ClientConnectionError
+import pytest
+from pytest_universalassistant.common import MockConfigEntry
+
+from universalassistant.components.eheimdigital.const import DOMAIN
+from universalassistant.config_entries import (
+    SOURCE_RECONFIGURE,
+    SOURCE_USER,
+    SOURCE_ZEROCONF,
+)
+from universalassistant.const import CONF_HOST
+from universalassistant.core import UniversalAssistant
+from universalassistant.data_entry_flow import FlowResultType
+from universalassistant.helpers.service_info.zeroconf import ZeroconfServiceInfo
+
+from .conftest import init_integration
+
+ZEROCONF_DISCOVERY = ZeroconfServiceInfo(
+    ip_address=ip_address("192.0.2.1"),
+    ip_addresses=[ip_address("192.0.2.1")],
+    hostname="eheimdigital.local.",
+    name="eheimdigital._http._tcp.local.",
+    port=80,
+    type="_http._tcp.local.",
+    properties={},
+)
+
+USER_INPUT = {CONF_HOST: "eheimdigital"}
+
+
+@patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
+async def test_full_flow(hass: UniversalAssistant, eheimdigital_hub_mock: AsyncMock) -> None:
+    """Test full flow."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_USER},
+    )
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        USER_INPUT,
+    )
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == USER_INPUT[CONF_HOST]
+    assert result["data"] == USER_INPUT
+    assert (
+        result["result"].unique_id
+        == eheimdigital_hub_mock.return_value.main.mac_address
+    )
+
+
+@patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
+@pytest.mark.parametrize(
+    ("side_effect", "error_value"),
+    [(ClientConnectionError(), "cannot_connect"), (Exception(), "unknown")],
+)
+async def test_flow_errors(
+    hass: UniversalAssistant,
+    eheimdigital_hub_mock: AsyncMock,
+    side_effect: BaseException,
+    error_value: str,
+) -> None:
+    """Test flow errors."""
+    eheimdigital_hub_mock.return_value.connect.side_effect = side_effect
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_USER},
+    )
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        USER_INPUT,
+    )
+    await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {"base": error_value}
+
+    eheimdigital_hub_mock.return_value.connect.side_effect = None
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        USER_INPUT,
+    )
+    await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == USER_INPUT[CONF_HOST]
+    assert result["data"] == USER_INPUT
+    assert (
+        result["result"].unique_id
+        == eheimdigital_hub_mock.return_value.main.mac_address
+    )
+
+
+@patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
+async def test_zeroconf_flow(
+    hass: UniversalAssistant, eheimdigital_hub_mock: AsyncMock
+) -> None:
+    """Test zeroconf flow."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_ZEROCONF},
+        data=ZEROCONF_DISCOVERY,
+    )
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "discovery_confirm"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        {},
+    )
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == ZEROCONF_DISCOVERY.host
+    assert result["data"] == {
+        CONF_HOST: ZEROCONF_DISCOVERY.host,
+    }
+    assert (
+        result["result"].unique_id
+        == eheimdigital_hub_mock.return_value.main.mac_address
+    )
+
+
+@pytest.mark.parametrize(
+    ("side_effect", "error_value"),
+    [(ClientConnectionError(), "cannot_connect"), (Exception(), "unknown")],
+)
+@patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
+async def test_zeroconf_flow_errors(
+    hass: UniversalAssistant,
+    eheimdigital_hub_mock: MagicMock,
+    side_effect: BaseException,
+    error_value: str,
+) -> None:
+    """Test zeroconf flow errors."""
+    eheimdigital_hub_mock.return_value.connect.side_effect = side_effect
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_ZEROCONF},
+        data=ZEROCONF_DISCOVERY,
+    )
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == error_value
+
+
+@patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
+async def test_abort(hass: UniversalAssistant, eheimdigital_hub_mock: AsyncMock) -> None:
+    """Test flow abort on matching data or unique_id."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_USER},
+    )
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        USER_INPUT,
+    )
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == USER_INPUT[CONF_HOST]
+    assert result["data"] == USER_INPUT
+    assert (
+        result["result"].unique_id
+        == eheimdigital_hub_mock.return_value.main.mac_address
+    )
+
+    result2 = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_USER},
+    )
+    await hass.async_block_till_done()
+    assert result2["type"] is FlowResultType.FORM
+    assert result2["step_id"] == "user"
+
+    result2 = await hass.config_entries.flow.async_configure(
+        result2["flow_id"],
+        USER_INPUT,
+    )
+    await hass.async_block_till_done()
+
+    assert result2["type"] is FlowResultType.ABORT
+    assert result2["reason"] == "already_configured"
+
+    result3 = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_USER},
+    )
+    await hass.async_block_till_done()
+    assert result3["type"] is FlowResultType.FORM
+    assert result3["step_id"] == "user"
+
+    result2 = await hass.config_entries.flow.async_configure(
+        result3["flow_id"],
+        {CONF_HOST: "eheimdigital2"},
+    )
+    await hass.async_block_till_done()
+
+    assert result2["type"] is FlowResultType.ABORT
+    assert result2["reason"] == "already_configured"
+
+
+@patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
+@pytest.mark.parametrize(
+    ("side_effect", "error_value"),
+    [(ClientConnectionError(), "cannot_connect"), (Exception(), "unknown")],
+)
+async def test_reconfigure(
+    hass: UniversalAssistant,
+    eheimdigital_hub_mock: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+    side_effect: Exception,
+    error_value: str,
+) -> None:
+    """Test reconfigure flow."""
+    await init_integration(hass, mock_config_entry)
+
+    result = await mock_config_entry.start_reconfigure_flow(hass)
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == SOURCE_RECONFIGURE
+
+    eheimdigital_hub_mock.return_value.connect.side_effect = side_effect
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        USER_INPUT,
+    )
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {"base": error_value}
+
+    eheimdigital_hub_mock.return_value.connect.side_effect = None
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        USER_INPUT,
+    )
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "reconfigure_successful"
+    assert (
+        mock_config_entry.unique_id
+        == eheimdigital_hub_mock.return_value.main.mac_address
+    )
+
+
+@patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
+async def test_reconfigure_different_device(
+    hass: UniversalAssistant,
+    eheimdigital_hub_mock: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Test reconfigure flow."""
+
+    await init_integration(hass, mock_config_entry)
+
+    # Simulate a different device
+    eheimdigital_hub_mock.return_value.main.mac_address = "00:00:00:00:00:02"
+
+    result = await mock_config_entry.start_reconfigure_flow(hass)
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == SOURCE_RECONFIGURE
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        USER_INPUT,
+    )
+
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "unique_id_mismatch"
+
+
+@patch("universalassistant.components.eheimdigital.config_flow.asyncio.Event", new=AsyncMock)
+async def test_reconfigure_already_in_progress(
+    hass: UniversalAssistant,
+    eheimdigital_hub_mock: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Test reconfigure flow aborts when a flow for the device is in progress."""
+
+    await init_integration(hass, mock_config_entry)
+
+    # Simulate a different device that has a discovery flow in progress
+    eheimdigital_hub_mock.return_value.main.mac_address = "00:00:00:00:00:02"
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": SOURCE_ZEROCONF},
+        data=ZEROCONF_DISCOVERY,
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "discovery_confirm"
+
+    result = await mock_config_entry.start_reconfigure_flow(hass)
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == SOURCE_RECONFIGURE
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        USER_INPUT,
+    )
+
+    await hass.async_block_till_done()
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "already_in_progress"

@@ -1,0 +1,190 @@
+"""Tests Universal Universal Home Assistant location helpers."""
+
+from universalassistant.const import EntityStateAttribute
+from universalassistant.core import UniversalAssistant, State
+from universalassistant.helpers import location
+
+
+def test_has_location_with_invalid_states() -> None:
+    """Set up the tests."""
+    for state in (None, 1, "hello", object):
+        assert not location.has_location(state)
+
+
+def test_has_location_with_states_with_invalid_locations() -> None:
+    """Set up the tests."""
+    state = State(
+        "hello.world",
+        "invalid",
+        {
+            EntityStateAttribute.LATITUDE: "no number",
+            EntityStateAttribute.LONGITUDE: 123.12,
+        },
+    )
+    assert not location.has_location(state)
+
+
+def test_has_location_with_states_with_valid_location() -> None:
+    """Set up the tests."""
+    state = State(
+        "hello.world",
+        "invalid",
+        {EntityStateAttribute.LATITUDE: 123.12, EntityStateAttribute.LONGITUDE: 123.12},
+    )
+    assert location.has_location(state)
+
+
+def test_has_location_with_states_with_int_location() -> None:
+    """Test that integer coordinates are valid."""
+    state = State(
+        "hello.world",
+        "valid",
+        {EntityStateAttribute.LATITUDE: 123, EntityStateAttribute.LONGITUDE: 45},
+    )
+    assert location.has_location(state)
+
+
+def test_get_state_coordinates_with_invalid_state() -> None:
+    """Test that an invalid location returns None."""
+    state = State(
+        "hello.world",
+        "invalid",
+        {
+            EntityStateAttribute.LATITUDE: "no number",
+            EntityStateAttribute.LONGITUDE: 123.12,
+        },
+    )
+    assert location.get_state_coordinates(state) is None
+
+
+def test_get_state_coordinates_with_valid_location() -> None:
+    """Test that a valid location returns the coordinates."""
+    state = State(
+        "hello.world",
+        "valid",
+        {EntityStateAttribute.LATITUDE: 12.34, EntityStateAttribute.LONGITUDE: 56.78},
+    )
+    assert location.get_state_coordinates(state) == location.Coordinates(
+        latitude=12.34, longitude=56.78
+    )
+
+
+def test_closest_with_no_states_with_location() -> None:
+    """Set up the tests."""
+    state = State("light.test", "on")
+    state2 = State(
+        "light.test",
+        "on",
+        {
+            EntityStateAttribute.LATITUDE: "invalid",
+            EntityStateAttribute.LONGITUDE: 123.45,
+        },
+    )
+    state3 = State("light.test", "on", {EntityStateAttribute.LONGITUDE: 123.45})
+
+    assert location.closest(123.45, 123.45, [state, state2, state3]) is None
+
+
+def test_closest_returns_closest() -> None:
+    """Test ."""
+    state = State(
+        "light.test",
+        "on",
+        {EntityStateAttribute.LATITUDE: 124.45, EntityStateAttribute.LONGITUDE: 124.45},
+    )
+    state2 = State(
+        "light.test",
+        "on",
+        {EntityStateAttribute.LATITUDE: 125.45, EntityStateAttribute.LONGITUDE: 125.45},
+    )
+
+    assert state == location.closest(123.45, 123.45, [state, state2])
+
+
+async def test_coordinates_function_as_attributes(hass: UniversalAssistant) -> None:
+    """Test coordinates function."""
+    hass.states.async_set(
+        "test.object", "happy", {"latitude": 32.87336, "longitude": -117.22943}
+    )
+    assert location.find_coordinates(hass, "test.object") == "32.87336,-117.22943"
+
+
+async def test_coordinates_function_as_state(hass: UniversalAssistant) -> None:
+    """Test coordinates function."""
+    hass.states.async_set("test.object", "32.87336,-117.22943")
+    assert location.find_coordinates(hass, "test.object") == "32.87336,-117.22943"
+
+
+async def test_coordinates_function_device_tracker_in_zone(hass: UniversalAssistant) -> None:
+    """Test coordinates function."""
+    hass.states.async_set(
+        "zone.home",
+        "zoning",
+        {"latitude": 32.87336, "longitude": -117.22943},
+    )
+    hass.states.async_set("device_tracker.device", "home")
+    assert (
+        location.find_coordinates(hass, "device_tracker.device")
+        == "32.87336,-117.22943"
+    )
+
+
+async def test_coordinates_function_zone_friendly_name(hass: UniversalAssistant) -> None:
+    """Test coordinates function."""
+    hass.states.async_set(
+        "zone.home",
+        "zoning",
+        {
+            "latitude": 32.87336,
+            "longitude": -117.22943,
+            EntityStateAttribute.FRIENDLY_NAME: "my_home",
+        },
+    )
+    hass.states.async_set(
+        "test.object",
+        "my_home",
+    )
+    assert location.find_coordinates(hass, "test.object") == "32.87336,-117.22943"
+    assert location.find_coordinates(hass, "my_home") == "32.87336,-117.22943"
+
+
+async def test_coordinates_function_device_tracker_from_input_select(
+    hass: UniversalAssistant,
+) -> None:
+    """Test coordinates function."""
+    hass.states.async_set(
+        "input_select.select",
+        "device_tracker.device",
+        {"options": "device_tracker.device"},
+    )
+    hass.states.async_set("device_tracker.device", "32.87336,-117.22943")
+    assert (
+        location.find_coordinates(hass, "input_select.select") == "32.87336,-117.22943"
+    )
+
+
+def test_coordinates_function_returns_none_on_recursion(hass: UniversalAssistant) -> None:
+    """Test coordinates function."""
+    hass.states.async_set(
+        "test.first",
+        "test.second",
+    )
+    hass.states.async_set("test.second", "test.first")
+    assert location.find_coordinates(hass, "test.first") is None
+
+
+async def test_coordinates_function_returns_state_if_no_coords(
+    hass: UniversalAssistant,
+) -> None:
+    """Test test_coordinates function."""
+    hass.states.async_set(
+        "test.object",
+        "abc",
+    )
+    assert location.find_coordinates(hass, "test.object") == "abc"
+
+
+def test_coordinates_function_returns_input_if_no_coords(hass: UniversalAssistant) -> None:
+    """Test test_coordinates function."""
+    assert location.find_coordinates(hass, "test.abc") == "test.abc"
+    assert location.find_coordinates(hass, "abc") == "abc"

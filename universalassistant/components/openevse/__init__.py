@@ -1,0 +1,75 @@
+"""The OpenEVSE integration."""
+
+from openevsehttp.__main__ import OpenEVSE
+from openevsehttp.exceptions import AuthenticationError, MissingSerial
+
+from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
+from universalassistant.helpers import config_validation as cv
+from universalassistant.helpers.aiohttp_client import async_get_clientsession
+from universalassistant.helpers.typing import ConfigType
+
+from .const import DOMAIN
+from .coordinator import OpenEVSEConfigEntry, OpenEVSEDataUpdateCoordinator
+from .services import async_setup_services
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+PLATFORMS = [
+    Platform.BINARY_SENSOR,
+    Platform.BUTTON,
+    Platform.NUMBER,
+    Platform.SELECT,
+    Platform.SENSOR,
+    Platform.SWITCH,
+]
+
+
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    """Set up the OpenEVSE component."""
+    async_setup_services(hass)
+    return True
+
+
+async def async_setup_entry(hass: UniversalAssistant, entry: OpenEVSEConfigEntry) -> None:
+    """Set up OpenEVSE from a config entry."""
+    charger = OpenEVSE(
+        entry.data[CONF_HOST],
+        entry.data.get(CONF_USERNAME),
+        entry.data.get(CONF_PASSWORD),
+        session=async_get_clientsession(hass),
+    )
+
+    try:
+        await charger.test_and_get()
+    except TimeoutError as ex:
+        raise ConfigEntryNotReady(
+            translation_domain=DOMAIN,
+            translation_key="communication_error",
+        ) from ex
+    except AuthenticationError as ex:
+        raise ConfigEntryAuthFailed(
+            translation_domain=DOMAIN,
+            translation_key="authentication_error",
+        ) from ex
+    except MissingSerial:
+        pass
+
+    coordinator = OpenEVSEDataUpdateCoordinator(hass, entry, charger)
+    await coordinator.async_config_entry_first_refresh()
+
+    # Start websocket listener for push updates
+    await coordinator.async_start_websocket()
+
+    entry.runtime_data = coordinator
+
+    # Register websocket cleanup on unload
+    entry.async_on_unload(coordinator.async_stop_websocket)
+
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
+
+async def async_unload_entry(hass: UniversalAssistant, entry: OpenEVSEConfigEntry) -> None:
+    """Unload a config entry."""
+    await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

@@ -1,0 +1,217 @@
+"""The tests for the Queensland Bushfire Alert Feed platform."""
+
+import datetime as dt
+from unittest.mock import MagicMock, call, patch
+
+from freezegun.api import FrozenDateTimeFactory
+from georss_qld_bushfire_alert_client import QldBushfireAlertFeed
+from pytest_universalassistant.common import assert_setup_component, async_fire_time_changed
+
+from universalassistant.components import geo_location
+from universalassistant.components.geo_location import GeolocationEntityStateAttribute
+from universalassistant.components.qld_bushfire.geo_location import (
+    ATTR_CATEGORY,
+    ATTR_EXTERNAL_ID,
+    ATTR_PUBLICATION_DATE,
+    ATTR_STATUS,
+    ATTR_UPDATED_DATE,
+    SCAN_INTERVAL,
+)
+from universalassistant.const import (
+    CONF_LATITUDE,
+    CONF_LONGITUDE,
+    CONF_RADIUS,
+    EVENT_HOMEASSISTANT_START,
+    EntityStateAttribute,
+    UnitOfLength,
+)
+from universalassistant.core import UniversalAssistant
+from universalassistant.setup import async_setup_component
+from universalassistant.util import dt as dt_util
+
+CONFIG = {geo_location.DOMAIN: [{"platform": "qld_bushfire", CONF_RADIUS: 200}]}
+
+CONFIG_WITH_CUSTOM_LOCATION = {
+    geo_location.DOMAIN: [
+        {
+            "platform": "qld_bushfire",
+            CONF_RADIUS: 200,
+            CONF_LATITUDE: 40.4,
+            CONF_LONGITUDE: -3.7,
+        }
+    ]
+}
+
+
+def _generate_mock_feed_entry(
+    external_id,
+    title,
+    distance_to_home,
+    coordinates,
+    category=None,
+    attribution=None,
+    published=None,
+    updated=None,
+    status=None,
+):
+    """Construct a mock feed entry for testing purposes."""
+    feed_entry = MagicMock()
+    feed_entry.external_id = external_id
+    feed_entry.title = title
+    feed_entry.distance_to_home = distance_to_home
+    feed_entry.coordinates = coordinates
+    feed_entry.category = category
+    feed_entry.attribution = attribution
+    feed_entry.published = published
+    feed_entry.updated = updated
+    feed_entry.status = status
+    return feed_entry
+
+
+async def test_setup(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
+    """Test the general setup of the platform."""
+    # Set up some mock feed entries for this test.
+    mock_entry_1 = _generate_mock_feed_entry(
+        "1234",
+        "Title 1",
+        15.5,
+        (38.0, -3.0),
+        category="Category 1",
+        attribution="Attribution 1",
+        published=dt.datetime(2018, 9, 22, 8, 0, tzinfo=dt.UTC),
+        updated=dt.datetime(2018, 9, 22, 8, 10, tzinfo=dt.UTC),
+        status="Status 1",
+    )
+    mock_entry_2 = _generate_mock_feed_entry("2345", "Title 2", 20.5, (38.1, -3.1))
+    mock_entry_3 = _generate_mock_feed_entry("3456", "Title 3", 25.5, (38.2, -3.2))
+    mock_entry_4 = _generate_mock_feed_entry("4567", "Title 4", 12.5, (38.3, -3.3))
+
+    utcnow = dt_util.utcnow()
+    freezer.move_to(utcnow)
+
+    with patch("georss_client.feed.GeoRssFeed.update") as mock_feed_update:
+        mock_feed_update.return_value = (
+            "OK",
+            [mock_entry_1, mock_entry_2, mock_entry_3],
+        )
+        with assert_setup_component(1, geo_location.DOMAIN):
+            assert await async_setup_component(hass, geo_location.DOMAIN, CONFIG)
+            await hass.async_block_till_done()
+            # Artificially trigger update.
+            hass.bus.async_fire(EVENT_HOMEASSISTANT_START)
+            # Collect events.
+            await hass.async_block_till_done()
+
+            all_states = hass.states.async_all()
+            assert len(all_states) == 3
+
+            state = hass.states.get("geo_location.title_1")
+            assert state is not None
+            assert state.name == "Title 1"
+            assert state.attributes == {
+                ATTR_EXTERNAL_ID: "1234",
+                EntityStateAttribute.LATITUDE: 38.0,
+                EntityStateAttribute.LONGITUDE: -3.0,
+                EntityStateAttribute.FRIENDLY_NAME: "Title 1",
+                ATTR_CATEGORY: "Category 1",
+                EntityStateAttribute.ATTRIBUTION: "Attribution 1",
+                ATTR_PUBLICATION_DATE: dt.datetime(2018, 9, 22, 8, 0, tzinfo=dt.UTC),
+                ATTR_UPDATED_DATE: dt.datetime(2018, 9, 22, 8, 10, tzinfo=dt.UTC),
+                ATTR_STATUS: "Status 1",
+                EntityStateAttribute.UNIT_OF_MEASUREMENT: UnitOfLength.KILOMETERS,
+                GeolocationEntityStateAttribute.SOURCE: "qld_bushfire",
+                EntityStateAttribute.ICON: "mdi:fire",
+            }
+            assert float(state.state) == 15.5
+
+            state = hass.states.get("geo_location.title_2")
+            assert state is not None
+            assert state.name == "Title 2"
+            assert state.attributes == {
+                ATTR_EXTERNAL_ID: "2345",
+                EntityStateAttribute.LATITUDE: 38.1,
+                EntityStateAttribute.LONGITUDE: -3.1,
+                EntityStateAttribute.FRIENDLY_NAME: "Title 2",
+                EntityStateAttribute.UNIT_OF_MEASUREMENT: UnitOfLength.KILOMETERS,
+                GeolocationEntityStateAttribute.SOURCE: "qld_bushfire",
+                EntityStateAttribute.ICON: "mdi:fire",
+            }
+            assert float(state.state) == 20.5
+
+            state = hass.states.get("geo_location.title_3")
+            assert state is not None
+            assert state.name == "Title 3"
+            assert state.attributes == {
+                ATTR_EXTERNAL_ID: "3456",
+                EntityStateAttribute.LATITUDE: 38.2,
+                EntityStateAttribute.LONGITUDE: -3.2,
+                EntityStateAttribute.FRIENDLY_NAME: "Title 3",
+                EntityStateAttribute.UNIT_OF_MEASUREMENT: UnitOfLength.KILOMETERS,
+                GeolocationEntityStateAttribute.SOURCE: "qld_bushfire",
+                EntityStateAttribute.ICON: "mdi:fire",
+            }
+            assert float(state.state) == 25.5
+
+            # Simulate an update - one existing, one new entry,
+            # one outdated entry
+            mock_feed_update.return_value = (
+                "OK",
+                [mock_entry_1, mock_entry_4, mock_entry_3],
+            )
+            async_fire_time_changed(hass, utcnow + SCAN_INTERVAL)
+            await hass.async_block_till_done(wait_background_tasks=True)
+
+            all_states = hass.states.async_all()
+            assert len(all_states) == 3
+
+            # Simulate an update - empty data, but successful update,
+            # so no changes to entities.
+            mock_feed_update.return_value = "OK_NO_DATA", None
+            async_fire_time_changed(hass, utcnow + 2 * SCAN_INTERVAL)
+            await hass.async_block_till_done(wait_background_tasks=True)
+
+            all_states = hass.states.async_all()
+            assert len(all_states) == 3
+
+            # Simulate an update - empty data, removes all entities
+            mock_feed_update.return_value = "ERROR", None
+            async_fire_time_changed(hass, utcnow + 3 * SCAN_INTERVAL)
+            await hass.async_block_till_done(wait_background_tasks=True)
+
+            all_states = hass.states.async_all()
+            assert len(all_states) == 0
+
+
+async def test_setup_with_custom_location(hass: UniversalAssistant) -> None:
+    """Test the setup with a custom location."""
+    # Set up some mock feed entries for this test.
+    mock_entry_1 = _generate_mock_feed_entry(
+        "1234", "Title 1", 20.5, (38.1, -3.1), category="Category 1"
+    )
+
+    with (
+        patch(
+            "georss_qld_bushfire_alert_client.feed_manager.QldBushfireAlertFeed",
+            wraps=QldBushfireAlertFeed,
+        ) as mock_feed,
+        patch("georss_client.feed.GeoRssFeed.update") as mock_feed_update,
+    ):
+        mock_feed_update.return_value = "OK", [mock_entry_1]
+
+        with assert_setup_component(1, geo_location.DOMAIN):
+            assert await async_setup_component(
+                hass, geo_location.DOMAIN, CONFIG_WITH_CUSTOM_LOCATION
+            )
+            await hass.async_block_till_done()
+
+            # Artificially trigger update.
+            hass.bus.async_fire(EVENT_HOMEASSISTANT_START)
+            # Collect events.
+            await hass.async_block_till_done()
+
+            all_states = hass.states.async_all()
+            assert len(all_states) == 1
+
+            assert mock_feed.call_args == call(
+                (40.4, -3.7), filter_categories=[], filter_radius=200.0
+            )

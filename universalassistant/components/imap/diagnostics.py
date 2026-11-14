@@ -1,0 +1,33 @@
+"""Diagnostics support for IMAP."""
+
+from typing import Any
+
+from universalassistant.components.diagnostics import async_redact_data
+from universalassistant.const import CONF_PASSWORD, CONF_USERNAME
+from universalassistant.core import UniversalAssistant, callback
+
+from . import ImapConfigEntry
+
+REDACT_CONFIG = {CONF_PASSWORD, CONF_USERNAME}
+
+
+async def async_get_config_entry_diagnostics(
+    hass: UniversalAssistant, entry: ImapConfigEntry
+) -> dict[str, Any]:
+    """Return diagnostics for a config entry."""
+    return _async_get_diagnostics(hass, entry)
+
+
+@callback
+def _async_get_diagnostics(
+    hass: UniversalAssistant,
+    entry: ImapConfigEntry,
+) -> dict[str, Any]:
+    """Return diagnostics for a config entry."""
+    redacted_config = async_redact_data(entry.data, REDACT_CONFIG)
+    coordinator = entry.runtime_data
+
+    return {
+        "config": redacted_config,
+        "event": coordinator.diagnostics_data,
+    }

@@ -1,0 +1,170 @@
+"""Tests for the La Marzocco Update Entities."""
+
+from collections.abc import Generator
+from unittest.mock import AsyncMock, MagicMock, patch
+
+from pylamarzocco.const import FirmwareType, UpdateProgressInfo, UpdateStatus
+from pylamarzocco.exceptions import AuthFail, RequestNotSuccessful
+from pylamarzocco.models import UpdateDetails
+import pytest
+from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
+from pytest_universalassistant.typing import WebSocketGenerator
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN, UpdateService
+from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.helpers import entity_registry as er
+
+from . import async_init_integration
+
+
+@pytest.fixture(autouse=True)
+def mock_sleep() -> Generator[AsyncMock]:
+    """Mock asyncio.sleep."""
+    with patch(
+        "universalassistant.components.lamarzocco.update.asyncio.sleep",
+        return_value=AsyncMock(),
+    ) as mock_sleep:
+        yield mock_sleep
+
+
+async def test_update(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test the La Marzocco updates."""
+    with patch("universalassistant.components.lamarzocco.PLATFORMS", [Platform.UPDATE]):
+        await async_init_integration(hass, mock_config_entry)
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
+
+
+async def test_update_process(
+    hass: UniversalAssistant,
+    mock_lamarzocco: MagicMock,
+    mock_config_entry: MockConfigEntry,
+    hass_ws_client: WebSocketGenerator,
+) -> None:
+    """Test the La Marzocco update entities."""
+
+    serial_number = mock_lamarzocco.serial_number
+
+    mock_lamarzocco.get_firmware.side_effect = [
+        UpdateDetails(
+            status=UpdateStatus.TO_UPDATE,
+            command_status=UpdateStatus.IN_PROGRESS,
+            progress_info=UpdateProgressInfo.STARTING_PROCESS,
+            progress_percentage=0,
+        ),
+        UpdateDetails(
+            status=UpdateStatus.UPDATED,
+            command_status=UpdateStatus.UPDATED,
+            progress_info=None,
+            progress_percentage=None,
+        ),
+    ]
+
+    await async_init_integration(hass, mock_config_entry)
+
+    client = await hass_ws_client(hass)
+    await hass.async_block_till_done()
+
+    await client.send_json(
+        {
+            "id": 1,
+            "type": "update/release_notes",
+            "entity_id": f"update.{serial_number}_gateway_firmware",
+        }
+    )
+    result = await client.receive_json()
+    assert (
+        mock_lamarzocco.settings.firmwares[
+            FirmwareType.GATEWAY
+        ].available_update.change_log
+        in result["result"]
+    )
+
+    await hass.services.async_call(
+        UPDATE_DOMAIN,
+        UpdateService.INSTALL,
+        {
+            CommonServiceArgument.ENTITY_ID: f"update.{serial_number}_gateway_firmware",
+        },
+        blocking=True,
+    )
+
+    mock_lamarzocco.update_firmware.assert_called_once_with()
+
+
+@pytest.mark.parametrize(
+    "side_effect",
+    [
+        pytest.param(RequestNotSuccessful("Boom"), id="request_not_successful"),
+        pytest.param(AuthFail("Boom"), id="auth_fail"),
+        pytest.param(TimeoutError, id="timeout"),
+    ],
+)
+async def test_update_error(
+    hass: UniversalAssistant,
+    mock_lamarzocco: MagicMock,
+    mock_config_entry: MockConfigEntry,
+    side_effect: Exception | type[Exception],
+) -> None:
+    """Test error during update."""
+
+    await async_init_integration(hass, mock_config_entry)
+
+    state = hass.states.get(f"update.{mock_lamarzocco.serial_number}_gateway_firmware")
+    assert state
+
+    mock_lamarzocco.update_firmware.side_effect = side_effect
+
+    with pytest.raises(UniversalAssistantError) as exc_info:
+        await hass.services.async_call(
+            UPDATE_DOMAIN,
+            UpdateService.INSTALL,
+            {
+                CommonServiceArgument.ENTITY_ID: (
+                    f"update.{mock_lamarzocco.serial_number}_gateway_firmware"
+                ),
+            },
+            blocking=True,
+        )
+    assert exc_info.value.translation_key == "update_failed"
+
+
+async def test_update_times_out(
+    hass: UniversalAssistant,
+    mock_lamarzocco: MagicMock,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Test error during update."""
+    mock_lamarzocco.get_firmware.return_value = UpdateDetails(
+        status=UpdateStatus.TO_UPDATE,
+        command_status=UpdateStatus.IN_PROGRESS,
+        progress_info=UpdateProgressInfo.STARTING_PROCESS,
+        progress_percentage=0,
+    )
+    await async_init_integration(hass, mock_config_entry)
+
+    state = hass.states.get(f"update.{mock_lamarzocco.serial_number}_gateway_firmware")
+    assert state
+
+    with (
+        patch("universalassistant.components.lamarzocco.update.MAX_UPDATE_WAIT", 0),
+        pytest.raises(UniversalAssistantError) as exc_info,
+    ):
+        await hass.services.async_call(
+            UPDATE_DOMAIN,
+            UpdateService.INSTALL,
+            {
+                CommonServiceArgument.ENTITY_ID: (
+                    f"update.{mock_lamarzocco.serial_number}_gateway_firmware"
+                ),
+            },
+            blocking=True,
+        )
+    assert exc_info.value.translation_key == "update_failed"

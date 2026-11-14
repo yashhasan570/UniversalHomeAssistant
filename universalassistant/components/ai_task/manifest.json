@@ -1,0 +1,10 @@
+{
+  "domain": "ai_task",
+  "name": "AI Task",
+  "after_dependencies": ["camera"],
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["conversation", "media_source"],
+  "documentation": "https://www.universalassistant.io/integrations/ai_task",
+  "integration_type": "entity",
+  "quality_scale": "internal"
+}

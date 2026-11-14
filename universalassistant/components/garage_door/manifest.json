@@ -1,0 +1,8 @@
+{
+  "domain": "garage_door",
+  "name": "Garage door",
+  "codeowners": ["@universal-assistant/core"],
+  "documentation": "https://www.universalassistant.io/integrations/garage_door",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

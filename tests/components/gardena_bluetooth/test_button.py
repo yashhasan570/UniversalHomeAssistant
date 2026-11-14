@@ -1,0 +1,64 @@
+"""Test Gardena Bluetooth sensor."""
+
+from collections.abc import Awaitable, Callable
+from unittest.mock import Mock, call
+
+from gardena_bluetooth.const import Reset
+import pytest
+from pytest_universalassistant.common import MockConfigEntry
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
+from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.core import UniversalAssistant
+
+from . import setup_entry
+
+
+@pytest.fixture
+def mock_switch_chars(mock_read_char_raw):
+    """Mock data on device."""
+    mock_read_char_raw[Reset.factory_reset.unique_id] = b"\x00"
+    return mock_read_char_raw
+
+
+async def test_setup(
+    hass: UniversalAssistant,
+    snapshot: SnapshotAssertion,
+    mock_entry: MockConfigEntry,
+    mock_switch_chars: dict[str, bytes],
+    scan_step: Callable[[], Awaitable[None]],
+) -> None:
+    """Test setup creates expected entities."""
+
+    entity_id = "button.mock_title_factory_reset"
+    await setup_entry(hass, mock_entry, [Platform.BUTTON])
+    assert hass.states.get(entity_id) == snapshot
+
+    mock_switch_chars[Reset.factory_reset.unique_id] = b"\x01"
+    await scan_step()
+    assert hass.states.get(entity_id) == snapshot
+
+
+async def test_switching(
+    hass: UniversalAssistant,
+    mock_entry: MockConfigEntry,
+    mock_client: Mock,
+    mock_switch_chars: dict[str, bytes],
+) -> None:
+    """Test switching makes correct calls."""
+
+    entity_id = "button.mock_title_factory_reset"
+    await setup_entry(hass, mock_entry, [Platform.BUTTON])
+    assert hass.states.get(entity_id)
+
+    await hass.services.async_call(
+        BUTTON_DOMAIN,
+        ButtonService.PRESS,
+        {CommonServiceArgument.ENTITY_ID: entity_id},
+        blocking=True,
+    )
+
+    assert mock_client.write_char.mock_calls == [
+        call(Reset.factory_reset, True),
+    ]

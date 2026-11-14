@@ -1,0 +1,61 @@
+"""Tests for the Google Generative AI Conversation diagnostics."""
+
+from unittest.mock import patch
+
+from pytest_universalassistant.common import MockConfigEntry
+from pytest_universalassistant.components.diagnostics import get_diagnostics_for_config_entry
+from pytest_universalassistant.typing import ClientSessionGenerator
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.google_generative_ai_conversation.const import (
+    CONF_CHAT_MODEL,
+    CONF_DANGEROUS_BLOCK_THRESHOLD,
+    CONF_HARASSMENT_BLOCK_THRESHOLD,
+    CONF_HATE_BLOCK_THRESHOLD,
+    CONF_MAX_TOKENS,
+    CONF_RECOMMENDED,
+    CONF_SEXUAL_BLOCK_THRESHOLD,
+    CONF_TEMPERATURE,
+    CONF_TOP_K,
+    CONF_TOP_P,
+    RECOMMENDED_CHAT_MODEL,
+    RECOMMENDED_HARM_BLOCK_THRESHOLD,
+    RECOMMENDED_MAX_TOKENS,
+    RECOMMENDED_TEMPERATURE,
+    RECOMMENDED_TOP_K,
+    RECOMMENDED_TOP_P,
+)
+from universalassistant.const import CONF_PROMPT
+from universalassistant.core import UniversalAssistant
+
+
+async def test_diagnostics(
+    hass: UniversalAssistant,
+    hass_client: ClientSessionGenerator,
+    mock_config_entry: MockConfigEntry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test diagnostics."""
+    hass.config_entries.async_update_subentry(
+        mock_config_entry,
+        next(iter(mock_config_entry.subentries.values())),
+        data={
+            CONF_RECOMMENDED: False,
+            CONF_PROMPT: "Speak like a pirate",
+            CONF_TEMPERATURE: RECOMMENDED_TEMPERATURE,
+            CONF_CHAT_MODEL: RECOMMENDED_CHAT_MODEL,
+            CONF_TOP_P: RECOMMENDED_TOP_P,
+            CONF_TOP_K: RECOMMENDED_TOP_K,
+            CONF_MAX_TOKENS: RECOMMENDED_MAX_TOKENS,
+            CONF_HARASSMENT_BLOCK_THRESHOLD: RECOMMENDED_HARM_BLOCK_THRESHOLD,
+            CONF_HATE_BLOCK_THRESHOLD: RECOMMENDED_HARM_BLOCK_THRESHOLD,
+            CONF_SEXUAL_BLOCK_THRESHOLD: RECOMMENDED_HARM_BLOCK_THRESHOLD,
+            CONF_DANGEROUS_BLOCK_THRESHOLD: RECOMMENDED_HARM_BLOCK_THRESHOLD,
+        },
+    )
+    with patch("google.genai.models.AsyncModels.get"):
+        await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    assert (
+        await get_diagnostics_for_config_entry(hass, hass_client, mock_config_entry)
+        == snapshot
+    )

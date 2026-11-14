@@ -1,0 +1,42 @@
+"""Coordinator for the Melnor integration."""
+
+from datetime import timedelta
+import logging
+from typing import override
+
+from melnor_bluetooth.device import Device
+
+from universalassistant.config_entries import ConfigEntry
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers.update_coordinator import DataUpdateCoordinator
+
+_LOGGER = logging.getLogger(__name__)
+
+type MelnorConfigEntry = ConfigEntry[MelnorDataUpdateCoordinator]
+
+
+class MelnorDataUpdateCoordinator(DataUpdateCoordinator[Device]):
+    """Melnor data update coordinator."""
+
+    config_entry: MelnorConfigEntry
+    _device: Device
+
+    def __init__(
+        self, hass: UniversalAssistant, config_entry: MelnorConfigEntry, device: Device
+    ) -> None:
+        """Initialize my coordinator."""
+        super().__init__(
+            hass,
+            _LOGGER,
+            config_entry=config_entry,
+            name="Melnor Bluetooth",
+            update_interval=timedelta(seconds=5),
+        )
+        self._device = device
+
+    @override
+    async def _async_update_data(self):
+        """Update the device state."""
+
+        await self._device.fetch_state()
+        return self._device

@@ -1,0 +1,98 @@
+"""Test todo entity notification action of the Bring! integration."""
+
+from unittest.mock import AsyncMock
+
+from bring_api import BringNotificationType, BringRequestException
+import pytest
+from pytest_universalassistant.common import MockConfigEntry
+
+from universalassistant.components.bring.const import DOMAIN
+from universalassistant.components.bring.services import BringService, BringServiceArgument
+from universalassistant.config_entries import ConfigEntryState
+from universalassistant.const import ATTR_ENTITY_ID
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+
+
+async def test_send_notification(
+    hass: UniversalAssistant,
+    bring_config_entry: MockConfigEntry,
+    mock_bring_client: AsyncMock,
+) -> None:
+    """Test send bring push notification."""
+
+    bring_config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(bring_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert bring_config_entry.state is ConfigEntryState.LOADED
+
+    await hass.services.async_call(
+        DOMAIN,
+        BringService.SEND_MESSAGE,
+        service_data={
+            BringServiceArgument.MESSAGE: "GOING_SHOPPING",
+        },
+        target={ATTR_ENTITY_ID: "todo.einkauf"},
+        blocking=True,
+    )
+
+    mock_bring_client.notify.assert_called_once_with(
+        "e542eef6-dba7-4c31-a52c-29e6ab9d83a5",
+        BringNotificationType.GOING_SHOPPING,
+        None,
+    )
+
+
+async def test_send_notification_exception(
+    hass: UniversalAssistant,
+    bring_config_entry: MockConfigEntry,
+    mock_bring_client: AsyncMock,
+) -> None:
+    """Test send bring push notification with exception."""
+
+    bring_config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(bring_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert bring_config_entry.state is ConfigEntryState.LOADED
+    mock_bring_client.notify.side_effect = BringRequestException
+    with pytest.raises(UniversalAssistantError) as err:
+        await hass.services.async_call(
+            DOMAIN,
+            BringService.SEND_MESSAGE,
+            service_data={
+                BringServiceArgument.MESSAGE: "GOING_SHOPPING",
+            },
+            target={ATTR_ENTITY_ID: "todo.einkauf"},
+            blocking=True,
+        )
+    assert err.value.translation_key == "notify_request_failed"
+
+
+async def test_send_notification_service_validation_error(
+    hass: UniversalAssistant,
+    bring_config_entry: MockConfigEntry,
+    mock_bring_client: AsyncMock,
+) -> None:
+    """Test send bring push notification."""
+
+    bring_config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(bring_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert bring_config_entry.state is ConfigEntryState.LOADED
+    mock_bring_client.notify.side_effect = ValueError
+    with pytest.raises(ServiceValidationError) as err:
+        await hass.services.async_call(
+            DOMAIN,
+            BringService.SEND_MESSAGE,
+            service_data={
+                BringServiceArgument.MESSAGE: "URGENT_MESSAGE",
+                BringServiceArgument.ITEM: "",
+            },
+            target={ATTR_ENTITY_ID: "todo.einkauf"},
+            blocking=True,
+        )
+    assert err.value.translation_key == "notify_missing_argument"
+    assert err.value.translation_placeholders == {"field": "item"}

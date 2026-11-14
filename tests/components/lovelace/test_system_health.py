@@ -1,0 +1,109 @@
+"""Tests for Lovelace system health."""
+
+from collections.abc import Generator
+from typing import Any
+from unittest.mock import MagicMock, patch
+
+import pytest
+from pytest_universalassistant.common import get_system_health_info
+
+from universalassistant.components.lovelace import DOMAIN, dashboard
+from universalassistant.core import UniversalAssistant
+from universalassistant.setup import async_setup_component
+
+
+@pytest.fixture(autouse=True)
+def mock_onboarding_done() -> Generator[MagicMock]:
+    """Mock that Universal Universal Home Assistant is currently onboarding.
+
+    Enabled to prevent creating default dashboards during test execution.
+    """
+    with patch(
+        "universalassistant.components.onboarding.async_is_onboarded",
+        return_value=True,
+    ) as mock_onboarding:
+        yield mock_onboarding
+
+
+async def test_system_health_info_autogen(hass: UniversalAssistant) -> None:
+    """Test system health info endpoint."""
+    assert await async_setup_component(hass, DOMAIN, {})
+    assert await async_setup_component(hass, "system_health", {})
+    info = await get_system_health_info(hass, "lovelace")
+    assert info == {"dashboards": 1, "mode": "auto-gen", "resources": 0}
+
+
+async def test_system_health_info_storage_migration(
+    hass: UniversalAssistant, hass_storage: dict[str, Any]
+) -> None:
+    """Test system health info endpoint after migration from old storage."""
+    assert await async_setup_component(hass, "system_health", {})
+    # Pre-populate old storage format (triggers migration)
+    hass_storage[dashboard.CONFIG_STORAGE_KEY_DEFAULT] = {
+        "key": "lovelace",
+        "version": 1,
+        "data": {"config": {"resources": [], "views": []}},
+    }
+    assert await async_setup_component(hass, DOMAIN, {})
+    await hass.async_block_till_done()
+    info = await get_system_health_info(hass, "lovelace")
+    # After migration: default dashboard (auto-gen) + migrated
+    # "lovelace" dashboard (storage with data)
+    assert info == {"dashboards": 2, "mode": "storage", "resources": 0, "views": 0}
+
+
+async def test_system_health_info_yaml(hass: UniversalAssistant) -> None:
+    """Test system health info endpoint."""
+    assert await async_setup_component(hass, "system_health", {})
+    assert await async_setup_component(
+        hass,
+        DOMAIN,
+        {
+            "lovelace": {
+                "dashboards": {
+                    "lovelace": {
+                        "mode": "yaml",
+                        "filename": "ui-lovelace.yaml",
+                        "title": "Overview",
+                    }
+                }
+            }
+        },
+    )
+    await hass.async_block_till_done()
+    with patch(
+        "universalassistant.components.lovelace.dashboard.load_yaml_dict",
+        return_value={"views": [{"cards": []}]},
+    ):
+        info = await get_system_health_info(hass, "lovelace")
+    # 2 dashboards: default storage (None) + yaml "lovelace" dashboard
+    assert info == {"dashboards": 2, "mode": "yaml", "resources": 0, "views": 1}
+
+
+async def test_system_health_info_yaml_not_found(hass: UniversalAssistant) -> None:
+    """Test system health info endpoint."""
+    assert await async_setup_component(hass, "system_health", {})
+    assert await async_setup_component(
+        hass,
+        DOMAIN,
+        {
+            "lovelace": {
+                "dashboards": {
+                    "lovelace": {
+                        "mode": "yaml",
+                        "filename": "ui-lovelace.yaml",
+                        "title": "Overview",
+                    }
+                }
+            }
+        },
+    )
+    await hass.async_block_till_done()
+    info = await get_system_health_info(hass, "lovelace")
+    # 2 dashboards: default storage (None) + yaml "lovelace" dashboard
+    assert info == {
+        "dashboards": 2,
+        "mode": "yaml",
+        "error": f"{hass.config.path('ui-lovelace.yaml')} not found",
+        "resources": 0,
+    }

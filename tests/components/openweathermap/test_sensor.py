@@ -1,0 +1,51 @@
+"""Tests for OpenWeatherMap sensors."""
+
+from unittest.mock import MagicMock
+
+import pytest
+from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.openweathermap.const import (
+    OWM_MODE_AIRPOLLUTION,
+    OWM_MODE_FREE_CURRENT,
+    OWM_MODE_FREE_FORECAST,
+    OWM_MODE_V30,
+)
+from universalassistant.const import Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+from . import setup_platform
+
+
+@pytest.mark.parametrize(
+    "mode", [OWM_MODE_V30, OWM_MODE_FREE_CURRENT, OWM_MODE_AIRPOLLUTION], indirect=True
+)
+async def test_sensor_states(
+    hass: UniversalAssistant,
+    snapshot: SnapshotAssertion,
+    entity_registry: er.EntityRegistry,
+    mock_config_entry: MockConfigEntry,
+    owm_client_mock: MagicMock,
+    mode: str,
+) -> None:
+    """Test sensor states are collected from library correctly."""
+
+    await setup_platform(hass, mock_config_entry, [Platform.SENSOR])
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
+
+
+@pytest.mark.parametrize("mode", [OWM_MODE_FREE_FORECAST], indirect=True)
+async def test_mode_no_sensor(
+    hass: UniversalAssistant,
+    snapshot: SnapshotAssertion,
+    entity_registry: er.EntityRegistry,
+    mock_config_entry: MockConfigEntry,
+    owm_client_mock: MagicMock,
+    mode: str,
+) -> None:
+    """Test modes that do not provide any sensor."""
+
+    await setup_platform(hass, mock_config_entry, [Platform.SENSOR])
+    assert len(entity_registry.entities) == 0

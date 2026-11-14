@@ -1,0 +1,48 @@
+"""Tests for the Willow sensor platform."""
+
+from unittest.mock import MagicMock, patch
+
+import pytest
+from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.const import STATE_UNKNOWN, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+from . import setup_integration
+
+pytestmark = pytest.mark.usefixtures("setup_credentials")
+
+ENTITY_ID = "sensor.kitchen_basil_temperature"
+
+
+@pytest.mark.usefixtures("mock_willow_client")
+async def test_all_entities(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Snapshot every Willow sensor entity."""
+    with patch("universalassistant.components.willow._PLATFORMS", [Platform.SENSOR]):
+        await setup_integration(hass, mock_config_entry)
+
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
+
+
+async def test_sensor_unknown_without_reading(
+    hass: UniversalAssistant,
+    mock_willow_client: MagicMock,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """A reading sensor reports unknown when the device has no latest reading."""
+    devices = mock_willow_client.get_devices.return_value
+    devices[0]["latest_reading"] = None
+
+    with patch("universalassistant.components.willow._PLATFORMS", [Platform.SENSOR]):
+        await setup_integration(hass, mock_config_entry)
+
+    state = hass.states.get(ENTITY_ID)
+    assert state is not None
+    assert state.state == STATE_UNKNOWN

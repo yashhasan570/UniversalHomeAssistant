@@ -1,0 +1,62 @@
+"""Tests for the Freebox buttons."""
+
+from unittest.mock import ANY, AsyncMock, Mock, patch
+
+from pytest_unordered import unordered
+
+from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
+from universalassistant.const import CommonServiceArgument
+from universalassistant.core import UniversalAssistant
+
+from .common import setup_platform
+
+
+async def test_reboot(hass: UniversalAssistant, router: Mock) -> None:
+    """Test reboot button."""
+    entry = await setup_platform(hass, BUTTON_DOMAIN)
+
+    assert hass.config_entries.async_entries() == unordered([entry, ANY])
+
+    assert router.call_count == 1
+    assert router().open.call_count == 1
+
+    with patch(
+        "universalassistant.components.freebox.router.FreeboxRouter.reboot"
+    ) as mock_service:
+        mock_service.assert_not_called()
+        await hass.services.async_call(
+            BUTTON_DOMAIN,
+            ButtonService.PRESS,
+            service_data={
+                CommonServiceArgument.ENTITY_ID: "button.freebox_server_r2_restart",
+            },
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+        mock_service.assert_called_once()
+
+
+async def test_mark_calls_as_read(hass: UniversalAssistant, router: Mock) -> None:
+    """Test mark calls as read button."""
+    entry = await setup_platform(hass, BUTTON_DOMAIN)
+
+    assert hass.config_entries.async_entries() == unordered([entry, ANY])
+
+    assert router.call_count == 1
+    assert router().open.call_count == 1
+
+    with patch(
+        "universalassistant.components.freebox.router.FreeboxRouter.call"
+    ) as mock_service:
+        mock_service.mark_calls_log_as_read = AsyncMock()
+        mock_service.mark_calls_log_as_read.assert_not_called()
+        await hass.services.async_call(
+            BUTTON_DOMAIN,
+            ButtonService.PRESS,
+            service_data={
+                CommonServiceArgument.ENTITY_ID: "button.freebox_server_r2_mark_calls_as_read",
+            },
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+        mock_service.mark_calls_log_as_read.assert_called_once()

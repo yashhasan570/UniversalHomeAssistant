@@ -1,0 +1,94 @@
+"""The tests for the demo select component."""
+
+from unittest.mock import patch
+
+import pytest
+
+from universalassistant.components.select import (
+    ATTR_OPTIONS,
+    DOMAIN as SELECT_DOMAIN,
+    SelectService,
+    SelectServiceArgument,
+)
+from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ServiceValidationError
+from universalassistant.setup import async_setup_component
+
+ENTITY_SPEED = "select.speed"
+
+
+@pytest.fixture
+async def select_only() -> None:
+    """Enable only the select platform."""
+    with patch(
+        "universalassistant.components.demo.COMPONENTS_WITH_CONFIG_ENTRY_DEMO_PLATFORM",
+        [Platform.SELECT],
+    ):
+        yield
+
+
+@pytest.fixture(autouse=True)
+async def setup_demo_select(hass: UniversalAssistant, select_only) -> None:
+    """Initialize setup demo select entity."""
+    assert await async_setup_component(
+        hass, SELECT_DOMAIN, {"select": {"platform": "demo"}}
+    )
+    await hass.async_block_till_done()
+
+
+def test_setup_params(hass: UniversalAssistant) -> None:
+    """Test the initial parameters."""
+    state = hass.states.get(ENTITY_SPEED)
+    assert state
+    assert state.state == "ridiculous_speed"
+    assert state.attributes.get(ATTR_OPTIONS) == [
+        "light_speed",
+        "ridiculous_speed",
+        "ludicrous_speed",
+    ]
+
+
+async def test_select_option_bad_attr(hass: UniversalAssistant) -> None:
+    """Test selecting a different option with invalid option value."""
+    state = hass.states.get(ENTITY_SPEED)
+    assert state
+    assert state.state == "ridiculous_speed"
+
+    with pytest.raises(ServiceValidationError):
+        await hass.services.async_call(
+            SELECT_DOMAIN,
+            SelectService.SELECT_OPTION,
+            {
+                SelectServiceArgument.OPTION: "slow_speed",
+                CommonServiceArgument.ENTITY_ID: ENTITY_SPEED,
+            },
+            blocking=True,
+        )
+    await hass.async_block_till_done()
+
+    state = hass.states.get(ENTITY_SPEED)
+    assert state
+    assert state.state == "ridiculous_speed"
+
+
+async def test_select_option(hass: UniversalAssistant) -> None:
+    """Test selecting of a option."""
+    state = hass.states.get(ENTITY_SPEED)
+    assert state
+    assert state.state == "ridiculous_speed"
+
+    await hass.services.async_call(
+        SELECT_DOMAIN,
+        SelectService.SELECT_OPTION,
+        {
+            SelectServiceArgument.OPTION: "light_speed",
+            CommonServiceArgument.ENTITY_ID: ENTITY_SPEED,
+        },
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    state = hass.states.get(ENTITY_SPEED)
+    assert state
+    assert state.state == "light_speed"

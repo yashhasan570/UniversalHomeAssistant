@@ -1,0 +1,52 @@
+"""Support for Velbus switches."""
+
+from typing import Any, override
+
+from velbusaio.channels import Relay as VelbusRelay
+
+from universalassistant.components.switch import SwitchDeviceClass, SwitchEntity
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+
+from . import VelbusConfigEntry
+from .entity import VelbusEntity, api_call
+
+PARALLEL_UPDATES = 0
+
+
+async def async_setup_entry(
+    hass: UniversalAssistant,
+    entry: VelbusConfigEntry,
+    async_add_entities: AddConfigEntryEntitiesCallback,
+) -> None:
+    """Set up Velbus switch based on config_entry."""
+    await entry.runtime_data.scan_task
+    async_add_entities(
+        VelbusSwitch(channel)
+        for channel in entry.runtime_data.controller.get_all_switch()
+    )
+
+
+class VelbusSwitch(VelbusEntity, SwitchEntity):
+    """Representation of a switch."""
+
+    _channel: VelbusRelay
+    _attr_device_class = SwitchDeviceClass.SWITCH
+
+    @property
+    @override
+    def is_on(self) -> bool | None:
+        """Return true if the switch is on."""
+        return self._channel.is_on()
+
+    @api_call
+    @override
+    async def async_turn_on(self, **kwargs: Any) -> None:
+        """Instruct the switch to turn on."""
+        await self._channel.turn_on()
+
+    @api_call
+    @override
+    async def async_turn_off(self, **kwargs: Any) -> None:
+        """Instruct the switch to turn off."""
+        await self._channel.turn_off()

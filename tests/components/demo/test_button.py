@@ -1,0 +1,60 @@
+"""The tests for the demo button component."""
+
+from unittest.mock import patch
+
+from freezegun.api import FrozenDateTimeFactory
+import pytest
+
+from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
+from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.setup import async_setup_component
+from universalassistant.util import dt as dt_util
+
+ENTITY_PUSH = "button.push"
+
+
+@pytest.fixture
+async def button_only() -> None:
+    """Enable only the button platform."""
+    with patch(
+        "universalassistant.components.demo.COMPONENTS_WITH_CONFIG_ENTRY_DEMO_PLATFORM",
+        [Platform.BUTTON],
+    ):
+        yield
+
+
+@pytest.fixture(autouse=True)
+async def setup_demo_button(hass: UniversalAssistant, button_only) -> None:
+    """Initialize setup demo button entity."""
+    assert await async_setup_component(
+        hass, BUTTON_DOMAIN, {"button": {"platform": "demo"}}
+    )
+    await hass.async_block_till_done()
+
+
+def test_setup_params(hass: UniversalAssistant) -> None:
+    """Test the initial parameters."""
+    state = hass.states.get(ENTITY_PUSH)
+    assert state
+    assert state.state == STATE_UNKNOWN
+
+
+async def test_press(hass: UniversalAssistant, freezer: FrozenDateTimeFactory) -> None:
+    """Test pressing the button."""
+    state = hass.states.get(ENTITY_PUSH)
+    assert state
+    assert state.state == STATE_UNKNOWN
+
+    now = dt_util.parse_datetime("2021-01-09 12:00:00+00:00")
+    freezer.move_to(now)
+    await hass.services.async_call(
+        BUTTON_DOMAIN,
+        ButtonService.PRESS,
+        {CommonServiceArgument.ENTITY_ID: ENTITY_PUSH},
+        blocking=True,
+    )
+
+    state = hass.states.get(ENTITY_PUSH)
+    assert state
+    assert state.state == now.isoformat()

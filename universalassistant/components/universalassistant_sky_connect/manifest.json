@@ -1,0 +1,32 @@
+{
+  "domain": "universalassistant_sky_connect",
+  "name": "Universal Universal Home Assistant Connect ZBT-1",
+  "categories": ["hubs_protocols.wireless_protocols"],
+  "codeowners": ["@universal-assistant/core"],
+  "config_flow": true,
+  "dependencies": ["hardware", "usb", "universalassistant_hardware"],
+  "documentation": "https://www.universalassistant.io/integrations/universalassistant_sky_connect",
+  "integration_type": "hardware",
+  "loggers": [
+    "bellows",
+    "universal_silabs_flasher",
+    "aiospinel",
+    "zigpy.serial",
+    "serial_asyncio_fast",
+    "serialx"
+  ],
+  "usb": [
+    {
+      "description": "*skyconnect v1.0*",
+      "known_devices": ["SkyConnect v1.0"],
+      "pid": "EA60",
+      "vid": "10C4"
+    },
+    {
+      "description": "*universal assistant connect zbt-1*",
+      "known_devices": ["Universal Universal Home Assistant Connect ZBT-1"],
+      "pid": "EA60",
+      "vid": "10C4"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+"""Binary sensor tests for Intergas InComfort integration."""
+
+from unittest.mock import MagicMock, patch
+
+from incomfortclient import FaultCode
+import pytest
+from pytest_universalassistant.common import snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.config_entries import ConfigEntry
+from universalassistant.const import Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+from .conftest import MOCK_HEATER_STATUS
+
+
+@patch("universalassistant.components.incomfort.PLATFORMS", [Platform.BINARY_SENSOR])
+@pytest.mark.usefixtures("entity_registry_enabled_by_default")
+async def test_setup_platform(
+    hass: UniversalAssistant,
+    mock_incomfort: MagicMock,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+    mock_config_entry: ConfigEntry,
+) -> None:
+    """Test the incomfort entities are set up correctly."""
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
+
+
+@pytest.mark.parametrize(
+    "mock_heater_status",
+    [
+        MOCK_HEATER_STATUS
+        | {
+            "is_failed": True,
+            "display_code": None,
+            "fault_code": FaultCode.CV_TEMPERATURE_TOO_HIGH_E1,
+        },
+        MOCK_HEATER_STATUS | {"is_pumping": True},
+        MOCK_HEATER_STATUS | {"is_burning": True},
+        MOCK_HEATER_STATUS | {"is_tapping": True},
+    ],
+    ids=["is_failed", "is_pumping", "is_burning", "is_tapping"],
+)
+@patch("universalassistant.components.incomfort.PLATFORMS", [Platform.BINARY_SENSOR])
+@pytest.mark.usefixtures("entity_registry_enabled_by_default")
+async def test_setup_binary_sensors_alt(
+    hass: UniversalAssistant,
+    mock_incomfort: MagicMock,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+    mock_config_entry: ConfigEntry,
+) -> None:
+    """Test the incomfort heater ."""
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)

@@ -1,0 +1,59 @@
+"""Test the Autarco init module."""
+
+from unittest.mock import AsyncMock
+
+from autarco import AutarcoAuthenticationError, AutarcoConnectionError
+from pytest_universalassistant.common import MockConfigEntry
+
+from universalassistant.config_entries import ConfigEntryState
+from universalassistant.core import UniversalAssistant
+
+from . import setup_integration
+
+
+async def test_load_unload_entry(
+    hass: UniversalAssistant,
+    mock_autarco_client: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Test load and unload entry."""
+    await setup_integration(hass, mock_config_entry)
+
+    assert mock_config_entry.state is ConfigEntryState.LOADED
+
+    await hass.config_entries.async_remove(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert mock_config_entry.state is ConfigEntryState.NOT_LOADED
+
+
+async def test_config_entry_not_ready(
+    hass: UniversalAssistant,
+    mock_autarco_client: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Test the Autarco configuration entry not ready."""
+    mock_autarco_client.get_account.side_effect = AutarcoConnectionError
+    mock_config_entry.add_to_hass(hass)
+
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
+
+
+async def test_setup_entry_exception(
+    hass: UniversalAssistant,
+    mock_autarco_client: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Test ConfigEntryNotReady when API raises an exception during entry setup."""
+    mock_config_entry.add_to_hass(hass)
+    mock_autarco_client.get_site.side_effect = AutarcoAuthenticationError
+
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    assert mock_config_entry.state is ConfigEntryState.SETUP_ERROR
+
+    flows = hass.config_entries.flow.async_progress()
+    assert len(flows) == 1
+    assert flows[0]["step_id"] == "reauth_confirm"

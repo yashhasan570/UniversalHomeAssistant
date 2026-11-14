@@ -1,0 +1,12 @@
+{
+  "domain": "hassio",
+  "name": "Universal Universal Home Assistant Supervisor",
+  "categories": ["computers_network.nas_servers"],
+  "codeowners": ["@universal-assistant/supervisor"],
+  "dependencies": ["http", "network", "repairs"],
+  "documentation": "https://www.universalassistant.io/integrations/hassio",
+  "iot_class": "local_polling",
+  "quality_scale": "internal",
+  "requirements": ["aiohasupervisor==0.11.0"],
+  "single_config_entry": true
+}

@@ -1,0 +1,181 @@
+# Defines a list of files that are part of main core of Universal Universal Home Assistant.
+# Changes to these files/filters define how our CI test suite is ran.
+core: &core
+  - universalassistant/*.py
+  - universalassistant/auth/**
+  - universalassistant/helpers/**
+  - universalassistant/package_constraints.txt
+  - universalassistant/util/**
+  - mypy.ini
+  - pyproject.toml
+  - requirements.txt
+  - setup.cfg
+
+# Performance benchmark suite (CodSpeed). Only gates the benchmark job; kept out
+# of the `any` aggregate below so it does not pull in the full test suite.
+benchmarks: &benchmarks
+  - benchmarks/**
+  - requirements_test.txt
+
+# Our base platforms, that are used by other integrations
+base_platforms: &base_platforms
+  - universalassistant/components/ai_task/**
+  - universalassistant/components/air_quality/**
+  - universalassistant/components/alarm_control_panel/**
+  - universalassistant/components/assist_satellite/**
+  - universalassistant/components/binary_sensor/**
+  - universalassistant/components/button/**
+  - universalassistant/components/calendar/**
+  - universalassistant/components/camera/**
+  - universalassistant/components/climate/**
+  - universalassistant/components/conversation/**
+  - universalassistant/components/cover/**
+  - universalassistant/components/date/**
+  - universalassistant/components/datetime/**
+  - universalassistant/components/device_tracker/**
+  - universalassistant/components/diagnostics/**
+  - universalassistant/components/event/**
+  - universalassistant/components/fan/**
+  - universalassistant/components/geo_location/**
+  - universalassistant/components/humidifier/**
+  - universalassistant/components/image/**
+  - universalassistant/components/image_processing/**
+  - universalassistant/components/infrared/**
+  - universalassistant/components/lawn_mower/**
+  - universalassistant/components/radio_frequency/**
+  - universalassistant/components/light/**
+  - universalassistant/components/lock/**
+  - universalassistant/components/media_player/**
+  - universalassistant/components/notify/**
+  - universalassistant/components/number/**
+  - universalassistant/components/remote/**
+  - universalassistant/components/scene/**
+  - universalassistant/components/select/**
+  - universalassistant/components/sensor/**
+  - universalassistant/components/siren/**
+  - universalassistant/components/stt/**
+  - universalassistant/components/switch/**
+  - universalassistant/components/text/**
+  - universalassistant/components/time/**
+  - universalassistant/components/todo/**
+  - universalassistant/components/tts/**
+  - universalassistant/components/update/**
+  - universalassistant/components/vacuum/**
+  - universalassistant/components/valve/**
+  - universalassistant/components/wake_word/**
+  - universalassistant/components/water_heater/**
+  - universalassistant/components/weather/**
+
+# Extra components that trigger the full suite
+components: &components
+  - universalassistant/components/alexa/**
+  - universalassistant/components/analytics/**
+  - universalassistant/components/application_credentials/**
+  - universalassistant/components/assist_pipeline/**
+  - universalassistant/components/auth/**
+  - universalassistant/components/automation/**
+  - universalassistant/components/backup/**
+  - universalassistant/components/blueprint/**
+  - universalassistant/components/bluetooth/**
+  - universalassistant/components/cloud/**
+  - universalassistant/components/config/**
+  - universalassistant/components/configurator/**
+  - universalassistant/components/demo/**
+  - universalassistant/components/device_automation/**
+  - universalassistant/components/dhcp/**
+  - universalassistant/components/discovery/**
+  - universalassistant/components/energy/**
+  - universalassistant/components/ffmpeg/**
+  - universalassistant/components/frontend/**
+  - universalassistant/components/google_assistant/**
+  - universalassistant/components/group/**
+  - universalassistant/components/hassio/**
+  - universalassistant/components/universalassistant/**
+  - universalassistant/components/universalassistant_hardware/**
+  - universalassistant/components/http/**
+  - universalassistant/components/image/**
+  - universalassistant/components/input_boolean/**
+  - universalassistant/components/input_button/**
+  - universalassistant/components/input_datetime/**
+  - universalassistant/components/input_number/**
+  - universalassistant/components/input_select/**
+  - universalassistant/components/input_text/**
+  - universalassistant/components/labs/**
+  - universalassistant/components/llm/**
+  - universalassistant/components/logbook/**
+  - universalassistant/components/logger/**
+  - universalassistant/components/lovelace/**
+  - universalassistant/components/media_source/**
+  - universalassistant/components/mjpeg/**
+  - universalassistant/components/modbus/**
+  - universalassistant/components/mqtt/**
+  - universalassistant/components/network/**
+  - universalassistant/components/onboarding/**
+  - universalassistant/components/otp/**
+  - universalassistant/components/persistent_notification/**
+  - universalassistant/components/person/**
+  - universalassistant/components/recorder/**
+  - universalassistant/components/recovery_mode/**
+  - universalassistant/components/repairs/**
+  - universalassistant/components/script/**
+  - universalassistant/components/shopping_list/**
+  - universalassistant/components/ssdp/**
+  - universalassistant/components/stream/**
+  - universalassistant/components/sun/**
+  - universalassistant/components/system_health/**
+  - universalassistant/components/tag/**
+  - universalassistant/components/template/**
+  - universalassistant/components/timer/**
+  - universalassistant/components/trace/**
+  - universalassistant/components/usb/**
+  - universalassistant/components/webhook/**
+  - universalassistant/components/websocket_api/**
+  - universalassistant/components/zeroconf/**
+  - universalassistant/components/zone/**
+
+# Testing related files that affect the whole test/linting suite
+tests: &tests
+  - codecov.yaml
+  - packages/hassfest/**
+  - packages/pylint-universal-assistant/**
+  - packages/pytest-universalassistant/**
+  - requirements_test_pre_commit.txt
+  - requirements_test.txt
+  - tests/*.py
+  - tests/auth/**
+  - tests/backports/**
+  - tests/components/conftest.py
+  - tests/components/diagnostics/**
+  - tests/components/history/**
+  - tests/components/light/common.py
+  - tests/components/logbook/**
+  - tests/components/recorder/**
+  - tests/components/repairs/**
+  - tests/components/sensor/**
+  - tests/helpers/**
+  - tests/mock/**
+  - tests/pylint/**
+  - tests/script/hassfest/**
+  - tests/scripts/**
+  - tests/test_util/**
+  - tests/testing_config/**
+  - tests/util/**
+
+other: &other
+  - .github/workflows/**
+  - universalassistant/scripts/**
+
+requirements: &requirements
+  - .github/workflows/**
+  - universalassistant/package_constraints.txt
+  - requirements*.txt
+  - pyproject.toml
+  - script/licenses.py
+
+any:
+  - *base_platforms
+  - *components
+  - *core
+  - *other
+  - *requirements
+  - *tests

@@ -1,0 +1,10 @@
+{
+  "domain": "hardware",
+  "name": "Hardware",
+  "codeowners": ["@universal-assistant/core"],
+  "config_flow": false,
+  "documentation": "https://www.universalassistant.io/integrations/hardware",
+  "integration_type": "system",
+  "quality_scale": "internal",
+  "requirements": ["psutil-universal-assistant==0.0.1"]
+}

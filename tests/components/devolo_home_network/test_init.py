@@ -1,0 +1,140 @@
+"""Test the devolo Home Network integration setup."""
+
+from unittest.mock import patch
+
+from devolo_plc_api.exceptions.device import DeviceNotFound
+import pytest
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
+from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN
+from universalassistant.components.device_tracker import DOMAIN as DEVICE_TRACKER_DOMAIN
+from universalassistant.components.devolo_home_network.const import DOMAIN
+from universalassistant.components.image import DOMAIN as IMAGE_DOMAIN
+from universalassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
+from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN
+from universalassistant.components.update import DOMAIN as UPDATE_DOMAIN
+from universalassistant.config_entries import ConfigEntryState
+from universalassistant.const import EVENT_HOMEASSISTANT_STOP
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import device_registry as dr
+from universalassistant.helpers.entity_platform import async_get_platforms
+
+from . import configure_integration
+from .const import IP
+from .mock import MockDevice
+
+
+@pytest.mark.usefixtures("mock_device")
+async def test_setup_entry(hass: UniversalAssistant) -> None:
+    """Test setup entry."""
+    entry = configure_integration(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    assert entry.state is ConfigEntryState.LOADED
+
+
+async def test_setup_device_not_found(hass: UniversalAssistant) -> None:
+    """Test setup entry."""
+    entry = configure_integration(hass)
+    with patch(
+        "universalassistant.components.devolo_home_network.Device.async_connect",
+        side_effect=DeviceNotFound(IP),
+    ):
+        await hass.config_entries.async_setup(entry.entry_id)
+        assert entry.state is ConfigEntryState.SETUP_RETRY
+
+
+@pytest.mark.usefixtures("mock_device")
+async def test_unload_entry(hass: UniversalAssistant) -> None:
+    """Test unload entry."""
+    entry = configure_integration(hass)
+    await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    await hass.config_entries.async_unload(entry.entry_id)
+    assert entry.state is ConfigEntryState.NOT_LOADED
+
+
+async def test_hass_stop(hass: UniversalAssistant, mock_device: MockDevice) -> None:
+    """Test universalassistant stop event."""
+    entry = configure_integration(hass)
+    await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    await hass.async_block_till_done()
+    mock_device.async_disconnect.assert_called_once()
+
+
+@pytest.mark.parametrize(
+    "device", ["mock_device", "mock_repeater_device", "mock_ipv6_device"]
+)
+async def test_device(
+    hass: UniversalAssistant,
+    device: str,
+    device_registry: dr.DeviceRegistry,
+    snapshot: SnapshotAssertion,
+    request: pytest.FixtureRequest,
+) -> None:
+    """Test device setup."""
+    mock_device: MockDevice = request.getfixturevalue(device)
+    entry = configure_integration(hass)
+    assert await hass.config_entries.async_setup(entry.entry_id)
+    device_info = device_registry.async_get_device_by_identifier(
+        (DOMAIN, mock_device.serial_number), entry.entry_id
+    )
+    assert device_info == snapshot
+
+
+@pytest.mark.parametrize(
+    ("device", "expected_platforms"),
+    [
+        (
+            "mock_device",
+            (
+                BINARY_SENSOR_DOMAIN,
+                BUTTON_DOMAIN,
+                DEVICE_TRACKER_DOMAIN,
+                IMAGE_DOMAIN,
+                SENSOR_DOMAIN,
+                SWITCH_DOMAIN,
+                UPDATE_DOMAIN,
+            ),
+        ),
+        (
+            "mock_repeater_device",
+            (
+                BUTTON_DOMAIN,
+                DEVICE_TRACKER_DOMAIN,
+                IMAGE_DOMAIN,
+                SENSOR_DOMAIN,
+                SWITCH_DOMAIN,
+                UPDATE_DOMAIN,
+            ),
+        ),
+        (
+            "mock_nonwifi_device",
+            (
+                BINARY_SENSOR_DOMAIN,
+                BUTTON_DOMAIN,
+                SENSOR_DOMAIN,
+                SWITCH_DOMAIN,
+                UPDATE_DOMAIN,
+            ),
+        ),
+    ],
+)
+async def test_platforms(
+    hass: UniversalAssistant,
+    device: str,
+    expected_platforms: set[str],
+    request: pytest.FixtureRequest,
+) -> None:
+    """Test platform assembly."""
+    request.getfixturevalue(device)
+    entry = configure_integration(hass)
+
+    await hass.config_entries.async_setup(entry.entry_id)
+    await hass.async_block_till_done()
+    platforms = [platform.domain for platform in async_get_platforms(hass, DOMAIN)]
+    assert len(platforms) == len(expected_platforms)
+    assert all(platform in platforms for platform in expected_platforms)

@@ -1,0 +1,6 @@
+universalassistant:
+  packages:
+    should_be_a_dict:
+      - platform: template
+    this_works:
+      iot_domain: [{ "some": "yay" }]

@@ -1,0 +1,8 @@
+{
+  "domain": "gate",
+  "name": "Gate",
+  "codeowners": ["@universal-assistant/core"],
+  "documentation": "https://www.universalassistant.io/integrations/gate",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

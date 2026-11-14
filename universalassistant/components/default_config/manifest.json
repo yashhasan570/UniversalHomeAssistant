@@ -1,0 +1,31 @@
+{
+  "domain": "default_config",
+  "name": "Default Config",
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": [
+    "assist_pipeline",
+    "bluetooth",
+    "cloud",
+    "conversation",
+    "dhcp",
+    "energy",
+    "file",
+    "go2rtc",
+    "history",
+    "universalassistant_alerts",
+    "logbook",
+    "media_source",
+    "mobile_app",
+    "my",
+    "ssdp",
+    "stream",
+    "sun",
+    "usage_prediction",
+    "usb",
+    "webhook",
+    "zeroconf"
+  ],
+  "documentation": "https://www.universalassistant.io/integrations/default_config",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

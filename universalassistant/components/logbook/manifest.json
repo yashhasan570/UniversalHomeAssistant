@@ -1,0 +1,9 @@
+{
+  "domain": "logbook",
+  "name": "Activity",
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["frontend", "http", "recorder"],
+  "documentation": "https://www.universalassistant.io/integrations/logbook",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

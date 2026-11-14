@@ -1,0 +1,95 @@
+"""Tests for the PVOutput integration."""
+
+from unittest.mock import MagicMock
+
+from pvo import (
+    PVOutputAuthenticationError,
+    PVOutputConnectionError,
+    PVOutputError,
+    PVOutputNoDataError,
+)
+import pytest
+from pytest_universalassistant.common import MockConfigEntry
+
+from universalassistant.components.pvoutput.const import DOMAIN
+from universalassistant.config_entries import SOURCE_REAUTH, ConfigEntryState
+from universalassistant.core import UniversalAssistant
+
+
+async def test_load_unload_config_entry(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_pvoutput: MagicMock,
+) -> None:
+    """Test the PVOutput configuration entry loading/unloading."""
+    mock_config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert mock_config_entry.state is ConfigEntryState.LOADED
+    assert len(mock_pvoutput.status.mock_calls) == 1
+    assert len(mock_pvoutput.system.mock_calls) == 1
+
+    await hass.config_entries.async_unload(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert not hass.data.get(DOMAIN)
+    assert mock_config_entry.state is ConfigEntryState.NOT_LOADED
+
+
+@pytest.mark.parametrize(
+    ("method", "side_effect"),
+    [
+        ("status", PVOutputConnectionError),
+        ("status", PVOutputNoDataError),
+        ("status", PVOutputError),
+        ("system", PVOutputConnectionError),
+        ("system", PVOutputError),
+    ],
+)
+async def test_config_entry_not_ready(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_pvoutput: MagicMock,
+    method: str,
+    side_effect: Exception,
+) -> None:
+    """Test the PVOutput configuration entry not ready."""
+    getattr(mock_pvoutput, method).side_effect = side_effect
+
+    mock_config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert len(getattr(mock_pvoutput, method).mock_calls) == 1
+    assert mock_config_entry.state is ConfigEntryState.SETUP_RETRY
+
+
+@pytest.mark.parametrize("method", ["status", "system"])
+async def test_config_entry_authentication_failed(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_pvoutput: MagicMock,
+    method: str,
+) -> None:
+    """Test trigger reauthentication flow."""
+    mock_config_entry.add_to_hass(hass)
+
+    getattr(mock_pvoutput, method).side_effect = PVOutputAuthenticationError
+
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert mock_config_entry.state is ConfigEntryState.SETUP_ERROR
+    assert mock_config_entry.error_reason_translation_key == "authentication_failed"
+
+    flows = hass.config_entries.flow.async_progress()
+    assert len(flows) == 1
+
+    flow = flows[0]
+    assert flow.get("step_id") == "reauth_confirm"
+    assert flow.get("handler") == DOMAIN
+
+    assert "context" in flow
+    assert flow["context"].get("source") == SOURCE_REAUTH
+    assert flow["context"].get("entry_id") == mock_config_entry.entry_id

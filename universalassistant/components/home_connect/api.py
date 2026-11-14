@@ -1,0 +1,34 @@
+"""API for Home Connect bound to HASS OAuth."""
+
+from typing import cast, override
+
+from aiohomeconnect.client import AbstractAuth
+from aiohomeconnect.const import API_ENDPOINT, API_ENDPOINT_CHINA
+
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import config_entry_oauth2_flow
+from universalassistant.helpers.httpx_client import get_async_client
+
+
+class AsyncConfigEntryAuth(AbstractAuth):
+    """Provide Home Connect authentication tied to an OAuth2 based config entry."""
+
+    def __init__(
+        self,
+        hass: UniversalAssistant,
+        oauth_session: config_entry_oauth2_flow.OAuth2Session,
+    ) -> None:
+        """Initialize Home Connect Auth."""
+        self.hass = hass
+        super().__init__(
+            get_async_client(hass),
+            host=API_ENDPOINT if hass.config.country != "CN" else API_ENDPOINT_CHINA,
+        )
+        self.session = oauth_session
+
+    @override
+    async def async_get_access_token(self) -> str:
+        """Return a valid access token."""
+        await self.session.async_ensure_token_valid()
+
+        return cast(str, self.session.token["access_token"])

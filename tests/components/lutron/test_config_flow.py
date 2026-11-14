@@ -1,0 +1,184 @@
+"""Test the lutron config flow."""
+
+from email.message import Message
+from unittest.mock import patch
+from urllib.error import HTTPError
+
+import pytest
+from pytest_universalassistant.common import MockConfigEntry
+
+from universalassistant.components.lutron.const import CONF_DEFAULT_DIMMER_LEVEL, DOMAIN
+from universalassistant.config_entries import SOURCE_USER
+from universalassistant.const import CONF_HOST, CONF_PASSWORD, CONF_USERNAME
+from universalassistant.core import UniversalAssistant
+from universalassistant.data_entry_flow import FlowResultType, InvalidData
+
+MOCK_DATA_STEP = {
+    CONF_HOST: "127.0.0.1",
+    CONF_USERNAME: "lutron",
+    CONF_PASSWORD: "integration",
+}
+
+
+@pytest.mark.usefixtures("mock_setup_entry")
+async def test_full_flow(hass: UniversalAssistant) -> None:
+    """Test success response."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": SOURCE_USER}
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+
+    with (
+        patch("universalassistant.components.lutron.config_flow.Lutron.load_xml_db"),
+        patch("universalassistant.components.lutron.config_flow.Lutron.guid", "12345678901"),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=MOCK_DATA_STEP,
+        )
+
+        assert result["type"] is FlowResultType.CREATE_ENTRY
+        assert result["result"].title == "Lutron"
+
+        assert result["data"] == MOCK_DATA_STEP
+        assert result["result"].unique_id == "12345678901"
+
+
+@pytest.mark.parametrize(
+    ("raise_error", "text_error"),
+    [
+        (HTTPError("", 404, "", Message(), None), "cannot_connect"),
+        (Exception, "unknown"),
+    ],
+)
+@pytest.mark.usefixtures("mock_setup_entry")
+async def test_flow_failure(
+    hass: UniversalAssistant, raise_error: Exception, text_error: str
+) -> None:
+    """Test unknown errors."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": SOURCE_USER}
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+
+    with patch(
+        "universalassistant.components.lutron.config_flow.Lutron.load_xml_db",
+        side_effect=raise_error,
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=MOCK_DATA_STEP,
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {"base": text_error}
+
+    with (
+        patch("universalassistant.components.lutron.config_flow.Lutron.load_xml_db"),
+        patch("universalassistant.components.lutron.config_flow.Lutron.guid", "12345678901"),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=MOCK_DATA_STEP,
+        )
+
+        assert result["type"] is FlowResultType.CREATE_ENTRY
+        assert result["result"].title == "Lutron"
+
+        assert result["data"] == MOCK_DATA_STEP
+
+
+@pytest.mark.usefixtures("mock_setup_entry")
+async def test_flow_incorrect_guid(hass: UniversalAssistant) -> None:
+    """Test configuring flow with incorrect guid."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": SOURCE_USER}
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+
+    with (
+        patch("universalassistant.components.lutron.config_flow.Lutron.load_xml_db"),
+        patch("universalassistant.components.lutron.config_flow.Lutron.guid", "12345"),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=MOCK_DATA_STEP,
+        )
+
+        assert result["type"] is FlowResultType.FORM
+        assert result["errors"] == {"base": "cannot_connect"}
+
+    with (
+        patch("universalassistant.components.lutron.config_flow.Lutron.load_xml_db"),
+        patch("universalassistant.components.lutron.config_flow.Lutron.guid", "12345678901"),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=MOCK_DATA_STEP,
+        )
+
+        assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_flow_single_instance_allowed(hass: UniversalAssistant) -> None:
+    """Test we abort user data set when entry is already configured."""
+
+    entry = MockConfigEntry(domain=DOMAIN, data=MOCK_DATA_STEP, unique_id="12345678901")
+    entry.add_to_hass(hass)
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": SOURCE_USER}
+    )
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "single_instance_allowed"
+
+
+MOCK_DATA_IMPORT = {
+    CONF_HOST: "127.0.0.1",
+    CONF_USERNAME: "lutron",
+    CONF_PASSWORD: "integration",
+}
+
+
+async def test_options_flow(hass: UniversalAssistant) -> None:
+    """Test options flow."""
+
+    config_entry = MockConfigEntry(
+        domain=DOMAIN,
+        data=MOCK_DATA_STEP,
+        unique_id="12345678901",
+    )
+    config_entry.add_to_hass(hass)
+
+    result = await hass.config_entries.options.async_init(config_entry.entry_id)
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "init"
+
+    # Try to set an out of range dimmer level (260)
+    out_of_range_level = 260
+
+    # The probatio validation will raise an exception before the handler processes it
+    with pytest.raises(InvalidData):
+        await hass.config_entries.options.async_configure(
+            result["flow_id"],
+            user_input={CONF_DEFAULT_DIMMER_LEVEL: out_of_range_level},
+        )
+
+    # Now try with a valid value
+    valid_level = 100
+
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"],
+        user_input={CONF_DEFAULT_DIMMER_LEVEL: valid_level},
+    )
+
+    # Verify that the flow finishes successfully with the valid value
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["data"] == {CONF_DEFAULT_DIMMER_LEVEL: valid_level}

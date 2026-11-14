@@ -1,0 +1,104 @@
+"""Test select entities for the LetPot integration."""
+
+from unittest.mock import MagicMock, patch
+
+from letpot.exceptions import LetPotConnectionException, LetPotException
+from letpot.models import LightMode
+import pytest
+from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.select import (
+    DOMAIN as SELECT_DOMAIN,
+    SelectService,
+    SelectServiceArgument,
+)
+from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.helpers import entity_registry as er
+
+from . import setup_integration
+
+
+@pytest.mark.parametrize("device_type", ["LPH62", "LPH31"])
+async def test_all_entities(
+    hass: UniversalAssistant,
+    snapshot: SnapshotAssertion,
+    mock_client: MagicMock,
+    mock_device_client: MagicMock,
+    mock_config_entry: MockConfigEntry,
+    entity_registry: er.EntityRegistry,
+    device_type: str,
+) -> None:
+    """Test switch entities."""
+    with patch("universalassistant.components.letpot.PLATFORMS", [Platform.SELECT]):
+        await setup_integration(hass, mock_config_entry)
+
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
+
+
+@pytest.mark.parametrize("device_type", ["LPH31"])
+async def test_set_select(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_client: MagicMock,
+    mock_device_client: MagicMock,
+    device_type: str,
+) -> None:
+    """Test select entity set to value."""
+    await setup_integration(hass, mock_config_entry)
+
+    await hass.services.async_call(
+        SELECT_DOMAIN,
+        SelectService.SELECT_OPTION,
+        {
+            CommonServiceArgument.ENTITY_ID: "select.garden_light_brightness",
+            SelectServiceArgument.OPTION: "high",
+        },
+        blocking=True,
+    )
+
+    mock_device_client.set_light_brightness.assert_awaited_once_with(
+        f"{device_type}ABCD", 1000
+    )
+
+
+@pytest.mark.parametrize(
+    ("exception", "user_error"),
+    [
+        (
+            LetPotConnectionException("Connection failed"),
+            "An error occurred while communicating with the LetPot"
+            " device: Connection failed",
+        ),
+        (
+            LetPotException("Random thing failed"),
+            "An unknown error occurred while communicating with"
+            " the LetPot device: Random thing failed",
+        ),
+    ],
+)
+async def test_select_error(
+    hass: UniversalAssistant,
+    mock_config_entry: MockConfigEntry,
+    mock_client: MagicMock,
+    mock_device_client: MagicMock,
+    exception: Exception,
+    user_error: str,
+) -> None:
+    """Test select entity exception handling."""
+    await setup_integration(hass, mock_config_entry)
+
+    mock_device_client.set_light_mode.side_effect = exception
+
+    with pytest.raises(UniversalAssistantError, match=user_error):
+        await hass.services.async_call(
+            SELECT_DOMAIN,
+            SelectService.SELECT_OPTION,
+            {
+                CommonServiceArgument.ENTITY_ID: "select.garden_light_mode",
+                SelectServiceArgument.OPTION: LightMode.FLOWER.name.lower(),
+            },
+            blocking=True,
+        )

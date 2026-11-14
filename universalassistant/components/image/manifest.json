@@ -1,0 +1,9 @@
+{
+  "domain": "image",
+  "name": "Image",
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["http"],
+  "documentation": "https://www.universalassistant.io/integrations/image",
+  "integration_type": "entity",
+  "quality_scale": "internal"
+}

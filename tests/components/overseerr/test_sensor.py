@@ -1,0 +1,90 @@
+"""Tests for the Overseerr sensor platform."""
+
+from unittest.mock import AsyncMock, patch
+
+from pytest_universalassistant.common import (
+    MockConfigEntry,
+    async_load_json_object_fixture,
+    snapshot_platform,
+)
+from pytest_universalassistant.typing import ClientSessionGenerator
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.overseerr import DOMAIN
+from universalassistant.const import Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+from . import call_webhook, setup_integration
+
+
+async def test_all_entities(
+    hass: UniversalAssistant,
+    snapshot: SnapshotAssertion,
+    mock_overseerr_client: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+    entity_registry: er.EntityRegistry,
+) -> None:
+    """Test all entities."""
+    with patch("universalassistant.components.overseerr.PLATFORMS", [Platform.SENSOR]):
+        await setup_integration(hass, mock_config_entry)
+
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
+
+
+async def test_webhook_trigger_update(
+    hass: UniversalAssistant,
+    mock_overseerr_client: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+    hass_client_no_auth: ClientSessionGenerator,
+) -> None:
+    """Test webhook triggers coordinator update for request sensors."""
+    await setup_integration(hass, mock_config_entry)
+
+    assert hass.states.get("sensor.overseerr_available_requests").state == "8"
+
+    mock_overseerr_client.get_request_count.return_value.available = 7
+    client = await hass_client_no_auth()
+
+    await call_webhook(
+        hass,
+        await async_load_json_object_fixture(
+            hass, "webhook_request_automatically_approved.json", DOMAIN
+        ),
+        client,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("sensor.overseerr_available_requests").state == "7"
+
+
+async def test_webhook_issue_trigger_update(
+    hass: UniversalAssistant,
+    mock_overseerr_client: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+    hass_client_no_auth: ClientSessionGenerator,
+) -> None:
+    """Test webhook triggers coordinator update for issue sensors."""
+    await setup_integration(hass, mock_config_entry)
+
+    assert hass.states.get("sensor.overseerr_total_issues").state == "15"
+    assert hass.states.get("sensor.overseerr_open_issues").state == "10"
+    assert hass.states.get("sensor.overseerr_video_issues").state == "6"
+
+    mock_overseerr_client.get_issue_count.return_value.total = 16
+    mock_overseerr_client.get_issue_count.return_value.open = 11
+    mock_overseerr_client.get_issue_count.return_value.video = 7
+    client = await hass_client_no_auth()
+
+    await call_webhook(
+        hass,
+        await async_load_json_object_fixture(
+            hass, "webhook_issue_reported.json", DOMAIN
+        ),
+        client,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("sensor.overseerr_total_issues").state == "16"
+    assert hass.states.get("sensor.overseerr_open_issues").state == "11"
+    assert hass.states.get("sensor.overseerr_video_issues").state == "7"

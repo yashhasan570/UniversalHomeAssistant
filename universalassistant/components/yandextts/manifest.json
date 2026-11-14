@@ -1,0 +1,10 @@
+{
+  "domain": "yandextts",
+  "name": "Yandex TTS",
+  "categories": ["ai_voice.speech"],
+  "codeowners": [],
+  "connectivity": ["cloud"],
+  "documentation": "https://www.universalassistant.io/integrations/yandextts",
+  "iot_class": "cloud_push",
+  "quality_scale": "legacy"
+}

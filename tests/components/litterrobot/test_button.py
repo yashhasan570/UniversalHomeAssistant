@@ -1,0 +1,100 @@
+"""Test the Litter-Robot button entity."""
+
+from unittest.mock import MagicMock
+
+from freezegun import freeze_time
+import pytest
+
+from universalassistant.components.button import DOMAIN as BUTTON_DOMAIN, ButtonService
+from universalassistant.const import STATE_UNKNOWN, CommonServiceArgument, EntityCategory
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.helpers import entity_registry as er
+
+from .conftest import setup_integration
+
+BUTTON_ENTITY = "button.test_reset_waste_drawer"
+
+
+async def test_button(
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry, mock_account: MagicMock
+) -> None:
+    """Test the creation and values of the Litter-Robot button."""
+    await setup_integration(hass, mock_account, BUTTON_DOMAIN)
+
+    state = hass.states.get(BUTTON_ENTITY)
+    assert state
+    assert state.state == STATE_UNKNOWN
+
+    entry = entity_registry.async_get(BUTTON_ENTITY)
+    assert entry
+    assert entry.entity_category is EntityCategory.CONFIG
+
+    with freeze_time("2021-11-15 17:37:00", tz_offset=-7):
+        await hass.services.async_call(
+            BUTTON_DOMAIN,
+            ButtonService.PRESS,
+            {CommonServiceArgument.ENTITY_ID: BUTTON_ENTITY},
+            blocking=True,
+        )
+    await hass.async_block_till_done()
+    assert mock_account.robots[0].reset_waste_drawer.call_count == 1
+    mock_account.robots[0].reset_waste_drawer.assert_called_with()
+
+    state = hass.states.get(BUTTON_ENTITY)
+    assert state
+    assert state.state == "2021-11-15T10:37:00+00:00"
+
+
+async def test_button_command_exception(
+    hass: UniversalAssistant, mock_account_with_side_effects: MagicMock
+) -> None:
+    """Test that LitterRobotException is wrapped in UniversalAssistantError."""
+    await setup_integration(hass, mock_account_with_side_effects, BUTTON_DOMAIN)
+
+    with pytest.raises(UniversalAssistantError, match="Invalid command: oops"):
+        await hass.services.async_call(
+            BUTTON_DOMAIN,
+            ButtonService.PRESS,
+            {CommonServiceArgument.ENTITY_ID: BUTTON_ENTITY},
+            blocking=True,
+        )
+
+
+@pytest.mark.parametrize(
+    ("entity_id", "robot_command"),
+    [
+        ("button.test_reset", "reset"),
+        ("button.test_change_filter", "change_filter"),
+    ],
+)
+async def test_litter_robot_5_button(
+    hass: UniversalAssistant,
+    mock_account_with_litterrobot_5: MagicMock,
+    entity_registry: er.EntityRegistry,
+    entity_id: str,
+    robot_command: str,
+) -> None:
+    """Test the Litter-Robot 5 button entities."""
+    await setup_integration(hass, mock_account_with_litterrobot_5, BUTTON_DOMAIN)
+
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == STATE_UNKNOWN
+
+    entry = entity_registry.async_get(entity_id)
+    assert entry
+    assert entry.entity_category is EntityCategory.CONFIG
+
+    with freeze_time("2021-11-15 17:37:00", tz_offset=-7):
+        await hass.services.async_call(
+            BUTTON_DOMAIN,
+            ButtonService.PRESS,
+            {CommonServiceArgument.ENTITY_ID: entity_id},
+            blocking=True,
+        )
+    await hass.async_block_till_done()
+    assert (
+        getattr(mock_account_with_litterrobot_5.robots[0], robot_command).call_count
+        == 1
+    )

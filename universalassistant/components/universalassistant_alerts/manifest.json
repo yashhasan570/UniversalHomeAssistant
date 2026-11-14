@@ -1,0 +1,10 @@
+{
+  "domain": "universalassistant_alerts",
+  "name": "Universal Universal Home Assistant Alerts",
+  "after_dependencies": ["hassio"],
+  "codeowners": ["@universal-assistant/core"],
+  "config_flow": false,
+  "documentation": "https://www.universalassistant.io/integrations/universalassistant_alerts",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

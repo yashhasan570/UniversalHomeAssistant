@@ -1,0 +1,11 @@
+{
+  "domain": "demo",
+  "name": "Demo",
+  "categories": ["computers_network.cloud_developer_tools"],
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["conversation", "group", "zone"],
+  "documentation": "https://www.universalassistant.io/integrations/demo",
+  "iot_class": "calculated",
+  "quality_scale": "internal",
+  "single_config_entry": true
+}

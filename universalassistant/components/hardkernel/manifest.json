@@ -1,0 +1,12 @@
+{
+  "domain": "hardkernel",
+  "name": "Hardkernel",
+  "after_dependencies": ["hassio"],
+  "categories": ["diy_makers.boards_hardware"],
+  "codeowners": ["@universal-assistant/core"],
+  "config_flow": false,
+  "dependencies": ["hardware"],
+  "documentation": "https://www.universalassistant.io/integrations/hardkernel",
+  "integration_type": "hardware",
+  "single_config_entry": true
+}

@@ -1,0 +1,133 @@
+"""UniFi Network services."""
+
+from collections.abc import Mapping
+from enum import StrEnum
+from typing import Any
+
+import aiounifi
+from aiounifi.models.client import ClientReconnectRequest, ClientRemoveRequest
+import probatio
+
+from universalassistant.const import CommonServiceArgument
+from universalassistant.core import UniversalAssistant, ServiceCall, callback
+from universalassistant.exceptions import UniversalAssistantError, ServiceValidationError
+from universalassistant.helpers import device_registry as dr
+from universalassistant.helpers.device_registry import CONNECTION_NETWORK_MAC
+
+from .const import DOMAIN
+
+
+class UnifiService(StrEnum):
+    """Store keys for UniFi services."""
+
+    RECONNECT_CLIENT = "reconnect_client"
+    REMOVE_CLIENTS = "remove_clients"
+
+
+SERVICE_RECONNECT_CLIENT_SCHEMA = probatio.All(
+    probatio.Schema({probatio.Required(CommonServiceArgument.DEVICE_ID): str})
+)
+
+SERVICE_TO_SCHEMA = {
+    UnifiService.RECONNECT_CLIENT: SERVICE_RECONNECT_CLIENT_SCHEMA,
+}
+
+
+@callback
+def async_setup_services(hass: UniversalAssistant) -> None:
+    """Set up services for UniFi integration."""
+
+    services = {
+        UnifiService.RECONNECT_CLIENT: async_reconnect_client,
+        UnifiService.REMOVE_CLIENTS: async_remove_clients,
+    }
+
+    async def async_call_unifi_service(service_call: ServiceCall) -> None:
+        """Call correct UniFi service."""
+        await services[UnifiService(service_call.service)](hass, service_call.data)
+
+    for service in UnifiService:
+        hass.services.async_register(
+            DOMAIN,
+            service,
+            async_call_unifi_service,
+            schema=SERVICE_TO_SCHEMA.get(service),
+        )
+
+
+async def async_reconnect_client(hass: UniversalAssistant, data: Mapping[str, Any]) -> None:
+    """Try to get wireless client to reconnect to Wi-Fi."""
+    device_registry = dr.async_get(hass)
+    device_entry = device_registry.async_get(
+        data[CommonServiceArgument.DEVICE_ID], include_child_devices=False
+    )
+
+    if device_entry is None:
+        raise ServiceValidationError(
+            translation_domain=DOMAIN,
+            translation_key="reconnect_client_device_not_found",
+        )
+
+    mac = ""
+    for connection in device_entry.connections:
+        if connection[0] == CONNECTION_NETWORK_MAC:
+            mac = connection[1]
+            break
+
+    if mac == "":
+        raise ServiceValidationError(
+            translation_domain=DOMAIN,
+            translation_key="reconnect_client_no_mac",
+        )
+
+    for config_entry in hass.config_entries.async_loaded_entries(DOMAIN):
+        if (
+            (not (hub := config_entry.runtime_data).available)
+            or (client := hub.api.clients.get(mac)) is None
+            or client.is_wired
+        ):
+            continue
+
+        try:
+            await hub.api.request(ClientReconnectRequest.create(mac))
+        except aiounifi.AiounifiException as err:
+            raise UniversalAssistantError(
+                translation_domain=DOMAIN,
+                translation_key="reconnect_client_request_failed",
+            ) from err
+
+
+async def async_remove_clients(hass: UniversalAssistant, data: Mapping[str, Any]) -> None:
+    """Remove select clients from UniFi Network.
+
+    Validates based on:
+    - Total time between first seen and last seen is less than 15 minutes.
+    - Neither IP, hostname nor name is configured.
+    """
+    for config_entry in hass.config_entries.async_loaded_entries(DOMAIN):
+        if not (hub := config_entry.runtime_data).available:
+            continue
+
+        clients_to_remove = []
+
+        for client in hub.api.clients_all.values():
+            if (
+                client.last_seen
+                and client.first_seen
+                and client.last_seen - client.first_seen > 900
+            ):
+                continue
+
+            if any({client.fixed_ip, client.hostname, client.name}):
+                continue
+
+            clients_to_remove.append(client.mac)
+
+        if clients_to_remove:
+            try:
+                await hub.api.request(ClientRemoveRequest.create(clients_to_remove))
+            except aiounifi.AiounifiException as err:
+                raise UniversalAssistantError(
+                    translation_domain=DOMAIN,
+                    translation_key="remove_clients_request_failed",
+                ) from err

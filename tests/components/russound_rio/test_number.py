@@ -1,0 +1,69 @@
+"""Tests for the Russound RIO number platform."""
+
+from unittest.mock import AsyncMock, patch
+
+import pytest
+from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.number import (
+    DOMAIN as NUMBER_DOMAIN,
+    NumberService,
+    NumberServiceArgument,
+)
+from universalassistant.const import CommonServiceArgument, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+from . import setup_integration
+from .const import NAME_ZONE_1
+
+
+@pytest.mark.usefixtures("entity_registry_enabled_by_default")
+async def test_all_entities(
+    hass: UniversalAssistant,
+    snapshot: SnapshotAssertion,
+    mock_russound_client: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+    entity_registry: er.EntityRegistry,
+) -> None:
+    """Test all entities."""
+    with patch("universalassistant.components.russound_rio.PLATFORMS", [Platform.NUMBER]):
+        await setup_integration(hass, mock_config_entry)
+
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)
+
+
+@pytest.mark.parametrize(
+    ("entity_suffix", "value", "expected_method", "expected_arg"),
+    [
+        ("bass", -5, "set_bass", -5),
+        ("balance", 3, "set_balance", 3),
+        ("treble", 7, "set_treble", 7),
+        ("turn_on_volume", 60, "set_turn_on_volume", 30),
+    ],
+)
+async def test_setting_number_value(
+    hass: UniversalAssistant,
+    mock_russound_client: AsyncMock,
+    mock_config_entry: MockConfigEntry,
+    entity_suffix: str,
+    value: int,
+    expected_method: str,
+    expected_arg: int,
+) -> None:
+    """Test setting value on Russound number entity."""
+    await setup_integration(hass, mock_config_entry)
+
+    await hass.services.async_call(
+        NUMBER_DOMAIN,
+        NumberService.SET_VALUE,
+        {
+            CommonServiceArgument.ENTITY_ID: f"{NUMBER_DOMAIN}.{NAME_ZONE_1}_{entity_suffix}",
+            NumberServiceArgument.VALUE: value,
+        },
+        blocking=True,
+    )
+
+    zone = mock_russound_client.controllers[1].zones[1]
+    getattr(zone, expected_method).assert_called_once_with(expected_arg)

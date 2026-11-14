@@ -1,0 +1,9 @@
+{
+  "domain": "api",
+  "name": "Universal Universal Home Assistant API",
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["http"],
+  "documentation": "https://www.universalassistant.io/integrations/api",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

@@ -1,0 +1,10 @@
+{
+  "domain": "radio_frequency",
+  "name": "Radio frequency",
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["websocket_api"],
+  "documentation": "https://www.universalassistant.io/integrations/radio_frequency",
+  "integration_type": "entity",
+  "quality_scale": "internal",
+  "requirements": ["rf-protocols==4.3.0"]
+}

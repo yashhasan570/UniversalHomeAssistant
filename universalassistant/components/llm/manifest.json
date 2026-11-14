@@ -1,0 +1,9 @@
+{
+  "domain": "llm",
+  "name": "LLM",
+  "codeowners": ["@universal-assistant/core"],
+  "documentation": "https://www.universalassistant.io/integrations/llm",
+  "integration_type": "system",
+  "iot_class": "calculated",
+  "quality_scale": "internal"
+}

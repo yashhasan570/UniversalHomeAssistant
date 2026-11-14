@@ -1,0 +1,909 @@
+"""Test the Kodi config flow."""
+
+from collections.abc import Callable, Generator
+from contextlib import contextmanager
+from typing import Any
+from unittest.mock import ANY, AsyncMock, MagicMock, PropertyMock, patch
+
+from pykodi.kodi import KodiWSConnection
+import pytest
+from pytest_universalassistant.common import MockConfigEntry
+
+from universalassistant import config_entries
+from universalassistant.components.kodi.config_flow import (
+    CannotConnectError,
+    InvalidAuthError,
+)
+from universalassistant.components.kodi.const import CONF_WS_PORT, DEFAULT_TIMEOUT, DOMAIN
+from universalassistant.const import (
+    CONF_HOST,
+    CONF_NAME,
+    CONF_PASSWORD,
+    CONF_PORT,
+    CONF_SSL,
+    CONF_USERNAME,
+)
+from universalassistant.core import UniversalAssistant
+from universalassistant.data_entry_flow import FlowResultType
+
+from .util import (
+    TEST_CREDENTIALS,
+    TEST_DISCOVERY,
+    TEST_DISCOVERY_WO_UUID,
+    TEST_HOST,
+    TEST_WS_PORT,
+    UUID,
+    MockConnection,
+    MockWSConnection,
+    get_kodi_connection,
+)
+
+
+@contextmanager
+def _patch_kodi_success() -> Generator[None]:
+    """Patch a reachable Kodi and the entry setup."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+        patch(
+            "universalassistant.components.kodi.async_setup_entry",
+            return_value=None,
+        ),
+    ):
+        yield
+
+
+@pytest.fixture
+async def user_flow(hass: UniversalAssistant) -> str:
+    """Return a user-initiated flow after filling in host info."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"] == {}
+
+    return result["flow_id"]
+
+
+async def test_user_flow(hass: UniversalAssistant, user_flow: str) -> None:
+    """Test a successful user initiated flow."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+        patch(
+            "universalassistant.components.kodi.async_setup_entry",
+            return_value=None,
+        ) as mock_setup_entry,
+    ):
+        result = await hass.config_entries.flow.async_configure(user_flow, TEST_HOST)
+        await hass.async_block_till_done()
+
+    # pylint: disable-next=universal-assistant-tests-config-flow-unique-id
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == TEST_HOST["host"]
+    assert result["data"] == {
+        **TEST_HOST,
+        **TEST_WS_PORT,
+        "password": None,
+        "username": None,
+        "name": None,
+        "timeout": DEFAULT_TIMEOUT,
+    }
+
+    assert len(mock_setup_entry.mock_calls) == 1
+
+
+async def test_form_valid_auth(hass: UniversalAssistant, user_flow: str) -> None:
+    """Test we handle valid auth."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            side_effect=InvalidAuthError,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(user_flow, TEST_HOST)
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "credentials"
+    assert result["errors"] == {}
+
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+        patch(
+            "universalassistant.components.kodi.async_setup_entry",
+            return_value=None,
+        ) as mock_setup_entry,
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_CREDENTIALS
+        )
+        await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == TEST_HOST["host"]
+    assert result["data"] == {
+        **TEST_HOST,
+        **TEST_WS_PORT,
+        **TEST_CREDENTIALS,
+        "name": None,
+        "timeout": DEFAULT_TIMEOUT,
+    }
+
+    assert len(mock_setup_entry.mock_calls) == 1
+
+
+async def test_form_valid_ws_port(hass: UniversalAssistant, user_flow: str) -> None:
+    """Test we handle valid websocket port."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch.object(
+            MockWSConnection,
+            "connect",
+            AsyncMock(side_effect=CannotConnectError),
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            new=get_kodi_connection,
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(user_flow, TEST_HOST)
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ws_port"
+    assert result["errors"] == {}
+
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+        patch(
+            "universalassistant.components.kodi.async_setup_entry",
+            return_value=None,
+        ) as mock_setup_entry,
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_WS_PORT
+        )
+        await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == TEST_HOST["host"]
+    assert result["data"] == {
+        **TEST_HOST,
+        **TEST_WS_PORT,
+        "password": None,
+        "username": None,
+        "name": None,
+        "timeout": DEFAULT_TIMEOUT,
+    }
+
+    assert len(mock_setup_entry.mock_calls) == 1
+
+
+async def test_form_empty_ws_port(hass: UniversalAssistant, user_flow: str) -> None:
+    """Test we handle an empty websocket port input."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch.object(
+            MockWSConnection,
+            "connect",
+            AsyncMock(side_effect=CannotConnectError),
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            new=get_kodi_connection,
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(user_flow, TEST_HOST)
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ws_port"
+    assert result["errors"] == {}
+
+    with patch(
+        "universalassistant.components.kodi.async_setup_entry",
+        return_value=None,
+    ) as mock_setup_entry:
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], {"ws_port": 0}
+        )
+        await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == TEST_HOST["host"]
+    assert result["data"] == {
+        **TEST_HOST,
+        "ws_port": None,
+        "password": None,
+        "username": None,
+        "name": None,
+        "timeout": DEFAULT_TIMEOUT,
+    }
+
+    assert len(mock_setup_entry.mock_calls) == 1
+
+
+async def test_form_invalid_auth(hass: UniversalAssistant, user_flow: str) -> None:
+    """Test we handle invalid auth."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            side_effect=InvalidAuthError,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(user_flow, TEST_HOST)
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "credentials"
+    assert result["errors"] == {}
+
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            side_effect=InvalidAuthError,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_CREDENTIALS
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "credentials"
+    assert result["errors"] == {"base": "invalid_auth"}
+
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            side_effect=CannotConnectError,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_CREDENTIALS
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "credentials"
+    assert result["errors"] == {"base": "cannot_connect"}
+
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            side_effect=Exception,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_CREDENTIALS
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "credentials"
+    assert result["errors"] == {"base": "unknown"}
+
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch.object(
+            MockWSConnection,
+            "connect",
+            AsyncMock(side_effect=CannotConnectError),
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            new=get_kodi_connection,
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_CREDENTIALS
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ws_port"
+    assert result["errors"] == {}
+
+    with _patch_kodi_success():
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_WS_PORT
+        )
+        await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_form_cannot_connect_http(hass: UniversalAssistant, user_flow: str) -> None:
+    """Test we handle cannot connect over HTTP error."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            side_effect=CannotConnectError,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(user_flow, TEST_HOST)
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+    assert result["errors"] == {"base": "cannot_connect"}
+
+    with _patch_kodi_success():
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_HOST
+        )
+        await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_form_exception_http(hass: UniversalAssistant, user_flow: str) -> None:
+    """Test we handle generic exception over HTTP."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            side_effect=Exception,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(user_flow, TEST_HOST)
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+    assert result["errors"] == {"base": "unknown"}
+
+    with _patch_kodi_success():
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_HOST
+        )
+        await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_form_cannot_connect_ws(hass: UniversalAssistant, user_flow: str) -> None:
+    """Test we handle cannot connect over WebSocket error."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch.object(
+            MockWSConnection,
+            "connect",
+            AsyncMock(side_effect=CannotConnectError),
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            new=get_kodi_connection,
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(user_flow, TEST_HOST)
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ws_port"
+    assert result["errors"] == {}
+
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch.object(
+            MockWSConnection, "connected", new_callable=PropertyMock(return_value=False)
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            new=get_kodi_connection,
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_WS_PORT
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ws_port"
+    assert result["errors"] == {"base": "cannot_connect"}
+
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            side_effect=CannotConnectError,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            new=get_kodi_connection,
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_WS_PORT
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ws_port"
+    assert result["errors"] == {"base": "cannot_connect"}
+
+    with _patch_kodi_success():
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_WS_PORT
+        )
+        await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_form_exception_ws(hass: UniversalAssistant, user_flow: str) -> None:
+    """Test we handle generic exception over WebSocket."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch.object(
+            MockWSConnection,
+            "connect",
+            AsyncMock(side_effect=CannotConnectError),
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            new=get_kodi_connection,
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(user_flow, TEST_HOST)
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ws_port"
+    assert result["errors"] == {}
+
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch.object(MockWSConnection, "connect", AsyncMock(side_effect=Exception)),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            new=get_kodi_connection,
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_WS_PORT
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ws_port"
+    assert result["errors"] == {"base": "unknown"}
+
+    with _patch_kodi_success():
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"], TEST_WS_PORT
+        )
+        await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_discovery(hass: UniversalAssistant) -> None:
+    """Test discovery flow works."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN,
+            context={"source": config_entries.SOURCE_ZEROCONF},
+            data=TEST_DISCOVERY,
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "discovery_confirm"
+
+    with patch(
+        "universalassistant.components.kodi.async_setup_entry",
+        return_value=None,
+    ) as mock_setup_entry:
+        result = await hass.config_entries.flow.async_configure(
+            flow_id=result["flow_id"], user_input={}
+        )
+        await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == "hostname"
+    assert result["data"] == {
+        **TEST_HOST,
+        **TEST_WS_PORT,
+        "password": None,
+        "username": None,
+        "name": "hostname",
+        "timeout": DEFAULT_TIMEOUT,
+    }
+    assert result["result"].unique_id == UUID
+
+    assert len(mock_setup_entry.mock_calls) == 1
+
+
+async def test_discovery_cannot_connect_http(hass: UniversalAssistant) -> None:
+    """Test discovery aborts if cannot connect."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            side_effect=CannotConnectError,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN,
+            context={"source": config_entries.SOURCE_ZEROCONF},
+            data=TEST_DISCOVERY,
+        )
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "cannot_connect"
+
+
+async def test_discovery_cannot_connect_ws(hass: UniversalAssistant) -> None:
+    """Test discovery aborts if cannot connect to websocket."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch.object(
+            MockWSConnection,
+            "connect",
+            AsyncMock(side_effect=CannotConnectError),
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            new=get_kodi_connection,
+        ),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN,
+            context={"source": config_entries.SOURCE_ZEROCONF},
+            data=TEST_DISCOVERY,
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ws_port"
+    assert result["errors"] == {}
+
+
+async def test_discovery_exception_http(hass: UniversalAssistant) -> None:
+    """Test we handle generic exception during discovery validation."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            side_effect=Exception,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN,
+            context={"source": config_entries.SOURCE_ZEROCONF},
+            data=TEST_DISCOVERY,
+        )
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "unknown"
+
+
+async def test_discovery_invalid_auth(hass: UniversalAssistant) -> None:
+    """Test we handle invalid auth during discovery."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            side_effect=InvalidAuthError,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN,
+            context={"source": config_entries.SOURCE_ZEROCONF},
+            data=TEST_DISCOVERY,
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "credentials"
+    assert result["errors"] == {}
+
+
+async def test_discovery_duplicate_data(hass: UniversalAssistant) -> None:
+    """Test discovery aborts if same mDNS packet arrives."""
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN,
+            context={"source": config_entries.SOURCE_ZEROCONF},
+            data=TEST_DISCOVERY,
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "discovery_confirm"
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_ZEROCONF}, data=TEST_DISCOVERY
+    )
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "already_in_progress"
+
+
+async def test_discovery_updates_unique_id(hass: UniversalAssistant) -> None:
+    """Test a duplicate discovery id aborts and updates existing entry."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        unique_id=UUID,
+        data={"host": "dummy", "port": 11, "namename": "dummy.local."},
+    )
+
+    entry.add_to_hass(hass)
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_ZEROCONF}, data=TEST_DISCOVERY
+    )
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "already_configured"
+
+    assert entry.data["host"] == "1.1.1.1"
+    assert entry.data["port"] == 8080
+    assert entry.data["name"] == "hostname"
+
+
+async def test_discovery_without_unique_id(hass: UniversalAssistant) -> None:
+    """Test a discovery flow with no unique id aborts."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": config_entries.SOURCE_ZEROCONF},
+        data=TEST_DISCOVERY_WO_UUID,
+    )
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "no_uuid"
+
+
+REAUTH_ENTRY_DATA = {
+    CONF_NAME: "name",
+    CONF_HOST: "1.1.1.1",
+    CONF_PORT: 8080,
+    CONF_WS_PORT: 9090,
+    CONF_USERNAME: "user",
+    CONF_PASSWORD: "old_password",
+    CONF_SSL: False,
+}
+
+
+async def test_reauth(hass: UniversalAssistant) -> None:
+    """Test reauth updates the credentials."""
+    entry = MockConfigEntry(domain=DOMAIN, data=REAUTH_ENTRY_DATA, unique_id=UUID)
+    entry.add_to_hass(hass)
+
+    result = await entry.start_reauth_flow(hass)
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "reauth_confirm"
+
+    with (
+        _patch_kodi_success(),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ) as mock_get_connection,
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {CONF_USERNAME: "new_user", CONF_PASSWORD: "new_password"},
+        )
+        await hass.async_block_till_done()
+
+    mock_get_connection.assert_called_once_with(
+        "1.1.1.1", 8080, None, "new_user", "new_password", False, session=ANY
+    )
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "reauth_successful"
+    assert entry.data == REAUTH_ENTRY_DATA | {
+        CONF_USERNAME: "new_user",
+        CONF_PASSWORD: "new_password",
+    }
+
+
+@pytest.mark.parametrize(
+    ("side_effect", "error"),
+    [
+        pytest.param(InvalidAuthError, "invalid_auth", id="invalid_auth"),
+        pytest.param(CannotConnectError, "cannot_connect", id="cannot_connect"),
+        pytest.param(Exception, "unknown", id="unknown"),
+    ],
+)
+async def test_reauth_errors(
+    hass: UniversalAssistant, side_effect: type[Exception], error: str
+) -> None:
+    """Test reauth handles errors and can recover."""
+    entry = MockConfigEntry(domain=DOMAIN, data=REAUTH_ENTRY_DATA, unique_id=UUID)
+    entry.add_to_hass(hass)
+
+    result = await entry.start_reauth_flow(hass)
+
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            side_effect=side_effect,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            return_value=MockConnection(),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {CONF_USERNAME: "new_user", CONF_PASSWORD: "wrong_password"},
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "reauth_confirm"
+    assert result["errors"] == {"base": error}
+
+    with _patch_kodi_success():
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            {CONF_USERNAME: "new_user", CONF_PASSWORD: "new_password"},
+        )
+        await hass.async_block_till_done()
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "reauth_successful"
+    assert entry.data[CONF_PASSWORD] == "new_password"
+
+
+def _ws_probe_factory(probe: MagicMock) -> Callable[..., Any]:
+    """Return a connection factory that hands out the given WebSocket probe."""
+
+    def factory(host: str, port: int, ws_port: int | None, *args: Any, **kwargs: Any):
+        if ws_port is None:
+            return MockConnection()
+        return probe
+
+    return factory
+
+
+def _ws_probe(close_error: Exception | None = None) -> MagicMock:
+    """Return a connected WebSocket probe."""
+    probe = MagicMock(spec=KodiWSConnection)
+    probe.connected = True
+    probe.close.side_effect = close_error
+    return probe
+
+
+@pytest.mark.parametrize(
+    "close_error",
+    [pytest.param(None, id="closed"), pytest.param(TimeoutError(), id="close_error")],
+)
+async def test_ws_probe_closed_after_success(
+    hass: UniversalAssistant, user_flow: str, close_error: Exception | None
+) -> None:
+    """Test the WebSocket probe is closed after a successful check."""
+    probe = _ws_probe(close_error)
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            side_effect=_ws_probe_factory(probe),
+        ),
+        patch(
+            "universalassistant.components.kodi.async_setup_entry",
+            return_value=None,
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(user_flow, TEST_HOST)
+        await hass.async_block_till_done()
+
+    # pylint: disable-next=universal-assistant-tests-config-flow-unique-id
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    probe.close.assert_awaited_once_with()
+
+
+@pytest.mark.parametrize(
+    "close_error",
+    [pytest.param(None, id="closed"), pytest.param(TimeoutError(), id="close_error")],
+)
+async def test_ws_probe_closed_after_failure(
+    hass: UniversalAssistant, user_flow: str, close_error: Exception | None
+) -> None:
+    """Test the WebSocket probe is closed when the check fails."""
+    probe = _ws_probe(close_error)
+    probe.connect.side_effect = CannotConnectError
+    with (
+        patch(
+            "universalassistant.components.kodi.config_flow.Kodi.ping",
+            return_value=True,
+        ),
+        patch(
+            "universalassistant.components.kodi.config_flow.get_kodi_connection",
+            side_effect=_ws_probe_factory(probe),
+        ),
+    ):
+        result = await hass.config_entries.flow.async_configure(user_flow, TEST_HOST)
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "ws_port"
+    probe.close.assert_awaited_once_with()

@@ -1,0 +1,8 @@
+{
+  "domain": "lawn_mower",
+  "name": "Lawn mower",
+  "codeowners": ["@universal-assistant/core"],
+  "documentation": "https://www.universalassistant.io/integrations/lawn_mower",
+  "integration_type": "entity",
+  "quality_scale": "internal"
+}

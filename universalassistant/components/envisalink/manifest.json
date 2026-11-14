@@ -1,0 +1,12 @@
+{
+  "domain": "envisalink",
+  "name": "Envisalink",
+  "categories": ["security_safety.alarm_systems"],
+  "codeowners": [],
+  "connectivity": ["network"],
+  "documentation": "https://www.universalassistant.io/integrations/envisalink",
+  "iot_class": "local_push",
+  "loggers": ["pyenvisalink"],
+  "quality_scale": "legacy",
+  "requirements": ["pyenvisalink==4.9"]
+}

@@ -1,0 +1,58 @@
+"""Support for Google Mail."""
+
+from universalassistant.config_entries import ConfigEntry
+from universalassistant.const import CONF_NAME, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import config_validation as cv, discovery
+from universalassistant.helpers.config_entry_oauth2_flow import (
+    OAuth2Session,
+    async_get_config_entry_implementation,
+)
+from universalassistant.helpers.typing import ConfigType
+
+from .api import AsyncConfigEntryAuth
+from .const import DATA_AUTH, DATA_HASS_CONFIG, DOMAIN
+from .services import async_setup_services
+
+type GoogleMailConfigEntry = ConfigEntry[AsyncConfigEntryAuth]
+
+PLATFORMS = [Platform.NOTIFY, Platform.SENSOR]
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+
+async def async_setup(hass: UniversalAssistant, config: ConfigType) -> bool:
+    """Set up the Google Mail integration."""
+    hass.data[DATA_HASS_CONFIG] = config
+
+    async_setup_services(hass)
+
+    return True
+
+
+async def async_setup_entry(hass: UniversalAssistant, entry: GoogleMailConfigEntry) -> None:
+    """Set up Google Mail from a config entry."""
+    implementation = await async_get_config_entry_implementation(hass, entry)
+    session = OAuth2Session(hass, entry, implementation)
+    auth = AsyncConfigEntryAuth(hass, session)
+    await auth.check_and_refresh_token()
+    entry.runtime_data = auth
+
+    hass.async_create_task(
+        discovery.async_load_platform(
+            hass,
+            Platform.NOTIFY,
+            DOMAIN,
+            {DATA_AUTH: auth, CONF_NAME: entry.title},
+            hass.data[DATA_HASS_CONFIG],
+        )
+    )
+
+    await hass.config_entries.async_forward_entry_setups(
+        entry, [platform for platform in PLATFORMS if platform != Platform.NOTIFY]
+    )
+
+
+async def async_unload_entry(hass: UniversalAssistant, entry: GoogleMailConfigEntry) -> None:
+    """Unload a config entry."""
+    await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)

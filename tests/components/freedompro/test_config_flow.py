@@ -1,0 +1,117 @@
+"""Define tests for the Freedompro config flow."""
+
+from unittest.mock import patch
+
+import pytest
+
+from universalassistant.components.freedompro.const import DOMAIN
+from universalassistant.config_entries import SOURCE_USER
+from universalassistant.const import CONF_API_KEY
+from universalassistant.core import UniversalAssistant
+from universalassistant.data_entry_flow import FlowResultType
+
+from .const import DEVICES
+
+VALID_CONFIG = {
+    CONF_API_KEY: "ksdjfgslkjdfksjdfksjgfksjd",
+}
+
+pytestmark = pytest.mark.usefixtures("mock_setup_entry")
+
+
+async def test_show_form(hass: UniversalAssistant) -> None:
+    """Test that the form is served with no input."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": SOURCE_USER}
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+
+
+async def test_invalid_auth(hass: UniversalAssistant) -> None:
+    """Test that errors are shown when API key is invalid."""
+    with patch(
+        "universalassistant.components.freedompro.config_flow.get_list",
+        return_value={
+            "state": False,
+            "code": -201,
+        },
+    ) as mock_get_list:
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": SOURCE_USER}
+        )
+
+        assert result["type"] is FlowResultType.FORM
+        assert result["step_id"] == "user"
+
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=VALID_CONFIG,
+        )
+
+        assert result["errors"] == {"base": "invalid_auth"}
+
+        mock_get_list.return_value = {"state": True, "devices": DEVICES}
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=VALID_CONFIG,
+        )
+        assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_connection_error(hass: UniversalAssistant) -> None:
+    """Test that errors are shown when API key is invalid."""
+    with patch(
+        "universalassistant.components.freedompro.config_flow.get_list",
+        return_value={
+            "state": False,
+            "code": -200,
+        },
+    ) as mock_get_list:
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": SOURCE_USER}
+        )
+
+        assert result["type"] is FlowResultType.FORM
+        assert result["step_id"] == "user"
+
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=VALID_CONFIG,
+        )
+
+        assert result["errors"] == {"base": "cannot_connect"}
+
+        mock_get_list.return_value = {"state": True, "devices": DEVICES}
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=VALID_CONFIG,
+        )
+        assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_create_entry(hass: UniversalAssistant) -> None:
+    """Test that the user step works."""
+    with patch(
+        "universalassistant.components.freedompro.config_flow.get_list",
+        return_value={
+            "state": True,
+            "devices": DEVICES,
+        },
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": SOURCE_USER}
+        )
+
+        assert result["type"] is FlowResultType.FORM
+        assert result["step_id"] == "user"
+
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=VALID_CONFIG,
+        )
+
+        assert result["type"] is FlowResultType.CREATE_ENTRY
+        assert result["title"] == "Freedompro"
+        assert result["data"][CONF_API_KEY] == "ksdjfgslkjdfksjdfksjgfksjd"

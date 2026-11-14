@@ -1,0 +1,55 @@
+"""Support for Matrix notifications."""
+
+from typing import Any, override
+
+import probatio
+
+from universalassistant.components.notify import (
+    ATTR_DATA,
+    ATTR_TARGET,
+    PLATFORM_SCHEMA as NOTIFY_PLATFORM_SCHEMA,
+    BaseNotificationService,
+)
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import config_validation as cv
+from universalassistant.helpers.typing import ConfigType, DiscoveryInfoType
+
+from . import RoomID
+from .const import DOMAIN, MatrixService, MatrixServiceArgument
+
+CONF_DEFAULT_ROOM = "default_room"
+
+PLATFORM_SCHEMA = NOTIFY_PLATFORM_SCHEMA.extend(
+    {probatio.Required(CONF_DEFAULT_ROOM): cv.string}
+)
+
+
+def get_service(
+    hass: UniversalAssistant,
+    config: ConfigType,
+    discovery_info: DiscoveryInfoType | None = None,
+) -> MatrixNotificationService:
+    """Get the Matrix notification service."""
+    return MatrixNotificationService(config[CONF_DEFAULT_ROOM])
+
+
+class MatrixNotificationService(BaseNotificationService):
+    """Send notifications to a Matrix room."""
+
+    def __init__(self, default_room: RoomID) -> None:
+        """Set up the Matrix notification service."""
+        self._default_room = default_room
+
+    @override
+    def send_message(self, message: str = "", **kwargs: Any) -> None:
+        """Send the message to the Matrix server."""
+        target_rooms: list[RoomID] = kwargs.get(ATTR_TARGET) or [self._default_room]
+        service_data: dict[str, Any] = {
+            MatrixServiceArgument.TARGET: target_rooms,
+            MatrixServiceArgument.MESSAGE: message,
+        }
+        if (data := kwargs.get(ATTR_DATA)) is not None:
+            service_data[MatrixServiceArgument.DATA] = data
+        self.hass.services.call(
+            DOMAIN, MatrixService.SEND_MESSAGE, service_data=service_data
+        )

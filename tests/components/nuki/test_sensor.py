@@ -1,0 +1,34 @@
+"""Tests for the nuki sensors."""
+
+from unittest.mock import patch
+
+from pytest_universalassistant.common import snapshot_platform
+import requests_mock
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.const import Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+from . import init_integration
+
+
+async def test_sensors(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+    mock_nuki_requests: requests_mock.Mocker,
+) -> None:
+    """Test sensors."""
+    with patch("universalassistant.components.nuki.PLATFORMS", [Platform.SENSOR]):
+        entry = await init_integration(hass, mock_nuki_requests)
+
+    await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)
+
+    # Unload the config entry after taking a snapshot is required
+    # because the integration may cache DNS results or keep
+    # references to the original gethostbyname, so unloading
+    # ensures the patch is effective for subsequent tests and
+    # avoids DNS lookups
+    await hass.config_entries.async_unload(entry.entry_id)
+    await hass.async_block_till_done()

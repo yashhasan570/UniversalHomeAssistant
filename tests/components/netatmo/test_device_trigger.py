@@ -1,0 +1,500 @@
+"""The tests for Netatmo device triggers."""
+
+import pytest
+from pytest_universalassistant.common import (
+    MockConfigEntry,
+    async_capture_events,
+    async_get_device_automations,
+)
+from pytest_unordered import unordered
+
+from universalassistant.components import automation
+from universalassistant.components.device_automation import (
+    DeviceAutomationType,
+    InvalidDeviceAutomationConfig,
+)
+from universalassistant.components.netatmo import DOMAIN
+from universalassistant.components.netatmo.const import (
+    CLIMATE_TRIGGERS,
+    INDOOR_CAMERA_TRIGGERS,
+    NETATMO_EVENT,
+    OUTDOOR_CAMERA_TRIGGERS,
+)
+from universalassistant.components.netatmo.device_trigger import (
+    SUBTYPES,
+    async_validate_trigger_config,
+)
+from universalassistant.const import ATTR_DEVICE_ID
+from universalassistant.core import UniversalAssistant, ServiceCall
+from universalassistant.helpers import device_registry as dr, entity_registry as er
+from universalassistant.setup import async_setup_component
+
+
+@pytest.mark.parametrize(
+    ("platform", "device_type", "event_types"),
+    [
+        ("camera", "Smart Outdoor Camera", OUTDOOR_CAMERA_TRIGGERS),
+        ("camera", "Smart Indoor Camera", INDOOR_CAMERA_TRIGGERS),
+        ("climate", "Smart Valve", CLIMATE_TRIGGERS),
+        ("climate", "Smart Thermostat", CLIMATE_TRIGGERS),
+    ],
+)
+async def test_get_triggers(
+    hass: UniversalAssistant,
+    device_registry: dr.DeviceRegistry,
+    entity_registry: er.EntityRegistry,
+    platform,
+    device_type,
+    event_types,
+) -> None:
+    """Test we get the expected triggers from a netatmo devices."""
+    config_entry = MockConfigEntry(domain=DOMAIN, data={})
+    config_entry.add_to_hass(hass)
+    device_entry = device_registry.async_get_or_create(
+        config_entry_id=config_entry.entry_id,
+        connections={(dr.CONNECTION_NETWORK_MAC, "12:34:56:AB:CD:EF")},
+        model=device_type,
+    )
+    entity_entry = entity_registry.async_get_or_create(
+        platform, DOMAIN, "5678", device_id=device_entry.id
+    )
+    expected_triggers = []
+    for event_type in event_types:
+        if event_type in SUBTYPES:
+            expected_triggers.extend(
+                {
+                    "platform": "device",
+                    "domain": DOMAIN,
+                    "type": event_type,
+                    "subtype": subtype,
+                    "device_id": device_entry.id,
+                    "entity_id": entity_entry.id,
+                    "metadata": {"secondary": False},
+                }
+                for subtype in SUBTYPES[event_type]
+            )
+        else:
+            expected_triggers.append(
+                {
+                    "platform": "device",
+                    "domain": DOMAIN,
+                    "type": event_type,
+                    "device_id": device_entry.id,
+                    "entity_id": entity_entry.id,
+                    "metadata": {"secondary": False},
+                }
+            )
+    triggers = [
+        trigger
+        for trigger in await async_get_device_automations(
+            hass, DeviceAutomationType.TRIGGER, device_entry.id
+        )
+        if trigger["domain"] == DOMAIN
+    ]
+    assert triggers == unordered(expected_triggers)
+
+
+@pytest.mark.parametrize(
+    ("platform", "camera_type", "event_type"),
+    [("camera", "Smart Outdoor Camera", trigger) for trigger in OUTDOOR_CAMERA_TRIGGERS]
+    + [("camera", "Smart Indoor Camera", trigger) for trigger in INDOOR_CAMERA_TRIGGERS]
+    + [
+        ("climate", "Smart Valve", trigger)
+        for trigger in CLIMATE_TRIGGERS
+        if trigger not in SUBTYPES
+    ]
+    + [
+        ("climate", "Smart Thermostat", trigger)
+        for trigger in CLIMATE_TRIGGERS
+        if trigger not in SUBTYPES
+    ],
+)
+async def test_if_fires_on_event(
+    hass: UniversalAssistant,
+    service_calls: list[ServiceCall],
+    device_registry: dr.DeviceRegistry,
+    entity_registry: er.EntityRegistry,
+    platform,
+    camera_type,
+    event_type,
+) -> None:
+    """Test for event triggers firing."""
+    mac_address = "12:34:56:AB:CD:EF"
+    connection = (dr.CONNECTION_NETWORK_MAC, mac_address)
+    config_entry = MockConfigEntry(domain=DOMAIN, data={})
+    config_entry.add_to_hass(hass)
+    device_entry = device_registry.async_get_or_create(
+        config_entry_id=config_entry.entry_id,
+        connections={connection},
+        identifiers={(DOMAIN, mac_address)},
+        model=camera_type,
+    )
+    entity_entry = entity_registry.async_get_or_create(
+        platform, DOMAIN, "5678", device_id=device_entry.id
+    )
+    events = async_capture_events(hass, "netatmo_event")
+
+    assert await async_setup_component(
+        hass,
+        automation.DOMAIN,
+        {
+            automation.DOMAIN: [
+                {
+                    "trigger": {
+                        "platform": "device",
+                        "domain": DOMAIN,
+                        "device_id": device_entry.id,
+                        "entity_id": entity_entry.id,
+                        "type": event_type,
+                    },
+                    "action": {
+                        "service": "test.automation",
+                        "data_template": {
+                            "some": (
+                                "{{trigger.event.data.type}} - "
+                                "{{trigger.platform}} - "
+                                "{{trigger.event.data.device_id}}"
+                            )
+                        },
+                    },
+                },
+            ]
+        },
+    )
+
+    device = device_registry.async_get_device_by_connection(
+        connection, config_entry.entry_id
+    )
+    assert device is not None
+
+    # Fake that the entity is turning on.
+    hass.bus.async_fire(
+        event_type=NETATMO_EVENT,
+        event_data={
+            "type": event_type,
+            ATTR_DEVICE_ID: device.id,
+        },
+    )
+    await hass.async_block_till_done()
+    assert len(events) == 1
+    assert len(service_calls) == 1
+    assert service_calls[0].data["some"] == f"{event_type} - device - {device.id}"
+
+
+@pytest.mark.parametrize(
+    ("platform", "camera_type", "event_type"),
+    [("camera", "Smart Outdoor Camera", trigger) for trigger in OUTDOOR_CAMERA_TRIGGERS]
+    + [("camera", "Smart Indoor Camera", trigger) for trigger in INDOOR_CAMERA_TRIGGERS]
+    + [
+        ("climate", "Smart Valve", trigger)
+        for trigger in CLIMATE_TRIGGERS
+        if trigger not in SUBTYPES
+    ]
+    + [
+        ("climate", "Smart Thermostat", trigger)
+        for trigger in CLIMATE_TRIGGERS
+        if trigger not in SUBTYPES
+    ],
+)
+async def test_if_fires_on_event_legacy(
+    hass: UniversalAssistant,
+    service_calls: list[ServiceCall],
+    device_registry: dr.DeviceRegistry,
+    entity_registry: er.EntityRegistry,
+    platform,
+    camera_type,
+    event_type,
+) -> None:
+    """Test for event triggers firing."""
+    mac_address = "12:34:56:AB:CD:EF"
+    connection = (dr.CONNECTION_NETWORK_MAC, mac_address)
+    config_entry = MockConfigEntry(domain=DOMAIN, data={})
+    config_entry.add_to_hass(hass)
+    device_entry = device_registry.async_get_or_create(
+        config_entry_id=config_entry.entry_id,
+        connections={connection},
+        identifiers={(DOMAIN, mac_address)},
+        model=camera_type,
+    )
+    entity_entry = entity_registry.async_get_or_create(
+        platform, DOMAIN, "5678", device_id=device_entry.id
+    )
+    events = async_capture_events(hass, "netatmo_event")
+
+    assert await async_setup_component(
+        hass,
+        automation.DOMAIN,
+        {
+            automation.DOMAIN: [
+                {
+                    "trigger": {
+                        "platform": "device",
+                        "domain": DOMAIN,
+                        "device_id": device_entry.id,
+                        "entity_id": entity_entry.entity_id,
+                        "type": event_type,
+                    },
+                    "action": {
+                        "service": "test.automation",
+                        "data_template": {
+                            "some": (
+                                "{{trigger.event.data.type}} - "
+                                "{{trigger.platform}} - "
+                                "{{trigger.event.data.device_id}}"
+                            )
+                        },
+                    },
+                },
+            ]
+        },
+    )
+
+    device = device_registry.async_get_device_by_connection(
+        connection, config_entry.entry_id
+    )
+    assert device is not None
+
+    # Fake that the entity is turning on.
+    hass.bus.async_fire(
+        event_type=NETATMO_EVENT,
+        event_data={
+            "type": event_type,
+            ATTR_DEVICE_ID: device.id,
+        },
+    )
+    await hass.async_block_till_done()
+    assert len(events) == 1
+    assert len(service_calls) == 1
+    assert service_calls[0].data["some"] == f"{event_type} - device - {device.id}"
+
+
+@pytest.mark.parametrize(
+    ("platform", "camera_type", "event_type", "sub_type"),
+    [
+        ("climate", "Smart Valve", trigger, subtype)
+        for trigger, subtype in SUBTYPES.items()
+    ]
+    + [
+        ("climate", "Smart Thermostat", trigger, subtype)
+        for trigger, subtype in SUBTYPES.items()
+    ],
+)
+async def test_if_fires_on_event_with_subtype(
+    hass: UniversalAssistant,
+    service_calls: list[ServiceCall],
+    device_registry: dr.DeviceRegistry,
+    entity_registry: er.EntityRegistry,
+    platform,
+    camera_type,
+    event_type,
+    sub_type,
+) -> None:
+    """Test for event triggers firing."""
+    mac_address = "12:34:56:AB:CD:EF"
+    connection = (dr.CONNECTION_NETWORK_MAC, mac_address)
+    config_entry = MockConfigEntry(domain=DOMAIN, data={})
+    config_entry.add_to_hass(hass)
+    device_entry = device_registry.async_get_or_create(
+        config_entry_id=config_entry.entry_id,
+        connections={connection},
+        identifiers={(DOMAIN, mac_address)},
+        model=camera_type,
+    )
+    entity_entry = entity_registry.async_get_or_create(
+        platform, DOMAIN, "5678", device_id=device_entry.id
+    )
+    events = async_capture_events(hass, "netatmo_event")
+
+    assert await async_setup_component(
+        hass,
+        automation.DOMAIN,
+        {
+            automation.DOMAIN: [
+                {
+                    "trigger": {
+                        "platform": "device",
+                        "domain": DOMAIN,
+                        "device_id": device_entry.id,
+                        "entity_id": entity_entry.id,
+                        "type": event_type,
+                        "subtype": sub_type,
+                    },
+                    "action": {
+                        "service": "test.automation",
+                        "data_template": {
+                            "some": (
+                                "{{trigger.event.data.type}} - "
+                                "{{trigger.event.data.data.mode}}"
+                                " - {{trigger.platform}} - "
+                                "{{trigger.event.data.device_id}}"
+                            )
+                        },
+                    },
+                },
+            ]
+        },
+    )
+
+    device = device_registry.async_get_device_by_connection(
+        connection, config_entry.entry_id
+    )
+    assert device is not None
+
+    # Fake that the entity is turning on.
+    hass.bus.async_fire(
+        event_type=NETATMO_EVENT,
+        event_data={
+            "type": event_type,
+            "data": {
+                "mode": sub_type,
+            },
+            ATTR_DEVICE_ID: device.id,
+        },
+    )
+    await hass.async_block_till_done()
+    assert len(events) == 1
+    assert len(service_calls) == 1
+    assert (
+        service_calls[0].data["some"]
+        == f"{event_type} - {sub_type} - device - {device.id}"
+    )
+
+
+@pytest.mark.parametrize(
+    ("platform", "device_type", "event_type"),
+    [("climate", "NAPlug", trigger) for trigger in CLIMATE_TRIGGERS],
+)
+async def test_if_invalid_device(
+    hass: UniversalAssistant,
+    device_registry: dr.DeviceRegistry,
+    entity_registry: er.EntityRegistry,
+    platform,
+    device_type,
+    event_type,
+) -> None:
+    """Test for event triggers firing."""
+    mac_address = "12:34:56:AB:CD:EF"
+    connection = (dr.CONNECTION_NETWORK_MAC, mac_address)
+    config_entry = MockConfigEntry(domain=DOMAIN, data={})
+    config_entry.add_to_hass(hass)
+    device_entry = device_registry.async_get_or_create(
+        config_entry_id=config_entry.entry_id,
+        connections={connection},
+        identifiers={(DOMAIN, mac_address)},
+        model=device_type,
+    )
+    entity_entry = entity_registry.async_get_or_create(
+        platform, DOMAIN, "5678", device_id=device_entry.id
+    )
+
+    assert await async_setup_component(
+        hass,
+        automation.DOMAIN,
+        {
+            automation.DOMAIN: [
+                {
+                    "trigger": {
+                        "platform": "device",
+                        "domain": DOMAIN,
+                        "device_id": device_entry.id,
+                        "entity_id": entity_entry.id,
+                        "type": event_type,
+                    },
+                    "action": {
+                        "service": "test.automation",
+                        "data_template": {
+                            "some": (
+                                "{{trigger.event.data.type}} - "
+                                "{{trigger.platform}} - "
+                                "{{trigger.event.data.device_id}}"
+                            )
+                        },
+                    },
+                },
+            ]
+        },
+    )
+
+
+async def test_validate_trigger_config(
+    hass: UniversalAssistant, device_registry: dr.DeviceRegistry
+) -> None:
+    """Test a trigger for a supported model and trigger type is valid."""
+    config_entry = MockConfigEntry(domain=DOMAIN, data={})
+    config_entry.add_to_hass(hass)
+    device_entry = device_registry.async_get_or_create(
+        config_entry_id=config_entry.entry_id,
+        identifiers={(DOMAIN, "12:34:56:AB:CD:EF")},
+        model="Smart Thermostat",
+    )
+    config = {
+        "platform": "device",
+        "domain": DOMAIN,
+        "device_id": device_entry.id,
+        "entity_id": "climate.thermostat",
+        "type": CLIMATE_TRIGGERS[0],
+    }
+
+    assert await async_validate_trigger_config(hass, config) == config
+
+
+@pytest.mark.parametrize(
+    ("model", "trigger_type", "message"),
+    [
+        pytest.param(None, CLIMATE_TRIGGERS[0], "not found", id="no_model"),
+        pytest.param(
+            "NAPlug",
+            CLIMATE_TRIGGERS[0],
+            "Unsupported model NAPlug",
+            id="unsupported_model",
+        ),
+        pytest.param(
+            "Smart Thermostat",
+            INDOOR_CAMERA_TRIGGERS[0],
+            "Unsupported model Smart Thermostat",
+            id="unsupported_trigger",
+        ),
+    ],
+)
+async def test_validate_trigger_config_invalid(
+    hass: UniversalAssistant,
+    device_registry: dr.DeviceRegistry,
+    model: str | None,
+    trigger_type: str,
+    message: str,
+) -> None:
+    """Test a trigger is invalid for an unsupported model or trigger type."""
+    config_entry = MockConfigEntry(domain=DOMAIN, data={})
+    config_entry.add_to_hass(hass)
+    device_entry = device_registry.async_get_or_create(
+        config_entry_id=config_entry.entry_id,
+        identifiers={(DOMAIN, "12:34:56:AB:CD:EF")},
+        model=model,
+    )
+
+    with pytest.raises(InvalidDeviceAutomationConfig, match=message):
+        await async_validate_trigger_config(
+            hass,
+            {
+                "platform": "device",
+                "domain": DOMAIN,
+                "device_id": device_entry.id,
+                "entity_id": "climate.thermostat",
+                "type": trigger_type,
+            },
+        )
+
+
+async def test_validate_trigger_config_unknown_device(hass: UniversalAssistant) -> None:
+    """Test a trigger is invalid for an unknown device."""
+    with pytest.raises(InvalidDeviceAutomationConfig, match="not found"):
+        await async_validate_trigger_config(
+            hass,
+            {
+                "platform": "device",
+                "domain": DOMAIN,
+                "device_id": "unknown",
+                "entity_id": "climate.thermostat",
+                "type": CLIMATE_TRIGGERS[0],
+            },
+        )

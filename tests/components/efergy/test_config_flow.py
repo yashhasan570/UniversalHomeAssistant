@@ -1,0 +1,112 @@
+"""Test Efergy config flow."""
+
+from unittest.mock import patch
+
+from pyefergy import exceptions
+
+from universalassistant.components.efergy.const import DEFAULT_NAME, DOMAIN
+from universalassistant.config_entries import SOURCE_USER
+from universalassistant.const import CONF_API_KEY, CONF_SOURCE
+from universalassistant.core import UniversalAssistant
+from universalassistant.data_entry_flow import FlowResultType
+
+from . import CONF_DATA, HID, _patch_efergy, _patch_efergy_status, create_entry
+
+
+def _patch_setup():
+    return patch("universalassistant.components.efergy.async_setup_entry")
+
+
+async def test_flow_user(hass: UniversalAssistant) -> None:
+    """Test user initialized flow."""
+    with _patch_efergy(), _patch_setup():
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN,
+            context={CONF_SOURCE: SOURCE_USER},
+        )
+        assert result["type"] is FlowResultType.FORM
+        assert result["step_id"] == "user"
+
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=CONF_DATA,
+        )
+        assert result["type"] is FlowResultType.CREATE_ENTRY
+        assert result["title"] == DEFAULT_NAME
+        assert result["data"] == CONF_DATA
+        assert result["result"].unique_id == HID
+
+
+async def test_flow_user_cannot_connect(hass: UniversalAssistant) -> None:
+    """Test user initialized flow with unreachable service."""
+    with _patch_efergy_status() as efergymock:
+        efergymock.side_effect = exceptions.ConnectError
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={CONF_SOURCE: SOURCE_USER}, data=CONF_DATA
+        )
+        assert result["type"] is FlowResultType.FORM
+        assert result["step_id"] == "user"
+        assert result["errors"]["base"] == "cannot_connect"
+
+    with _patch_efergy(), _patch_setup():
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=CONF_DATA,
+        )
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_flow_user_invalid_auth(hass: UniversalAssistant) -> None:
+    """Test user initialized flow with invalid authentication."""
+    with _patch_efergy_status() as efergymock:
+        efergymock.side_effect = exceptions.InvalidAuth
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={CONF_SOURCE: SOURCE_USER}, data=CONF_DATA
+        )
+        assert result["type"] is FlowResultType.FORM
+        assert result["step_id"] == "user"
+        assert result["errors"]["base"] == "invalid_auth"
+
+    with _patch_efergy(), _patch_setup():
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=CONF_DATA,
+        )
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_flow_user_unknown(hass: UniversalAssistant) -> None:
+    """Test user initialized flow with unknown error."""
+    with _patch_efergy_status() as efergymock:
+        efergymock.side_effect = Exception
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={CONF_SOURCE: SOURCE_USER}, data=CONF_DATA
+        )
+        assert result["type"] is FlowResultType.FORM
+        assert result["step_id"] == "user"
+        assert result["errors"]["base"] == "unknown"
+
+    with _patch_efergy(), _patch_setup():
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=CONF_DATA,
+        )
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_flow_reauth(hass: UniversalAssistant) -> None:
+    """Test reauth step."""
+    entry = create_entry(hass)
+    result = await entry.start_reauth_flow(hass)
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+
+    with _patch_efergy(), _patch_setup():
+        new_conf = {CONF_API_KEY: "1234567890"}
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=new_conf,
+        )
+        assert result["type"] is FlowResultType.ABORT
+        assert result["reason"] == "reauth_successful"
+        assert entry.data == new_conf

@@ -1,0 +1,42 @@
+"""Test the Flexit binary sensor platform."""
+
+from unittest.mock import patch
+
+from modbus_connection.mock import MockModbusUnit
+from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.const import Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+
+async def test_binary_sensors(
+    hass: UniversalAssistant,
+    snapshot: SnapshotAssertion,
+    entity_registry: er.EntityRegistry,
+    mock_config_entry: MockConfigEntry,
+    mock_modbus_unit: MockModbusUnit,
+) -> None:
+    """Test Flexit binary sensor states."""
+    mock_modbus_unit.holding.update({8: 215, 17: 2})
+    mock_modbus_unit.input.update(
+        {
+            8: 120,
+            9: 200,
+            11: 50,
+            13: 0,
+            14: 0,
+            15: 0,
+            27: 1,
+            28: 1,
+            48: 0,
+        }
+    )
+    mock_config_entry.add_to_hass(hass)
+
+    with patch("universalassistant.components.flexit._PLATFORMS", [Platform.BINARY_SENSOR]):
+        assert await hass.config_entries.async_setup(mock_config_entry.entry_id)
+        await hass.async_block_till_done()
+
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)

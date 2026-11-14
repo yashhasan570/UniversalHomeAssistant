@@ -1,0 +1,10 @@
+{
+  "domain": "hddtemp",
+  "name": "hddtemp",
+  "categories": ["computers_network.monitoring"],
+  "codeowners": [],
+  "connectivity": ["network"],
+  "documentation": "https://www.universalassistant.io/integrations/hddtemp",
+  "iot_class": "local_polling",
+  "quality_scale": "legacy"
+}

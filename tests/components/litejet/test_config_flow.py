@@ -1,0 +1,110 @@
+"""The tests for the litejet component."""
+
+from unittest.mock import patch
+
+import pytest
+from pytest_universalassistant.common import MockConfigEntry
+from serial import SerialException
+
+from universalassistant import config_entries
+from universalassistant.components.litejet.const import CONF_DEFAULT_TRANSITION, DOMAIN
+from universalassistant.const import CONF_PORT
+from universalassistant.core import UniversalAssistant
+from universalassistant.data_entry_flow import FlowResultType
+
+
+async def test_show_config_form(hass: UniversalAssistant) -> None:
+    """Test show configuration form."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+
+
+async def test_create_entry(hass: UniversalAssistant, mock_litejet) -> None:
+    """Test create entry from user input."""
+    test_data = {CONF_PORT: "/dev/test"}
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "user"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input=test_data,
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == "/dev/test"
+    assert result["data"] == test_data
+
+
+async def test_flow_entry_already_exists(hass: UniversalAssistant) -> None:
+    """Test user input when a config entry already exists."""
+    first_entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_PORT: "/dev/first"},
+    )
+    first_entry.add_to_hass(hass)
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "single_instance_allowed"
+
+
+@pytest.mark.usefixtures("mock_litejet")
+async def test_flow_open_failed(hass: UniversalAssistant) -> None:
+    """Test user input when serial port open fails."""
+    test_data = {CONF_PORT: "/dev/test"}
+
+    with patch("pylitejet.LiteJet") as mock_pylitejet:
+        mock_pylitejet.side_effect = SerialException
+
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": config_entries.SOURCE_USER}
+        )
+
+        assert result["type"] is FlowResultType.FORM
+        assert result["step_id"] == "user"
+
+        result = await hass.config_entries.flow.async_configure(
+            result["flow_id"],
+            user_input=test_data,
+        )
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["errors"][CONF_PORT] == "open_failed"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        user_input=test_data,
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+
+
+async def test_options(hass: UniversalAssistant) -> None:
+    """Test updating options."""
+    entry = MockConfigEntry(domain=DOMAIN, data={CONF_PORT: "/dev/test"})
+    entry.add_to_hass(hass)
+
+    result = await hass.config_entries.options.async_init(entry.entry_id)
+
+    assert result["type"] is FlowResultType.FORM
+    assert result["step_id"] == "init"
+
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"],
+        user_input={CONF_DEFAULT_TRANSITION: 12},
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["data"] == {CONF_DEFAULT_TRANSITION: 12}

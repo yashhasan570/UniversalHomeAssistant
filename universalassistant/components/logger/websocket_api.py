@@ -1,0 +1,118 @@
+"""Websocket API handlers for the logger integration."""
+
+from typing import Any
+
+import probatio
+
+from universalassistant.components import websocket_api
+from universalassistant.components.websocket_api import ActiveConnection
+from universalassistant.config_entries import DISCOVERY_SOURCES
+from universalassistant.core import UniversalAssistant, callback
+from universalassistant.loader import IntegrationNotFound, async_get_integration
+from universalassistant.setup import async_get_loaded_integrations
+
+from .const import LOGSEVERITY
+from .helpers import (
+    DATA_LOGGER,
+    LoggerSetting,
+    LogPersistance,
+    LogSettingsType,
+    get_logger,
+)
+
+
+@callback
+def async_load_websocket_api(hass: UniversalAssistant) -> None:
+    """Set up the websocket API."""
+    websocket_api.async_register_command(hass, handle_integration_log_info)
+    websocket_api.async_register_command(hass, handle_integration_log_level)
+    websocket_api.async_register_command(hass, handle_module_log_level)
+
+
+@callback
+@websocket_api.websocket_command({probatio.Required("type"): "logger/log_info"})
+def handle_integration_log_info(
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+) -> None:
+    """Handle integrations logger info."""
+    integrations = set(async_get_loaded_integrations(hass))
+
+    # Add discovered config flows that are not yet loaded
+    for flow in hass.config_entries.flow.async_progress():
+        if flow["context"].get("source") in DISCOVERY_SOURCES:
+            integrations.add(flow["handler"])
+
+    # Add integrations with custom log settings
+    integrations.update(hass.data[DATA_LOGGER].settings.async_get_integration_domains())
+
+    connection.send_result(
+        msg["id"],
+        [
+            {
+                "domain": integration,
+                "level": get_logger(
+                    f"universalassistant.components.{integration}"
+                ).getEffectiveLevel(),
+            }
+            for integration in integrations
+        ],
+    )
+
+
+@websocket_api.websocket_command(
+    {
+        probatio.Required("type"): "logger/integration_log_level",
+        probatio.Required("integration"): str,
+        probatio.Required("level"): probatio.In(LOGSEVERITY),
+        probatio.Required("persistence"): probatio.Coerce(LogPersistance),
+    }
+)
+@websocket_api.require_admin
+@websocket_api.async_response
+async def handle_integration_log_level(
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+) -> None:
+    """Handle setting integration log level."""
+    try:
+        await async_get_integration(hass, msg["integration"])
+    except IntegrationNotFound:
+        connection.send_error(
+            msg["id"], websocket_api.ERR_NOT_FOUND, "Integration not found"
+        )
+        return
+    await hass.data[DATA_LOGGER].settings.async_update(
+        hass,
+        msg["integration"],
+        LoggerSetting(
+            level=msg["level"],
+            persistence=msg["persistence"],
+            type=LogSettingsType.INTEGRATION,
+        ),
+    )
+    connection.send_message(websocket_api.messages.result_message(msg["id"]))
+
+
+@websocket_api.websocket_command(
+    {
+        probatio.Required("type"): "logger/log_level",
+        probatio.Required("module"): str,
+        probatio.Required("level"): probatio.In(LOGSEVERITY),
+        probatio.Required("persistence"): probatio.Coerce(LogPersistance),
+    }
+)
+@websocket_api.require_admin
+@websocket_api.async_response
+async def handle_module_log_level(
+    hass: UniversalAssistant, connection: ActiveConnection, msg: dict[str, Any]
+) -> None:
+    """Handle setting integration log level."""
+    await hass.data[DATA_LOGGER].settings.async_update(
+        hass,
+        msg["module"],
+        LoggerSetting(
+            level=msg["level"],
+            persistence=msg["persistence"],
+            type=LogSettingsType.MODULE,
+        ),
+    )
+    connection.send_message(websocket_api.messages.result_message(msg["id"]))

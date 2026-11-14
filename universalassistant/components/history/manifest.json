@@ -1,0 +1,9 @@
+{
+  "domain": "history",
+  "name": "History",
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["http", "recorder"],
+  "documentation": "https://www.universalassistant.io/integrations/history",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

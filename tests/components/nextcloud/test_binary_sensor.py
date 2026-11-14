@@ -1,0 +1,29 @@
+"""Tests for the Nextcloud binary sensors."""
+
+from unittest.mock import patch
+
+import pytest
+from pytest_universalassistant.common import snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.const import Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+from . import init_integration
+from .const import NC_DATA, VALID_CONFIG
+
+
+@pytest.mark.usefixtures("entity_registry_enabled_by_default")
+async def test_async_setup_entry(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test a successful setup entry."""
+    with patch(
+        "universalassistant.components.nextcloud.PLATFORMS", [Platform.BINARY_SENSOR]
+    ):
+        entry = await init_integration(hass, VALID_CONFIG, NC_DATA)
+
+    await snapshot_platform(hass, entity_registry, snapshot, entry.entry_id)

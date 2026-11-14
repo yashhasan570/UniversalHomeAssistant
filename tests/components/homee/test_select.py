@@ -1,0 +1,113 @@
+"""Test homee selects."""
+
+from collections.abc import AsyncGenerator
+from unittest.mock import MagicMock, patch
+
+import pytest
+from pytest_universalassistant.common import MockConfigEntry, snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.select import (
+    DOMAIN as SELECT_DOMAIN,
+    SERVICE_SELECT_FIRST,
+    SERVICE_SELECT_LAST,
+    SERVICE_SELECT_NEXT,
+    SERVICE_SELECT_OPTION,
+    SERVICE_SELECT_PREVIOUS,
+    SelectService,
+)
+from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ServiceValidationError
+from universalassistant.helpers import entity_registry as er
+
+from . import build_mock_node, setup_integration
+
+
+@pytest.fixture(autouse=True)
+async def platforms() -> AsyncGenerator[None]:
+    """Return the platforms to be loaded for this test."""
+    with patch("universalassistant.components.homee.PLATFORMS", [Platform.SELECT]):
+        yield
+
+
+async def setup_select(
+    hass: UniversalAssistant, mock_homee: MagicMock, mock_config_entry: MockConfigEntry
+) -> None:
+    """Setups the integration for select tests."""
+    mock_homee.nodes = [build_mock_node("selects.json")]
+    mock_homee.get_node_by_id.return_value = mock_homee.nodes[0]
+    await setup_integration(hass, mock_config_entry)
+
+
+@pytest.mark.parametrize(
+    ("service", "extra_options", "expected"),
+    [
+        (SERVICE_SELECT_FIRST, {}, 0),
+        (SERVICE_SELECT_LAST, {}, 2),
+        (SERVICE_SELECT_NEXT, {}, 2),
+        (SERVICE_SELECT_PREVIOUS, {}, 0),
+        (
+            SERVICE_SELECT_OPTION,
+            {
+                "option": "level2",
+            },
+            2,
+        ),
+    ],
+)
+async def test_select_services(
+    hass: UniversalAssistant,
+    mock_homee: MagicMock,
+    mock_config_entry: MockConfigEntry,
+    service: str,
+    extra_options: dict[str, str],
+    expected: int,
+) -> None:
+    """Test the select services."""
+    await setup_select(hass, mock_homee, mock_config_entry)
+
+    OPTIONS = {ATTR_ENTITY_ID: "select.test_select_repeater_mode"}
+    OPTIONS.update(extra_options)
+
+    await hass.services.async_call(
+        SELECT_DOMAIN,
+        service,
+        OPTIONS,
+        blocking=True,
+    )
+
+    mock_homee.set_value.assert_called_once_with(1, 1, expected)
+
+
+async def test_select_option_service_error(
+    hass: UniversalAssistant,
+    mock_homee: MagicMock,
+    mock_config_entry: MockConfigEntry,
+) -> None:
+    """Test the select_option service called with invalid option."""
+    await setup_select(hass, mock_homee, mock_config_entry)
+
+    with pytest.raises(ServiceValidationError):
+        await hass.services.async_call(
+            SELECT_DOMAIN,
+            SelectService.SELECT_OPTION,
+            {
+                CommonServiceArgument.ENTITY_ID: "select.test_select_repeater_mode",
+                "option": "invalid",
+            },
+            blocking=True,
+        )
+
+
+async def test_select_snapshot(
+    hass: UniversalAssistant,
+    mock_homee: MagicMock,
+    mock_config_entry: MockConfigEntry,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test the select entity snapshot."""
+    await setup_select(hass, mock_homee, mock_config_entry)
+
+    await snapshot_platform(hass, entity_registry, snapshot, mock_config_entry.entry_id)

@@ -1,0 +1,10 @@
+{
+  "domain": "brands",
+  "name": "Brands",
+  "codeowners": ["@universal-assistant/core"],
+  "config_flow": false,
+  "dependencies": ["http", "websocket_api"],
+  "documentation": "https://www.universalassistant.io/integrations/brands",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

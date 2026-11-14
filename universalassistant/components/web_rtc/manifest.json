@@ -1,0 +1,8 @@
+{
+  "domain": "web_rtc",
+  "name": "WebRTC",
+  "codeowners": ["@universal-assistant/core"],
+  "documentation": "https://www.universalassistant.io/integrations/web_rtc",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

@@ -1,0 +1,9 @@
+{
+  "domain": "universal",
+  "name": "Universal media player",
+  "categories": ["media_entertainment"],
+  "codeowners": [],
+  "documentation": "https://www.universalassistant.io/integrations/universal",
+  "iot_class": "calculated",
+  "quality_scale": "internal"
+}

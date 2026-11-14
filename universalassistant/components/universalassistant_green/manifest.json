@@ -1,0 +1,12 @@
+{
+  "domain": "universalassistant_green",
+  "name": "Universal Universal Home Assistant Green",
+  "after_dependencies": ["hassio"],
+  "categories": ["hubs_protocols.smart_home_hubs"],
+  "codeowners": ["@universal-assistant/core"],
+  "config_flow": false,
+  "dependencies": ["hardware", "universalassistant_hardware"],
+  "documentation": "https://www.universalassistant.io/integrations/universalassistant_green",
+  "integration_type": "hardware",
+  "single_config_entry": true
+}

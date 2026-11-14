@@ -1,0 +1,161 @@
+"""The tests for the TTS component."""
+
+from unittest.mock import patch
+
+import pytest
+from pytest_universalassistant.common import assert_setup_component, async_mock_service
+
+from universalassistant.components import notify, tts
+from universalassistant.components.media_player import (
+    DOMAIN as MP_DOMAIN,
+    SERVICE_PLAY_MEDIA,
+)
+from universalassistant.core import UniversalAssistant
+from universalassistant.core_config import async_process_ha_core_config
+from universalassistant.setup import async_setup_component
+
+from .common import MockTTSEntity, MockTTSProvider, mock_config_entry_setup, mock_setup
+
+
+@pytest.fixture(autouse=True)
+async def internal_url_mock(hass: UniversalAssistant) -> None:
+    """Mock internal URL of the instance."""
+    await async_process_ha_core_config(
+        hass,
+        {"internal_url": "http://example.local:8123"},
+    )
+
+
+@pytest.fixture(autouse=True)
+async def disable_platforms() -> None:
+    """Disable demo platforms."""
+    with patch(
+        "universalassistant.components.demo.COMPONENTS_WITH_CONFIG_ENTRY_DEMO_PLATFORM",
+        [],
+    ):
+        yield
+
+
+async def test_setup_legacy_platform(hass: UniversalAssistant) -> None:
+    """Set up the tts notify platform ."""
+    config = {
+        notify.DOMAIN: {
+            "platform": "tts",
+            "name": "tts_test",
+            "tts_service": "tts.test_say",
+            "media_player": "media_player.demo",
+        }
+    }
+    with assert_setup_component(1, notify.DOMAIN):
+        assert await async_setup_component(hass, notify.DOMAIN, config)
+        await hass.async_block_till_done()
+
+    assert hass.services.has_service(notify.DOMAIN, "tts_test")
+
+
+async def test_setup_platform(hass: UniversalAssistant) -> None:
+    """Set up the tts notify platform ."""
+    config = {
+        notify.DOMAIN: {
+            "platform": "tts",
+            "name": "tts_test",
+            "entity_id": "tts.test",
+            "media_player": "media_player.demo",
+        }
+    }
+    with assert_setup_component(1, notify.DOMAIN):
+        assert await async_setup_component(hass, notify.DOMAIN, config)
+        await hass.async_block_till_done()
+
+    assert hass.services.has_service(notify.DOMAIN, "tts_test")
+
+
+async def test_setup_platform_missing_key(hass: UniversalAssistant) -> None:
+    """Test platform without required tts_service or entity_id key."""
+    config = {
+        notify.DOMAIN: {
+            "platform": "tts",
+            "name": "tts_test",
+            "media_player": "media_player.demo",
+        }
+    }
+    with assert_setup_component(0, notify.DOMAIN):
+        assert await async_setup_component(hass, notify.DOMAIN, config)
+        await hass.async_block_till_done()
+
+    assert not hass.services.has_service(notify.DOMAIN, "tts_test")
+
+
+async def test_setup_legacy_service(
+    hass: UniversalAssistant, mock_provider: MockTTSProvider
+) -> None:
+    """Set up the legacy platform and call service."""
+    calls = async_mock_service(hass, MP_DOMAIN, SERVICE_PLAY_MEDIA)
+
+    config = {
+        notify.DOMAIN: {
+            "platform": "tts",
+            "name": "tts_test",
+            "tts_service": "tts.test_say",
+            "media_player": "media_player.demo",
+            "language": "en_US",
+        },
+    }
+
+    await async_setup_component(hass, "universalassistant", {})
+    await mock_setup(hass, mock_provider)
+
+    with assert_setup_component(1, notify.DOMAIN):
+        assert await async_setup_component(hass, notify.DOMAIN, config)
+
+    await hass.async_block_till_done()
+
+    await hass.services.async_call(
+        notify.DOMAIN,
+        "tts_test",
+        {
+            tts.ATTR_MESSAGE: "There is someone at the door.",
+        },
+        blocking=True,
+    )
+
+    await hass.async_block_till_done()
+
+    assert len(calls) == 1
+
+
+async def test_setup_service(
+    hass: UniversalAssistant, mock_tts_entity: MockTTSEntity
+) -> None:
+    """Set up platform and call service."""
+    calls = async_mock_service(hass, MP_DOMAIN, SERVICE_PLAY_MEDIA)
+
+    config = {
+        notify.DOMAIN: {
+            "platform": "tts",
+            "name": "tts_test",
+            "entity_id": "tts.test",
+            "media_player": "media_player.demo",
+            "language": "en_US",
+        },
+    }
+
+    await mock_config_entry_setup(hass, mock_tts_entity)
+
+    with assert_setup_component(1, notify.DOMAIN):
+        assert await async_setup_component(hass, notify.DOMAIN, config)
+
+    await hass.async_block_till_done()
+
+    await hass.services.async_call(
+        notify.DOMAIN,
+        "tts_test",
+        {
+            tts.ATTR_MESSAGE: "There is someone at the door.",
+        },
+        blocking=True,
+    )
+
+    await hass.async_block_till_done()
+
+    assert len(calls) == 1

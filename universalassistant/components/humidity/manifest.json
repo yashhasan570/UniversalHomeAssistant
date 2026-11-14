@@ -1,0 +1,8 @@
+{
+  "domain": "humidity",
+  "name": "Humidity",
+  "codeowners": ["@universal-assistant/core"],
+  "documentation": "https://www.universalassistant.io/integrations/humidity",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

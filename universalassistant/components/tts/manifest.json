@@ -1,0 +1,12 @@
+{
+  "domain": "tts",
+  "name": "Text-to-speech (TTS)",
+  "after_dependencies": ["media_player"],
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["http", "ffmpeg"],
+  "documentation": "https://www.universalassistant.io/integrations/tts",
+  "integration_type": "entity",
+  "loggers": ["mutagen"],
+  "quality_scale": "internal",
+  "requirements": ["mutagen==1.48.1"]
+}

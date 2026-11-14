@@ -1,0 +1,46 @@
+"""Test the Google Air Quality sensor."""
+
+from unittest.mock import AsyncMock, patch
+
+import pytest
+from pytest_universalassistant.common import snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.config_entries import ConfigEntryState
+from universalassistant.const import Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+
+@pytest.mark.parametrize(
+    ("mock_api", "config_fixture_name"),
+    [
+        ("air_quality_data.json", "mock_config_entry"),
+        ("air_quality_data_custom_laqi.json", "mock_config_entry_with_custom_laqi"),
+    ],
+    indirect=("mock_api",),
+)
+async def test_sensor_snapshot(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    request: pytest.FixtureRequest,
+    mock_api: AsyncMock,
+    snapshot: SnapshotAssertion,
+    config_fixture_name: str,
+) -> None:
+    """Snapshot test of the sensors."""
+
+    mock_config_entry = request.getfixturevalue(config_fixture_name)
+
+    mock_config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+
+    assert mock_config_entry.state is ConfigEntryState.LOADED
+
+    with patch(
+        "universalassistant.components.google_air_quality.PLATFORMS",
+        [Platform.SENSOR],
+    ):
+        await snapshot_platform(
+            hass, entity_registry, snapshot, mock_config_entry.entry_id
+        )

@@ -1,0 +1,36 @@
+"""The MyQ integration."""
+
+from universalassistant.config_entries import ConfigEntry
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import issue_registry as ir
+
+DOMAIN = "myq"
+
+
+async def async_setup_entry(hass: UniversalAssistant, _: ConfigEntry) -> None:
+    """Set up MyQ from a config entry."""
+    ir.async_create_issue(
+        hass,
+        DOMAIN,
+        DOMAIN,
+        is_fixable=False,
+        severity=ir.IssueSeverity.ERROR,
+        translation_key="integration_removed",
+        translation_placeholders={
+            "blog": "https://www.universalassistant.io/blog/2023/11/06/removal-of-myq-integration/",
+            "entries": "/config/integrations/integration/myQ",
+        },
+    )
+
+
+async def async_unload_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    """Unload a config entry."""
+
+
+async def async_remove_entry(hass: UniversalAssistant, entry: ConfigEntry) -> None:
+    """Remove a config entry."""
+    if not hass.config_entries.async_loaded_entries(DOMAIN):
+        ir.async_delete_issue(hass, DOMAIN, DOMAIN)
+        # Remove any remaining disabled or ignored entries
+        for _entry in hass.config_entries.async_entries(DOMAIN):
+            hass.async_create_task(hass.config_entries.async_remove(_entry.entry_id))

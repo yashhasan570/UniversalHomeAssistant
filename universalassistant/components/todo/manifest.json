@@ -1,0 +1,9 @@
+{
+  "domain": "todo",
+  "name": "To-do list",
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["http"],
+  "documentation": "https://www.universalassistant.io/integrations/todo",
+  "integration_type": "entity",
+  "quality_scale": "internal"
+}

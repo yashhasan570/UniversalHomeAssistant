@@ -1,0 +1,58 @@
+"""Test Modem Caller ID integration."""
+
+from phone_modem import exceptions
+from pytest_universalassistant.common import MockConfigEntry
+
+from universalassistant.components.modem_callerid.const import DOMAIN
+from universalassistant.config_entries import ConfigEntryState
+from universalassistant.const import CONF_DEVICE
+from universalassistant.core import UniversalAssistant
+
+from . import com_port, patch_init_modem
+
+
+async def test_setup_entry(hass: UniversalAssistant) -> None:
+    """Test Modem Caller ID entry setup."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_DEVICE: com_port().device},
+    )
+    entry.add_to_hass(hass)
+    with patch_init_modem():
+        await hass.config_entries.async_setup(entry.entry_id)
+    assert entry.state is ConfigEntryState.LOADED
+
+
+async def test_async_setup_entry_not_ready(hass: UniversalAssistant) -> None:
+    """Test that it throws ConfigEntryNotReady when exception occurs during setup."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_DEVICE: com_port().device},
+    )
+    entry.add_to_hass(hass)
+
+    with patch_init_modem() as modemmock:
+        modemmock.side_effect = exceptions.SerialError
+        await hass.config_entries.async_setup(entry.entry_id)
+    assert len(hass.config_entries.async_entries(DOMAIN)) == 1
+    assert entry.state is ConfigEntryState.SETUP_RETRY
+    assert not hass.data.get(DOMAIN)
+
+
+async def test_unload_entry(hass: UniversalAssistant) -> None:
+    """Test unload."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_DEVICE: com_port().device},
+    )
+    entry.add_to_hass(hass)
+    with patch_init_modem():
+        await hass.config_entries.async_setup(entry.entry_id)
+    assert len(hass.config_entries.async_entries(DOMAIN)) == 1
+    assert entry.state is ConfigEntryState.LOADED
+
+    assert await hass.config_entries.async_unload(entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert entry.state is ConfigEntryState.NOT_LOADED
+    assert not hass.data.get(DOMAIN)

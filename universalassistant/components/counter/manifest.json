@@ -1,0 +1,9 @@
+{
+  "domain": "counter",
+  "name": "Counter",
+  "categories": ["helpers.store_value"],
+  "codeowners": ["@fabaff"],
+  "documentation": "https://www.universalassistant.io/integrations/counter",
+  "integration_type": "helper",
+  "quality_scale": "internal"
+}

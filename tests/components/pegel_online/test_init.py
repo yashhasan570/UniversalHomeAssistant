@@ -1,0 +1,77 @@
+"""Test pegel_online component."""
+
+from unittest.mock import patch
+
+from aiohttp.client_exceptions import ClientError
+import pytest
+from pytest_universalassistant.common import MockConfigEntry, async_fire_time_changed
+
+from universalassistant.components.pegel_online.const import (
+    CONF_STATION,
+    DOMAIN,
+    MIN_TIME_BETWEEN_UPDATES,
+)
+from universalassistant.config_entries import ConfigEntryState
+from universalassistant.const import STATE_UNAVAILABLE
+from universalassistant.core import UniversalAssistant
+from universalassistant.util import utcnow
+
+from . import PegelOnlineMock
+from .const import (
+    MOCK_CONFIG_ENTRY_DATA_DRESDEN,
+    MOCK_STATION_DETAILS_DRESDEN,
+    MOCK_STATION_MEASUREMENT_DRESDEN,
+)
+
+
+async def test_setup_error(
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+) -> None:
+    """Tests error during config entry setup."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data=MOCK_CONFIG_ENTRY_DATA_DRESDEN,
+        unique_id=MOCK_CONFIG_ENTRY_DATA_DRESDEN[CONF_STATION],
+    )
+    entry.add_to_hass(hass)
+    with patch("universalassistant.components.pegel_online.PegelOnline") as pegelonline:
+        pegelonline.return_value = PegelOnlineMock(
+            station_details=MOCK_STATION_DETAILS_DRESDEN,
+            station_measurements=MOCK_STATION_MEASUREMENT_DRESDEN,
+        )
+        pegelonline().override_side_effect(ClientError("Boom"))
+        await hass.config_entries.async_setup(entry.entry_id)
+
+    assert entry.state is ConfigEntryState.SETUP_RETRY
+
+
+async def test_update_error(
+    hass: UniversalAssistant, caplog: pytest.LogCaptureFixture
+) -> None:
+    """Tests error during update entity."""
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data=MOCK_CONFIG_ENTRY_DATA_DRESDEN,
+        unique_id=MOCK_CONFIG_ENTRY_DATA_DRESDEN[CONF_STATION],
+    )
+    entry.add_to_hass(hass)
+    with patch("universalassistant.components.pegel_online.PegelOnline") as pegelonline:
+        pegelonline.return_value = PegelOnlineMock(
+            station_details=MOCK_STATION_DETAILS_DRESDEN,
+            station_measurements=MOCK_STATION_MEASUREMENT_DRESDEN,
+        )
+        assert await hass.config_entries.async_setup(entry.entry_id)
+
+    await hass.async_block_till_done()
+
+    state = hass.states.get("sensor.dresden_elbe_water_level")
+    assert state
+
+    pegelonline().override_side_effect(ClientError("Boom"))
+    async_fire_time_changed(hass, utcnow() + MIN_TIME_BETWEEN_UPDATES)
+    await hass.async_block_till_done()
+
+    assert "Failed to communicate with API: Boom" in caplog.text
+
+    state = hass.states.get("sensor.dresden_elbe_water_level")
+    assert state.state == STATE_UNAVAILABLE

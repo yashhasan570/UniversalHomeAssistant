@@ -1,0 +1,22 @@
+"""Constants for Roon Component."""
+
+AUTHENTICATE_TIMEOUT = 5
+
+DOMAIN = "roon"
+ENTITY_ID_CHANGED_SIGNAL = f"{DOMAIN}_entity_id_changed"
+
+CONF_ROON_ID = "roon_server_id"
+CONF_ROON_NAME = "roon_server_name"
+
+DATA_CONFIGS = "roon_configs"
+
+DEFAULT_NAME = "Roon Labs Music Player"
+
+ROON_APPINFO = {
+    "extension_id": "universal_assistant",
+    "display_name": "Universal Universal Home Assistant",
+    "display_version": "1.0.1",
+    "publisher": "universal_assistant",
+    "email": "universal_assistant@users.noreply.github.com",
+    "website": "https://www.universalassistant.io/",
+}

@@ -1,0 +1,46 @@
+"""Set up Tonewinner from a config entry."""
+
+import logging
+
+from tonewinner_rs232 import TonewinnerReceiver
+
+from universalassistant.config_entries import ConfigEntry
+from universalassistant.const import Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import ConfigEntryNotReady
+from universalassistant.helpers import config_validation as cv
+
+from .const import CONF_SERIAL_PORT, DOMAIN
+
+PLATFORMS: list[Platform] = [Platform.MEDIA_PLAYER]
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+type TonewinnerConfigEntry = ConfigEntry[TonewinnerReceiver]
+
+_LOGGER = logging.getLogger(__name__)
+
+
+async def async_setup_entry(hass: UniversalAssistant, entry: TonewinnerConfigEntry) -> None:
+    """Set up Tonewinner from a config entry."""
+    port = entry.data[CONF_SERIAL_PORT]
+
+    receiver = TonewinnerReceiver(port)
+    try:
+        await receiver.connect()
+        await receiver.query_state()
+    except OSError as err:
+        await receiver.disconnect()
+        raise ConfigEntryNotReady(f"Unable to connect to {port}") from err
+
+    _LOGGER.info("Connected to Tonewinner receiver on %s", port)
+
+    entry.runtime_data = receiver
+
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+
+
+async def async_unload_entry(hass: UniversalAssistant, entry: TonewinnerConfigEntry) -> None:
+    """Unload a config entry."""
+    await hass.config_entries.async_unload_platforms_or_raise(entry, PLATFORMS)
+    await entry.runtime_data.disconnect()

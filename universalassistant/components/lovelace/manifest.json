@@ -1,0 +1,9 @@
+{
+  "domain": "lovelace",
+  "name": "Dashboards",
+  "codeowners": ["@universal-assistant/frontend"],
+  "dependencies": ["onboarding"],
+  "documentation": "https://www.universalassistant.io/integrations/lovelace",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

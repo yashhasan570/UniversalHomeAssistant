@@ -1,0 +1,310 @@
+"""Test the Tessie climate platform."""
+
+from unittest.mock import patch
+
+import pytest
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.climate import (
+    ATTR_HVAC_MODE,
+    ATTR_PRESET_MODE,
+    ATTR_TEMPERATURE,
+    DOMAIN as CLIMATE_DOMAIN,
+    SERVICE_SET_HVAC_MODE,
+    SERVICE_SET_PRESET_MODE,
+    SERVICE_SET_TEMPERATURE,
+    SERVICE_TURN_OFF,
+    SERVICE_TURN_ON,
+    HVACMode,
+)
+from universalassistant.components.tessie.const import TessieClimateKeeper
+from universalassistant.const import ATTR_ENTITY_ID, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.exceptions import UniversalAssistantError
+from universalassistant.helpers import entity_registry as er
+
+from .common import (
+    ERROR_CONNECTION,
+    ERROR_UNKNOWN,
+    TEST_RESPONSE,
+    TEST_RESPONSE_ERROR,
+    assert_entities,
+    setup_platform,
+)
+
+
+def cop_entity_id(entity_registry: er.EntityRegistry) -> str:
+    """Return the cabin overheat protection climate entity ID."""
+    entity_id = entity_registry.async_get_entity_id(
+        CLIMATE_DOMAIN,
+        "tessie",
+        "VINVINVIN-climate_state_cabin_overheat_protection",
+    )
+    assert entity_id
+    return entity_id
+
+
+@pytest.mark.usefixtures("entity_registry_enabled_by_default")
+async def test_climate(
+    hass: UniversalAssistant, snapshot: SnapshotAssertion, entity_registry: er.EntityRegistry
+) -> None:
+    """Tests that the climate entity is correct."""
+
+    entry = await setup_platform(hass, [Platform.CLIMATE])
+
+    assert_entities(hass, entry.entry_id, entity_registry, snapshot)
+
+    entity_id = "climate.test_climate"
+
+    # Test setting climate on
+    with patch(
+        "universalassistant.components.tessie.climate.start_climate_preconditioning",
+        return_value=TEST_RESPONSE,
+    ) as mock_set:
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_SET_HVAC_MODE,
+            {ATTR_ENTITY_ID: [entity_id], ATTR_HVAC_MODE: HVACMode.HEAT_COOL},
+            blocking=True,
+        )
+        mock_set.assert_called_once()
+    state = hass.states.get(entity_id)
+    assert state.state == HVACMode.HEAT_COOL
+
+    # Test setting climate temp
+    with (
+        patch(
+            "universalassistant.components.tessie.climate.set_temperature",
+            return_value=TEST_RESPONSE,
+        ) as mock_set,
+        patch(
+            "universalassistant.components.tessie.climate.start_climate_preconditioning",
+            return_value=TEST_RESPONSE,
+        ) as mock_set2,
+    ):
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_SET_TEMPERATURE,
+            {
+                ATTR_ENTITY_ID: [entity_id],
+                ATTR_HVAC_MODE: HVACMode.HEAT_COOL,
+                ATTR_TEMPERATURE: 20,
+            },
+            blocking=True,
+        )
+        mock_set.assert_called_once()
+        mock_set2.assert_called_once()
+    state = hass.states.get(entity_id)
+    assert state.attributes[ATTR_TEMPERATURE] == 20
+
+    # Test setting climate preset
+    with patch(
+        "universalassistant.components.tessie.climate.set_climate_keeper_mode",
+        return_value=TEST_RESPONSE,
+    ) as mock_set:
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_SET_PRESET_MODE,
+            {ATTR_ENTITY_ID: [entity_id], ATTR_PRESET_MODE: TessieClimateKeeper.ON},
+            blocking=True,
+        )
+        mock_set.assert_called_once()
+    state = hass.states.get(entity_id)
+    assert state.attributes[ATTR_PRESET_MODE] == TessieClimateKeeper.ON
+
+    # Test setting climate off
+    with patch(
+        "universalassistant.components.tessie.climate.stop_climate",
+        return_value=TEST_RESPONSE,
+    ) as mock_set:
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_SET_HVAC_MODE,
+            {ATTR_ENTITY_ID: [entity_id], ATTR_HVAC_MODE: HVACMode.OFF},
+            blocking=True,
+        )
+        mock_set.assert_called_once()
+    state = hass.states.get(entity_id)
+    assert state.state == HVACMode.OFF
+
+
+@pytest.mark.usefixtures("entity_registry_enabled_by_default")
+async def test_climate_cop(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+) -> None:
+    """Test cabin overheat protection climate mode controls."""
+
+    await setup_platform(hass, [Platform.CLIMATE])
+    entity_id = cop_entity_id(entity_registry)
+
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == HVACMode.COOL
+
+    with patch(
+        "universalassistant.components.tessie.climate.stop_cabin_overheat_protection",
+        return_value=TEST_RESPONSE,
+    ) as mock_set:
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_SET_HVAC_MODE,
+            {ATTR_ENTITY_ID: [entity_id], ATTR_HVAC_MODE: HVACMode.OFF},
+            blocking=True,
+        )
+        mock_set.assert_called_once()
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == HVACMode.OFF
+
+    with patch(
+        "universalassistant.components.tessie.climate.start_cabin_overheat_protection",
+        return_value=TEST_RESPONSE,
+    ) as mock_set:
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_SET_HVAC_MODE,
+            {ATTR_ENTITY_ID: [entity_id], ATTR_HVAC_MODE: HVACMode.COOL},
+            blocking=True,
+        )
+        mock_set.assert_called_once()
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == HVACMode.COOL
+
+    with patch(
+        "universalassistant.components.tessie.climate.start_cabin_overheat_protection",
+        return_value=TEST_RESPONSE,
+    ) as mock_set:
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_TURN_ON,
+            {ATTR_ENTITY_ID: [entity_id]},
+            blocking=True,
+        )
+        mock_set.assert_called_once()
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == HVACMode.COOL
+
+    with patch(
+        "universalassistant.components.tessie.climate.stop_cabin_overheat_protection",
+        return_value=TEST_RESPONSE,
+    ) as mock_set:
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_TURN_OFF,
+            {ATTR_ENTITY_ID: [entity_id]},
+            blocking=True,
+        )
+        mock_set.assert_called_once()
+    state = hass.states.get(entity_id)
+    assert state
+    assert state.state == HVACMode.OFF
+
+
+async def test_errors(hass: UniversalAssistant) -> None:
+    """Tests errors are handled."""
+
+    await setup_platform(hass, [Platform.CLIMATE])
+    entity_id = "climate.test_climate"
+
+    # Test setting climate on with unknown error
+    with (
+        patch(
+            "universalassistant.components.tessie.climate.stop_climate",
+            side_effect=ERROR_UNKNOWN,
+        ) as mock_set,
+        pytest.raises(UniversalAssistantError) as error,
+    ):
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_TURN_OFF,
+            {ATTR_ENTITY_ID: [entity_id]},
+            blocking=True,
+        )
+    mock_set.assert_called_once()
+    assert error.value.__cause__ == ERROR_UNKNOWN
+    assert error.value.translation_domain == "tessie"
+    assert error.value.translation_key == "cannot_connect"
+
+    # Test setting climate on with connection error
+    with (
+        patch(
+            "universalassistant.components.tessie.climate.stop_climate",
+            side_effect=ERROR_CONNECTION,
+        ) as mock_set,
+        pytest.raises(UniversalAssistantError) as error,
+    ):
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_TURN_OFF,
+            {ATTR_ENTITY_ID: [entity_id]},
+            blocking=True,
+        )
+    mock_set.assert_called_once()
+    assert error.value.__cause__ == ERROR_CONNECTION
+    assert error.value.translation_domain == "tessie"
+    assert error.value.translation_key == "cannot_connect"
+
+    # Test setting climate with child presence detection error
+    with (
+        patch(
+            "universalassistant.components.tessie.climate.start_climate_preconditioning",
+            return_value={"result": False, "reason": "cpd_enabled"},
+        ) as mock_set,
+        pytest.raises(UniversalAssistantError) as error,
+    ):
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_SET_HVAC_MODE,
+            {ATTR_ENTITY_ID: [entity_id], ATTR_HVAC_MODE: HVACMode.HEAT_COOL},
+            blocking=True,
+        )
+    mock_set.assert_called_once()
+    assert error.value.translation_domain == "tessie"
+    assert error.value.translation_key == "cpd_enabled"
+
+
+@pytest.mark.usefixtures("entity_registry_enabled_by_default")
+async def test_climate_cop_errors(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+) -> None:
+    """Test cabin overheat protection command errors are handled."""
+
+    await setup_platform(hass, [Platform.CLIMATE])
+    entity_id = cop_entity_id(entity_registry)
+
+    with (
+        patch(
+            "universalassistant.components.tessie.climate.stop_cabin_overheat_protection",
+            side_effect=ERROR_UNKNOWN,
+        ) as mock_set,
+        pytest.raises(UniversalAssistantError) as error,
+    ):
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_SET_HVAC_MODE,
+            {ATTR_ENTITY_ID: [entity_id], ATTR_HVAC_MODE: HVACMode.OFF},
+            blocking=True,
+        )
+    mock_set.assert_called_once()
+    assert error.value.__cause__ == ERROR_UNKNOWN
+
+    with (
+        patch(
+            "universalassistant.components.tessie.climate.start_cabin_overheat_protection",
+            return_value=TEST_RESPONSE_ERROR,
+        ) as mock_set,
+        pytest.raises(UniversalAssistantError) as error,
+    ):
+        await hass.services.async_call(
+            CLIMATE_DOMAIN,
+            SERVICE_SET_HVAC_MODE,
+            {ATTR_ENTITY_ID: [entity_id], ATTR_HVAC_MODE: HVACMode.COOL},
+            blocking=True,
+        )
+    mock_set.assert_called_once()
+    assert error.value.translation_domain == "tessie"
+    assert error.value.translation_key == "command_failed"

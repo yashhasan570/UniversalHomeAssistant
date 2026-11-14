@@ -1,0 +1,238 @@
+get_process_by_id:
+  fields:
+    bridge:
+      required: true
+      selector:
+        device:
+          integration: system_bridge
+    id:
+      required: true
+      example: 1234
+      selector:
+        number:
+get_processes_by_name:
+  fields:
+    bridge:
+      required: true
+      selector:
+        device:
+          integration: system_bridge
+    name:
+      required: true
+      example: "chrome.exe"
+      selector:
+        text:
+open_path:
+  fields:
+    bridge:
+      required: true
+      selector:
+        device:
+          integration: system_bridge
+    path:
+      required: true
+      example: "C:\\test\\image.png"
+      selector:
+        text:
+open_url:
+  fields:
+    bridge:
+      required: true
+      selector:
+        device:
+          integration: system_bridge
+    url:
+      required: true
+      example: "https://www.universalassistant.io"
+      selector:
+        text:
+send_message:
+  target:
+    entity:
+      domain: notify
+      integration: system_bridge
+  fields:
+    title:
+      required: false
+      example: Universal Universal Home Assistant
+      selector:
+        text:
+    message:
+      required: true
+      example: Hello World
+      selector:
+        text:
+          multiline: true
+    icon:
+      required: false
+      example: dialog-information
+      selector:
+        select:
+          options:
+            - dialog-information
+            - dialog-warning
+            - dialog-error
+            - dialog-question
+          mode: dropdown
+          custom_value: true
+          translation_key: icon
+          sort: false
+    urgency:
+      required: false
+      example: critical
+      selector:
+        select:
+          options:
+            - low
+            - normal
+            - critical
+          mode: dropdown
+          translation_key: urgency
+          sort: false
+    duration:
+      required: false
+      example: '{"seconds": 10}'
+      selector:
+        duration:
+    buttons:
+      required: false
+      selector:
+        object:
+          multiple: true
+          label_field: label
+          description_field: id
+          translation_key: buttons
+          fields:
+            id:
+              required: true
+              selector:
+                text:
+            label:
+              required: true
+              selector:
+                text:
+    sound:
+      required: false
+      example: /usr/share/sounds/freedesktop/stereo/message.oga
+      selector:
+        text:
+    url:
+      required: false
+      example: https://www.universalassistant.io
+      selector:
+        text:
+          type: url
+    path:
+      required: false
+      example: /home/user/Documents
+      selector:
+        text:
+send_keypress:
+  fields:
+    bridge:
+      required: true
+      selector:
+        device:
+          integration: system_bridge
+    key:
+      required: true
+      example: "audio_play"
+      selector:
+        select:
+          options:
+            - backspace
+            - delete
+            - enter
+            - tab
+            - escape
+            - up
+            - down
+            - right
+            - left
+            - home
+            - end
+            - pageup
+            - pagedown
+            - f1
+            - f2
+            - f3
+            - f4
+            - f5
+            - f6
+            - f7
+            - f8
+            - f9
+            - f10
+            - f11
+            - f12
+            - command
+            - alt
+            - control
+            - shift
+            - right_shift
+            - space
+            - printscreen
+            - insert
+            - audio_mute
+            - audio_vol_down
+            - audio_vol_up
+            - audio_play
+            - audio_stop
+            - audio_pause
+            - audio_prev
+            - audio_next
+            - audio_rewind
+            - audio_forward
+            - audio_repeat
+            - audio_random
+            - numpad_0
+            - numpad_1
+            - numpad_2
+            - numpad_3
+            - numpad_4
+            - numpad_5
+            - numpad_6
+            - numpad_7
+            - numpad_8
+            - numpad_9
+            - lights_mon_up
+            - lights_mon_down
+            - lights_kbd_toggle
+            - lights_kbd_up
+            - lights_kbd_down
+          mode: dropdown
+          custom_value: true
+          translation_key: key
+          sort: false
+send_text:
+  fields:
+    bridge:
+      required: true
+      selector:
+        device:
+          integration: system_bridge
+    text:
+      required: true
+      example: "Hello world"
+      selector:
+        text:
+power_command:
+  fields:
+    bridge:
+      required: true
+      selector:
+        device:
+          integration: system_bridge
+    command:
+      required: true
+      example: "sleep"
+      selector:
+        select:
+          options:
+            - "hibernate"
+            - "lock"
+            - "logout"
+            - "restart"
+            - "shutdown"
+            - "sleep"
+          translation_key: "power_command"

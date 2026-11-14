@@ -1,0 +1,66 @@
+"""Support for sensors."""
+
+from typing import override
+
+from universalassistant.components.number import NumberEntity
+from universalassistant.const import EntityCategory, UnitOfTime
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers.device_registry import DeviceInfo
+from universalassistant.helpers.entity import Entity
+from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+from universalassistant.helpers.update_coordinator import CoordinatorEntity
+
+from . import async_setup_entry_platform
+from .coordinator import FjaraskupanConfigEntry, FjaraskupanCoordinator
+
+
+async def async_setup_entry(
+    hass: UniversalAssistant,
+    config_entry: FjaraskupanConfigEntry,
+    async_add_entities: AddConfigEntryEntitiesCallback,
+) -> None:
+    """Set up number entities dynamically through discovery."""
+
+    def _constructor(coordinator: FjaraskupanCoordinator) -> list[Entity]:
+        return [
+            PeriodicVentingTime(coordinator, coordinator.device_info),
+        ]
+
+    async_setup_entry_platform(hass, config_entry, async_add_entities, _constructor)
+
+
+class PeriodicVentingTime(CoordinatorEntity[FjaraskupanCoordinator], NumberEntity):
+    """Periodic Venting."""
+
+    _attr_has_entity_name = True
+
+    _attr_native_max_value: float = 59
+    _attr_native_min_value: float = 0
+    _attr_native_step: float = 1
+    _attr_entity_category = EntityCategory.CONFIG
+    _attr_native_unit_of_measurement = UnitOfTime.MINUTES
+    _attr_translation_key = "periodic_venting"
+
+    def __init__(
+        self,
+        coordinator: FjaraskupanCoordinator,
+        device_info: DeviceInfo,
+    ) -> None:
+        """Init number entities."""
+        super().__init__(coordinator)
+        self._attr_unique_id = f"{coordinator.device.address}-periodic-venting"
+        self._attr_device_info = device_info
+
+    @property
+    @override
+    def native_value(self) -> float | None:
+        """Return the entity value to represent the entity state."""
+        if data := self.coordinator.data:
+            return data.periodic_venting
+        return None
+
+    @override
+    async def async_set_native_value(self, value: float) -> None:
+        """Set new value."""
+        async with self.coordinator.async_connect_and_update() as device:
+            await device.send_periodic_venting(int(value))

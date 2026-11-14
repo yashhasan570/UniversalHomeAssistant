@@ -1,0 +1,226 @@
+"""Tests for the Switch as X Valve platform."""
+
+from pytest_universalassistant.common import MockConfigEntry
+
+from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
+from universalassistant.components.switch_as_x.config_flow import SwitchAsXConfigFlowHandler
+from universalassistant.components.switch_as_x.const import (
+    CONF_INVERT,
+    CONF_TARGET_DOMAIN,
+    DOMAIN,
+)
+from universalassistant.components.valve import DOMAIN as VALVE_DOMAIN, ValveState
+from universalassistant.const import (
+    CONF_ENTITY_ID,
+    SERVICE_CLOSE_VALVE,
+    SERVICE_OPEN_VALVE,
+    SERVICE_TOGGLE,
+    STATE_OFF,
+    STATE_ON,
+    CommonServiceArgument,
+    Platform,
+)
+from universalassistant.core import UniversalAssistant
+from universalassistant.setup import async_setup_component
+
+
+async def test_default_state(hass: UniversalAssistant) -> None:
+    """Test valve switch default state."""
+    config_entry = MockConfigEntry(
+        data={},
+        domain=DOMAIN,
+        options={
+            CONF_ENTITY_ID: "switch.test",
+            CONF_INVERT: False,
+            CONF_TARGET_DOMAIN: Platform.VALVE,
+        },
+        title="Garage Door",
+        version=SwitchAsXConfigFlowHandler.VERSION,
+        minor_version=SwitchAsXConfigFlowHandler.MINOR_VERSION,
+    )
+    config_entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    state = hass.states.get("valve.garage_door")
+    assert state is not None
+    assert state.state == "unavailable"
+    assert state.attributes["supported_features"] == 3
+
+
+async def test_service_calls(hass: UniversalAssistant) -> None:
+    """Test service calls to valve."""
+    await async_setup_component(hass, "switch", {"switch": [{"platform": "demo"}]})
+    await hass.async_block_till_done()
+    config_entry = MockConfigEntry(
+        data={},
+        domain=DOMAIN,
+        options={
+            CONF_ENTITY_ID: "switch.decorative_lights",
+            CONF_INVERT: False,
+            CONF_TARGET_DOMAIN: Platform.VALVE,
+        },
+        title="Title is ignored",
+        version=SwitchAsXConfigFlowHandler.VERSION,
+        minor_version=SwitchAsXConfigFlowHandler.MINOR_VERSION,
+    )
+    config_entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert hass.states.get("valve.decorative_lights").state == ValveState.OPEN
+
+    await hass.services.async_call(
+        VALVE_DOMAIN,
+        SERVICE_TOGGLE,
+        {CONF_ENTITY_ID: "valve.decorative_lights"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.decorative_lights").state == STATE_OFF
+    assert hass.states.get("valve.decorative_lights").state == ValveState.CLOSED
+
+    await hass.services.async_call(
+        VALVE_DOMAIN,
+        SERVICE_OPEN_VALVE,
+        {CONF_ENTITY_ID: "valve.decorative_lights"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.decorative_lights").state == STATE_ON
+    assert hass.states.get("valve.decorative_lights").state == ValveState.OPEN
+
+    await hass.services.async_call(
+        VALVE_DOMAIN,
+        SERVICE_CLOSE_VALVE,
+        {CONF_ENTITY_ID: "valve.decorative_lights"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.decorative_lights").state == STATE_OFF
+    assert hass.states.get("valve.decorative_lights").state == ValveState.CLOSED
+
+    await hass.services.async_call(
+        SWITCH_DOMAIN,
+        SwitchService.TURN_ON,
+        {CommonServiceArgument.ENTITY_ID: "switch.decorative_lights"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.decorative_lights").state == STATE_ON
+    assert hass.states.get("valve.decorative_lights").state == ValveState.OPEN
+
+    await hass.services.async_call(
+        SWITCH_DOMAIN,
+        SwitchService.TURN_OFF,
+        {CommonServiceArgument.ENTITY_ID: "switch.decorative_lights"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.decorative_lights").state == STATE_OFF
+    assert hass.states.get("valve.decorative_lights").state == ValveState.CLOSED
+
+    await hass.services.async_call(
+        SWITCH_DOMAIN,
+        SwitchService.TOGGLE,
+        {CommonServiceArgument.ENTITY_ID: "switch.decorative_lights"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.decorative_lights").state == STATE_ON
+    assert hass.states.get("valve.decorative_lights").state == ValveState.OPEN
+
+
+async def test_service_calls_inverted(hass: UniversalAssistant) -> None:
+    """Test service calls to valve."""
+    await async_setup_component(hass, "switch", {"switch": [{"platform": "demo"}]})
+    await hass.async_block_till_done()
+    config_entry = MockConfigEntry(
+        data={},
+        domain=DOMAIN,
+        options={
+            CONF_ENTITY_ID: "switch.decorative_lights",
+            CONF_INVERT: True,
+            CONF_TARGET_DOMAIN: Platform.VALVE,
+        },
+        title="Title is ignored",
+        version=SwitchAsXConfigFlowHandler.VERSION,
+        minor_version=SwitchAsXConfigFlowHandler.MINOR_VERSION,
+    )
+    config_entry.add_to_hass(hass)
+    assert await hass.config_entries.async_setup(config_entry.entry_id)
+    await hass.async_block_till_done()
+
+    assert hass.states.get("valve.decorative_lights").state == ValveState.CLOSED
+
+    await hass.services.async_call(
+        VALVE_DOMAIN,
+        SERVICE_TOGGLE,
+        {CONF_ENTITY_ID: "valve.decorative_lights"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.decorative_lights").state == STATE_OFF
+    assert hass.states.get("valve.decorative_lights").state == ValveState.OPEN
+
+    await hass.services.async_call(
+        VALVE_DOMAIN,
+        SERVICE_OPEN_VALVE,
+        {CONF_ENTITY_ID: "valve.decorative_lights"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.decorative_lights").state == STATE_OFF
+    assert hass.states.get("valve.decorative_lights").state == ValveState.OPEN
+
+    await hass.services.async_call(
+        VALVE_DOMAIN,
+        SERVICE_CLOSE_VALVE,
+        {CONF_ENTITY_ID: "valve.decorative_lights"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.decorative_lights").state == STATE_ON
+    assert hass.states.get("valve.decorative_lights").state == ValveState.CLOSED
+
+    await hass.services.async_call(
+        SWITCH_DOMAIN,
+        SwitchService.TURN_ON,
+        {CommonServiceArgument.ENTITY_ID: "switch.decorative_lights"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.decorative_lights").state == STATE_ON
+    assert hass.states.get("valve.decorative_lights").state == ValveState.CLOSED
+
+    await hass.services.async_call(
+        SWITCH_DOMAIN,
+        SwitchService.TURN_OFF,
+        {CommonServiceArgument.ENTITY_ID: "switch.decorative_lights"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.decorative_lights").state == STATE_OFF
+    assert hass.states.get("valve.decorative_lights").state == ValveState.OPEN
+
+    await hass.services.async_call(
+        SWITCH_DOMAIN,
+        SwitchService.TOGGLE,
+        {CommonServiceArgument.ENTITY_ID: "switch.decorative_lights"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.decorative_lights").state == STATE_ON
+    assert hass.states.get("valve.decorative_lights").state == ValveState.CLOSED

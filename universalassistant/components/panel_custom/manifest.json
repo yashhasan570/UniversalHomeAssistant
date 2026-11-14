@@ -1,0 +1,9 @@
+{
+  "domain": "panel_custom",
+  "name": "Custom panel",
+  "codeowners": ["@universal-assistant/frontend"],
+  "dependencies": ["frontend"],
+  "documentation": "https://www.universalassistant.io/integrations/panel_custom",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

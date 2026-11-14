@@ -1,0 +1,50 @@
+"""Support for Phone Modem button."""
+
+from typing import override
+
+from phone_modem import PhoneModem
+
+from universalassistant.components.button import ButtonEntity
+from universalassistant.const import CONF_DEVICE
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers.device_registry import DeviceInfo
+from universalassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
+
+from . import ModemCallerIdConfigEntry
+from .const import DOMAIN
+
+
+async def async_setup_entry(
+    hass: UniversalAssistant,
+    entry: ModemCallerIdConfigEntry,
+    async_add_entities: AddConfigEntryEntitiesCallback,
+) -> None:
+    """Set up the Modem Caller ID sensor."""
+    async_add_entities(
+        [
+            PhoneModemButton(
+                entry.runtime_data,
+                entry.data[CONF_DEVICE],
+                entry.entry_id,
+            )
+        ]
+    )
+
+
+class PhoneModemButton(ButtonEntity):
+    """Implementation of USB modem caller ID button."""
+
+    _attr_translation_key = "phone_modem_reject"
+    _attr_has_entity_name = True
+
+    def __init__(self, api: PhoneModem, device: str, server_unique_id: str) -> None:
+        """Initialize the button."""
+        self.device = device
+        self.api = api
+        self._attr_unique_id = server_unique_id
+        self._attr_device_info = DeviceInfo(identifiers={(DOMAIN, server_unique_id)})
+
+    @override
+    async def async_press(self) -> None:
+        """Press the button."""
+        await self.api.reject_call(self.device)

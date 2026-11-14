@@ -1,0 +1,172 @@
+"""Tests for the Abode switch device."""
+
+from unittest.mock import patch
+
+import pytest
+from pytest_universalassistant.common import snapshot_platform
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.abode.const import DOMAIN
+from universalassistant.components.abode.services import AbodeService
+from universalassistant.components.switch import DOMAIN as SWITCH_DOMAIN, SwitchService
+from universalassistant.const import ATTR_ENTITY_ID, CommonServiceArgument
+from universalassistant.core import UniversalAssistant
+from universalassistant.helpers import entity_registry as er
+
+from .common import setup_platform
+
+AUTOMATION_ID = "switch.test_automation"
+DEVICE_ID = "switch.test_switch"
+
+
+async def test_all_entities(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    snapshot: SnapshotAssertion,
+) -> None:
+    """Test all entities."""
+    config_entry = await setup_platform(hass, SWITCH_DOMAIN)
+
+    await snapshot_platform(hass, entity_registry, snapshot, config_entry.entry_id)
+
+
+async def test_switch_on(hass: UniversalAssistant) -> None:
+    """Test the switch can be turned on."""
+    await setup_platform(hass, SWITCH_DOMAIN)
+
+    with patch("jaraco.abode.devices.switch.Switch.switch_on") as mock_switch_on:
+        await hass.services.async_call(
+            SWITCH_DOMAIN,
+            SwitchService.TURN_ON,
+            {CommonServiceArgument.ENTITY_ID: DEVICE_ID},
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+
+        mock_switch_on.assert_called_once()
+
+
+async def test_switch_off(hass: UniversalAssistant) -> None:
+    """Test the switch can be turned off."""
+    await setup_platform(hass, SWITCH_DOMAIN)
+
+    with patch("jaraco.abode.devices.switch.Switch.switch_off") as mock_switch_off:
+        await hass.services.async_call(
+            SWITCH_DOMAIN,
+            SwitchService.TURN_OFF,
+            {CommonServiceArgument.ENTITY_ID: DEVICE_ID},
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+
+        mock_switch_off.assert_called_once()
+
+
+async def test_turn_automation_off(hass: UniversalAssistant) -> None:
+    """Test the automation can be turned off."""
+    with patch("jaraco.abode.automation.Automation.enable") as mock_trigger:
+        await setup_platform(hass, SWITCH_DOMAIN)
+
+        await hass.services.async_call(
+            SWITCH_DOMAIN,
+            SwitchService.TURN_OFF,
+            {CommonServiceArgument.ENTITY_ID: AUTOMATION_ID},
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+
+        mock_trigger.assert_called_once_with(False)
+
+
+async def test_turn_automation_on(hass: UniversalAssistant) -> None:
+    """Test the automation can be turned on."""
+    with patch("jaraco.abode.automation.Automation.enable") as mock_trigger:
+        await setup_platform(hass, SWITCH_DOMAIN)
+
+        await hass.services.async_call(
+            SWITCH_DOMAIN,
+            SwitchService.TURN_ON,
+            {CommonServiceArgument.ENTITY_ID: AUTOMATION_ID},
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+
+        mock_trigger.assert_called_once_with(True)
+
+
+async def test_trigger_automation(hass: UniversalAssistant) -> None:
+    """Test the trigger automation service."""
+    await setup_platform(hass, SWITCH_DOMAIN)
+
+    with patch("jaraco.abode.automation.Automation.trigger") as mock:
+        await hass.services.async_call(
+            DOMAIN,
+            AbodeService.TRIGGER_AUTOMATION,
+            {ATTR_ENTITY_ID: AUTOMATION_ID},
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+
+        mock.assert_called_once()
+
+
+async def test_entity_id_tracking_after_removal(
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+) -> None:
+    """Test a removed switch is no longer tracked in the Abode entity ids."""
+    config_entry = await setup_platform(hass, SWITCH_DOMAIN)
+    assert DEVICE_ID in config_entry.runtime_data.entity_ids
+
+    entity_registry.async_remove(DEVICE_ID)
+    await hass.async_block_till_done()
+
+    assert DEVICE_ID not in config_entry.runtime_data.entity_ids
+
+
+async def test_entity_id_tracking_after_entity_id_change(
+    hass: UniversalAssistant, entity_registry: er.EntityRegistry
+) -> None:
+    """Test a renamed switch is tracked by its new entity id only."""
+    config_entry = await setup_platform(hass, SWITCH_DOMAIN)
+
+    # The entity_id is changed in place.
+    entity_registry.async_update_entity(DEVICE_ID, new_entity_id="switch.renamed")
+    await hass.async_block_till_done()
+
+    assert DEVICE_ID not in config_entry.runtime_data.entity_ids
+    assert "switch.renamed" in config_entry.runtime_data.entity_ids
+
+
+async def test_trigger_automation_after_entity_id_change(
+    hass: UniversalAssistant,
+    entity_registry: er.EntityRegistry,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """Test the trigger automation service follows an entity_id change."""
+    config_entry = await setup_platform(hass, SWITCH_DOMAIN)
+    entity_registry.async_update_entity(
+        AUTOMATION_ID, new_entity_id="switch.renamed_automation"
+    )
+    await hass.async_block_till_done()
+
+    with patch("jaraco.abode.automation.Automation.trigger") as mock:
+        await hass.services.async_call(
+            DOMAIN,
+            AbodeService.TRIGGER_AUTOMATION,
+            {ATTR_ENTITY_ID: AUTOMATION_ID},
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+        mock.assert_not_called()
+
+        await hass.services.async_call(
+            DOMAIN,
+            AbodeService.TRIGGER_AUTOMATION,
+            {ATTR_ENTITY_ID: "switch.renamed_automation"},
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+        mock.assert_called_once()
+
+    assert await hass.config_entries.async_unload(config_entry.entry_id)
+    assert "Unable to remove unknown dispatcher" not in caplog.text

@@ -1,0 +1,45 @@
+"""Test the Universal Universal Home Assistant Link config flow."""
+
+from unittest.mock import patch
+
+from pytest_universalassistant.common import MockConfigEntry
+
+from universalassistant.components.cloud.const import DOMAIN
+from universalassistant.core import UniversalAssistant
+from universalassistant.data_entry_flow import FlowResultType
+
+
+async def test_config_flow(hass: UniversalAssistant) -> None:
+    """Test create cloud entry."""
+
+    with (
+        patch(
+            "universalassistant.components.cloud.async_setup", return_value=True
+        ) as mock_setup,
+        patch(
+            "universalassistant.components.cloud.async_setup_entry",
+            return_value=None,
+        ) as mock_setup_entry,
+    ):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": "system"}
+        )
+        assert result["type"] is FlowResultType.CREATE_ENTRY
+        assert result["title"] == "Universal Universal Home Assistant Link"
+        assert result["data"] == {}
+        await hass.async_block_till_done()
+
+    assert len(mock_setup.mock_calls) == 1
+    assert len(mock_setup_entry.mock_calls) == 1
+
+
+async def test_multiple_entries(hass: UniversalAssistant) -> None:
+    """Test creating multiple cloud entries."""
+    config_entry = MockConfigEntry(domain=DOMAIN)
+    config_entry.add_to_hass(hass)
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": "system"}
+    )
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "single_instance_allowed"

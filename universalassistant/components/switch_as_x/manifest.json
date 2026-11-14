@@ -1,0 +1,11 @@
+{
+  "domain": "switch_as_x",
+  "name": "Change device type of a switch",
+  "categories": ["helpers"],
+  "codeowners": ["@universal-assistant/core"],
+  "config_flow": true,
+  "documentation": "https://www.universalassistant.io/integrations/switch_as_x",
+  "integration_type": "helper",
+  "iot_class": "calculated",
+  "quality_scale": "internal"
+}

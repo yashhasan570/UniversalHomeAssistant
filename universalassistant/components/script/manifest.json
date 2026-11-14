@@ -1,0 +1,9 @@
+{
+  "domain": "script",
+  "name": "Scripts",
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["blueprint", "trace"],
+  "documentation": "https://www.universalassistant.io/integrations/script",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}

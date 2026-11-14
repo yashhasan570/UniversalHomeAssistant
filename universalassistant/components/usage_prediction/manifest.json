@@ -1,0 +1,10 @@
+{
+  "domain": "usage_prediction",
+  "name": "Usage Prediction",
+  "codeowners": ["@universal-assistant/core"],
+  "dependencies": ["http", "recorder"],
+  "documentation": "https://www.universalassistant.io/integrations/usage_prediction",
+  "integration_type": "system",
+  "iot_class": "calculated",
+  "quality_scale": "internal"
+}

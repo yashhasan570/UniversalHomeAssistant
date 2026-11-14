@@ -1,0 +1,130 @@
+"""The tests for the kitchen_sink lawn mower platform."""
+
+from unittest.mock import patch
+
+import pytest
+from pytest_universalassistant.common import async_capture_events, async_mock_service
+from syrupy.assertion import SnapshotAssertion
+
+from universalassistant.components.kitchen_sink import DOMAIN
+from universalassistant.components.lawn_mower import (
+    DOMAIN as LAWN_MOWER_DOMAIN,
+    LawnMowerActivity,
+    LawnMowerService,
+)
+from universalassistant.const import EVENT_STATE_CHANGED, CommonServiceArgument, Platform
+from universalassistant.core import UniversalAssistant
+from universalassistant.setup import async_setup_component
+
+MOWER_SERVICE_ENTITY = "lawn_mower.mower_can_dock"
+
+
+@pytest.fixture
+async def lawn_mower_only() -> None:
+    """Enable only the lawn mower platform."""
+    with patch(
+        "universalassistant.components.kitchen_sink.COMPONENTS_WITH_DEMO_PLATFORM",
+        [Platform.LAWN_MOWER],
+    ):
+        yield
+
+
+@pytest.fixture(autouse=True)
+async def setup_comp(hass: UniversalAssistant, lawn_mower_only):
+    """Set up demo component."""
+    assert await async_setup_component(hass, DOMAIN, {DOMAIN: {}})
+    await hass.async_block_till_done()
+
+
+async def test_states(hass: UniversalAssistant, snapshot: SnapshotAssertion) -> None:
+    """Test the expected lawn mower entities are added."""
+    states = hass.states.async_all()
+    assert set(states) == snapshot
+
+
+@pytest.mark.parametrize(
+    ("entity", "service_call", "activity", "next_activity"),
+    [
+        (
+            "lawn_mower.mower_can_mow",
+            LawnMowerService.START_MOWING,
+            LawnMowerActivity.DOCKED,
+            LawnMowerActivity.MOWING,
+        ),
+        (
+            "lawn_mower.mower_can_pause",
+            LawnMowerService.PAUSE,
+            LawnMowerActivity.DOCKED,
+            LawnMowerActivity.PAUSED,
+        ),
+        (
+            "lawn_mower.mower_is_paused",
+            LawnMowerService.START_MOWING,
+            LawnMowerActivity.PAUSED,
+            LawnMowerActivity.MOWING,
+        ),
+        (
+            "lawn_mower.mower_can_dock",
+            LawnMowerService.DOCK,
+            LawnMowerActivity.MOWING,
+            LawnMowerActivity.DOCKED,
+        ),
+        (
+            "lawn_mower.mower_can_return",
+            LawnMowerService.DOCK,
+            LawnMowerActivity.RETURNING,
+            LawnMowerActivity.DOCKED,
+        ),
+        (
+            "lawn_mower.mower_can_stop",
+            LawnMowerService.STOP,
+            LawnMowerActivity.MOWING,
+            LawnMowerActivity.IDLE,
+        ),
+    ],
+)
+async def test_mower(
+    hass: UniversalAssistant,
+    entity: str,
+    service_call: str,
+    activity: LawnMowerActivity,
+    next_activity: LawnMowerActivity,
+) -> None:
+    """Test the activity states of a lawn mower."""
+    state = hass.states.get(entity)
+
+    assert state.state == str(activity.value)
+    await hass.async_block_till_done()
+
+    state_changes = async_capture_events(hass, EVENT_STATE_CHANGED)
+    await hass.services.async_call(
+        LAWN_MOWER_DOMAIN,
+        service_call,
+        {CommonServiceArgument.ENTITY_ID: entity},
+        blocking=False,
+    )
+    await hass.async_block_till_done()
+
+    assert state_changes[0].data["entity_id"] == entity
+    assert state_changes[0].data["new_state"].state == next_activity.value
+
+
+@pytest.mark.parametrize(
+    "service_call",
+    [
+        LawnMowerService.DOCK,
+        LawnMowerService.START_MOWING,
+        LawnMowerService.PAUSE,
+        LawnMowerService.STOP,
+    ],
+)
+async def test_service_calls_mocked(hass: UniversalAssistant, service_call) -> None:
+    """Test the services of a lawn mower."""
+    calls = async_mock_service(hass, LAWN_MOWER_DOMAIN, service_call)
+    await hass.services.async_call(
+        LAWN_MOWER_DOMAIN,
+        service_call,
+        {CommonServiceArgument.ENTITY_ID: MOWER_SERVICE_ENTITY},
+        blocking=True,
+    )
+    assert len(calls) == 1

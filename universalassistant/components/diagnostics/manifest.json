@@ -1,0 +1,10 @@
+{
+  "domain": "diagnostics",
+  "name": "Diagnostics",
+  "codeowners": ["@universal-assistant/core"],
+  "config_flow": false,
+  "dependencies": ["http"],
+  "documentation": "https://www.universalassistant.io/integrations/diagnostics",
+  "integration_type": "system",
+  "quality_scale": "internal"
+}
